@@ -1,5 +1,5 @@
 (function() {
-  Yumit.styles = {
+  Yumit.constants = {
     textColor:'#000000',
     grayTextColor:'#888888',
     headerColor:'#FFFFFF',
@@ -7,9 +7,9 @@
     lightBlue:'#006cb1',
     darkBlue:'#93caed',
     grayColor:'#c4c5c4',
-    fontFamily:'Helvetica Neue'
+    mainFont:'Helvetica Neue'
     // fontFamily: tt.os({
     // iphone:'Helvetica Neue',
     // android:'Droid Sans'
-  };  
+  };
 })();

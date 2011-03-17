@@ -1,0 +1,22 @@
+/*
+  COLORS
+  darkRed:'#940000'
+*/
+
+/*
+    Windows
+*/
+#DefaultWindow {
+  barColor:'#940000',
+  backgroundColor:'#fff'
+}
+/*
+    Buttons
+*/
+#PostAYum {
+  color:'#940000',
+  highlightedColor:'#0f0',
+  width:200,
+  height:40,
+  top:120
+}
