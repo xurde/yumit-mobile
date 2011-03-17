@@ -1,7 +1,7 @@
 (function(){
   Yumit.ui.places_list = function(){
     var win = new Window({
-      id: 'DefaultWindow',
+      id: 'defaultWindow',
       title:'Places'
     });
 

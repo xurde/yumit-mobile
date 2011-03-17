@@ -1,7 +1,7 @@
 (function(){
   Yumit.ui.yum_form = function(_place, _dish, _photo){
     var win = new Window({
-      id: 'DefaultWindow',
+      id: 'defaultWindow',
       title:'Post a Yum'
     });
 

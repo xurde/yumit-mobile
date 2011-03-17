@@ -56,7 +56,6 @@
       var row = Ti.UI.createTableViewRow({
         selectedBackgroundColor: Yumit.constants.grayColor, //I know, this is dumb, but it's currently inconsistent x-platform
         backgroundSelectedColor: Yumit.constants.grayColor,
-        className:'tvRow',
         height:'auto',
         place_id: _place.id,
         place_name: _place.name,
@@ -68,59 +67,29 @@
       imgDimensions = 45,
       nameHeight = 18,
       metaHeight = 14;
-
-      var avatar = Ti.UI.createImageView({
-        top:spacing,
-        left:spacing,
-        height:imgDimensions,
-        width:imgDimensions,
-        borderRadius:5,
-        image: (_place.origin == "yumit") ? 'images/yumit-icon.png' : _place.icon
+      var icon = new ImageView({
+       id:'defaultImageView',
+       image:(_place.origin == "yumit") ? 'images/yumit-icon.png' : _place.icon
       });
-      row.add(avatar);
+      row.add(icon);
 
       var avatarOffset = spacing*2+imgDimensions;
 
-      var name = Ti.UI.createLabel({
-        color:'#000000',
-        font: {
-          fontFamily:Yumit.constants.fontFamily,
-          fontSize:14,
-          fontWeight:'bold'
-        },
-        text: _place.name,
-        top:spacing,
-        left:avatarOffset,
-        height:nameHeight
+      var name = new Label({
+        id:'labelBold',
+        text: _place.name
       });
       row.add(name);
 
-      var address = Ti.UI.createLabel({
-        color:Yumit.constants.textColor,
-        font: {
-          fontFamily:Yumit.constants.fontFamily,
-          fontSize:12
-        },
-        height:'auto',
-        text: _place.location.address || "",
-        top: spacing+nameHeight,
-        left:avatarOffset,
-        right:spacing,
-        textAlign:'left'
+      var address = new Label({
+        id:'labelNormal',
+        text: _place.location.address || ""
       });
       row.add(address);
 
-      var distance = Ti.UI.createLabel({
-        color:Yumit.constants.grayTextColor,
-        font: {
-          fontFamily:Yumit.constants.fontFamily,
-          fontSize:10
-        },
-        height:'auto',
-        text:Yumit.model.Place.distanceInMeters(_place),
-        width:'auto',
-        top:spacing,
-        right:spacing
+      var distance = new Label({
+        id:'labelLight',
+        text:Yumit.model.Place.distanceInMeters(_place)
       });
       row.add(distance);
 
@@ -132,73 +101,34 @@
       var row = Ti.UI.createTableViewRow({
         selectedBackgroundColor: Yumit.constants.grayColor, //I know, this is dumb, but it's currently inconsistent x-platform
         backgroundSelectedColor: Yumit.constants.grayColor,
-        className:'tvRow',
         height:'auto',
         dish_id: _dish.id,
         dish_name: _dish.name,
         dish_photo:_dish.photo,
         dish_category_name:_dish.category_name,
         dish_yums_count:_dish.yums_count
-      }),
-      spacing = 6,
-      imgDimensions = 45,
-      nameHeight = 18,
-      metaHeight = 14;
-
-      var avatar = Ti.UI.createImageView({
-        top:spacing,
-        left:spacing,
-        height:imgDimensions,
-        width:imgDimensions,
-        borderRadius:5,
-        image:_dish.photo
       });
-      row.add(avatar);
 
-      var avatarOffset = spacing*2+imgDimensions;
+      var icon = new ImageView({id:'defaultImageView', image:_dish.photo });
+      row.add(icon);
 
-      var name = Ti.UI.createLabel({
-        color:'#000000',
-        font: {
-          fontFamily:Yumit.constants.fontFamily,
-          fontSize:14,
-          fontWeight:'bold'
-        },
-        text: (_dish.name.length > 30) ? _dish.name.substr(name, 27)+"..." : _dish.name,
-        top:spacing,
-        left:avatarOffset,
-        height:nameHeight
+      var name = new Label({
+        id:'labelBold',
+        text: (_dish.name.length > 30) ? _dish.name.substr(name, 27)+"..." : _dish.name
       });
       row.add(name);
 
-      var address = Ti.UI.createLabel({
-        color:Yumit.constants.textColor,
-        font: {
-          fontFamily:Yumit.constants.fontFamily,
-          fontSize:12
-        },
-        height:'auto',
-        text: _dish.category_name,
-        top: spacing+nameHeight,
-        left:avatarOffset,
-        right:spacing,
-        textAlign:'left'
+      var category_name = new Label({
+        id:'labelNormal',
+        text: _dish.category_name
       });
-      row.add(address);
+      row.add(category_name);
 
-      var distance = Ti.UI.createLabel({
-        color:Yumit.constants.grayTextColor,
-        font: {
-          fontFamily:Yumit.constants.fontFamily,
-          fontSize:10
-        },
-        height:'auto',
-        text:"("+_dish.yums_count+" yums)",
-        width:'auto',
-        top:spacing,
-        right:spacing
+      var yum_count = new Label({
+        id:'labelLight',
+        text:"("+_dish.yums_count+" yums)"
       });
-      row.add(distance);
+      row.add(yum_count);
 
       return row;
     },

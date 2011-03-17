@@ -6,10 +6,60 @@
 /*
     Windows
 */
-#DefaultWindow {
+#defaultWindow {
   barColor:'#940000',
   backgroundColor:'#fff'
 }
+
+/*
+    ImageView
+*/
+#defaultImageView {
+   top:Yumit.constants.spacing,
+   left:Yumit.constants.spacing,
+   height:Yumit.constants.imgDimensions,
+   width:Yumit.constants.imgDimensions,
+   borderRadius:5
+}
+
+/*
+    Labels
+*/
+#labelBold {
+  color:'#000000',
+  font: {
+    fontFamily:Yumit.constants.fontFamily,
+    fontSize:14,
+    fontWeight:'bold'
+  },
+  top:Yumit.constants.spacing,
+  height:Yumit.constants.nameHeight,
+  left:Yumit.constants.avatarOffset
+}
+#labelNormal {
+  color:Yumit.constants.textColor,
+  font: {
+    fontFamily:Yumit.constants.fontFamily,
+    fontSize:12
+  },
+  height:'auto',
+  top: Yumit.constants.spacing+Yumit.constants.nameHeight,
+  right:Yumit.constants.spacing,
+  textAlign:'left',
+  left:Yumit.constants.avatarOffset
+}
+#labelLight {
+  color:Yumit.constants.grayTextColor,
+  font: {
+    fontFamily:Yumit.constants.fontFamily,
+    fontSize:10
+  },
+  height:'auto',
+  width:'auto',
+  top:Yumit.constants.spacing,
+  right:Yumit.constants.spacing
+}
+
 /*
     Buttons
 */
