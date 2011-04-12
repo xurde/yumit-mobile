@@ -1,8 +1,16 @@
 (function(){
   Yumit.ui.yum_form = function(_place, _dish, _photo){
     var win = new Window({
-      id: 'yum_form_window',
+      id: 'defaultWindow',
       title:'Post a Yum'
+    });
+    var cancel_button = Titanium.UI.createButton({
+      title:'Cancel',
+      style:Titanium.UI.iPhone.SystemButtonStyle.PLAIN
+    });
+    win.setLeftNavButton(cancel_button);
+    cancel_button.addEventListener('click',function(){
+      win.close();
     });
 
     var scrollView = Ti.UI.createScrollView({
@@ -155,11 +163,12 @@
 
       xhr.onload = function() {
         ind.hide();
-        var doc = this.responseXML.documentElement;
-        if (doc.getElementsByTagName("err") != null && doc.getElementsByTagName("err").length > 0) {
+        var jsonReply = JSON.parse(this.responseText);
+//        var doc = this.responseXML.documentElement;
+        if (this.responseText.length > 0 && jsonReply.success === "false" ) {
           Titanium.UI.createAlertDialog({
             title:'Well, this is awkward...',
-            message: 'Yumit Error: '+doc.getElementsByTagName("err").item(0).getAttribute("msg")
+            message: 'Yumit Error: '+jsonReply.error
           }).show();
         }
         else {

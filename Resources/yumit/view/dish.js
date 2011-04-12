@@ -1,7 +1,7 @@
 (function(){
   Yumit.ui.dish = function(_place, _dish){
     var win = new Window({
-      id: 'dish_window',
+      id: 'defaultWindow',
       title:'Dish'
     });
 
@@ -113,7 +113,7 @@
 
     var post_a_yum = Titanium.UI.createButton({
       backgroundImage:"images/post-yum.png",
-      backgroundImageSelected: "images/post-yum-over.png",
+      backgroundSelectedImage: "images/post-yum-over.png",
       //title:'Post a Yum',
       color:Yumit.constants.darkRed,
       highlightedColor:'#0f0',
@@ -154,7 +154,8 @@
       //Titanium.App.fireEvent("photoChosen");
       var _photo  = event.media;
       var win = Yumit.ui.yum_form(_place, _dish, _photo);
-      tabGroup.activeTab.open(win,{animated:true});
+      //tabGroup.activeTab.open(win,{animated:true});
+      win.open({modal:true});
     };
 
     function newPhoto() {

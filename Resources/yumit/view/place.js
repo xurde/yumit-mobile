@@ -1,7 +1,7 @@
 (function(){
   Yumit.ui.place = function(_place){
     var win = new Window({
-      id: 'place_window',
+      id: 'defaultWindow',
       title:'Place'
     });
 

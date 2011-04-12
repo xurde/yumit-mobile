@@ -19,6 +19,12 @@ Ti.include(
   '/yumit/view/yum_form.js'
 );
 
+var tab0 = Titanium.UI.createTab({
+    title:'Activity',
+    icon:'images/friends.png',
+    window:Yumit.ui.places_list()
+});
+
 var tab1 = Titanium.UI.createTab({
     title:'Places',
     icon:'images/places.png',
@@ -29,21 +35,30 @@ var tab1 = Titanium.UI.createTab({
 // create controls tab and root window
 //
 var win2 = Titanium.UI.createWindow({
+    id: 'defaultWindow',
     title:'Map',
     url:'yumit/view/places_map.js'
 });
 win2.Yumit = Yumit;
 var tab2 = Titanium.UI.createTab({
-    title:'Map',
-    icon:'images/settings.png',
+    title:'Dishes',
+    icon:'images/dishes.png',
     window:win2
+});
+
+var tab3 = Titanium.UI.createTab({
+    title:'Settings',
+    icon:'images/settings.png',
+    window:Yumit.ui.places_list()
 });
 
 //
 //  add tabs
 //
+tabGroup.addTab(tab0);
 tabGroup.addTab(tab1);
 tabGroup.addTab(tab2);
+tabGroup.addTab(tab3);
 
 // open tab group
 tabGroup.open();
