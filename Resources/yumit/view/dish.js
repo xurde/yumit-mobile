@@ -1,7 +1,7 @@
 (function(){
   Yumit.ui.dish = function(_place, _dish){
     var win = new Window({
-      id: 'defaultWindow',
+      id: 'dish_window',
       title:'Dish'
     });
 
@@ -112,11 +112,13 @@
     ////////////////////////////////////////////////////////DISH
 
     var post_a_yum = Titanium.UI.createButton({
-      title:'Post a Yum',
+      backgroundImage:"images/post-yum.png",
+      backgroundImageSelected: "images/post-yum-over.png",
+      //title:'Post a Yum',
       color:Yumit.constants.darkRed,
       highlightedColor:'#0f0',
-      width:200,
-      height:40,
+      width:284,
+      height:53,
       top:120
     });
     winview.add(post_a_yum);

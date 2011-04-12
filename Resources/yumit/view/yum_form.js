@@ -1,7 +1,7 @@
 (function(){
   Yumit.ui.yum_form = function(_place, _dish, _photo){
     var win = new Window({
-      id: 'defaultWindow',
+      id: 'yum_form_window',
       title:'Post a Yum'
     });
 
@@ -152,13 +152,14 @@
           message: 'We had a problem posting your image - please try again'
         }).show();
       };
+
       xhr.onload = function() {
         ind.hide();
         var doc = this.responseXML.documentElement;
         if (doc.getElementsByTagName("err") != null && doc.getElementsByTagName("err").length > 0) {
           Titanium.UI.createAlertDialog({
             title:'Well, this is awkward...',
-            message: 'TwitPic error: '+doc.getElementsByTagName("err").item(0).getAttribute("msg")
+            message: 'Yumit Error: '+doc.getElementsByTagName("err").item(0).getAttribute("msg")
           }).show();
         }
         else {

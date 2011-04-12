@@ -61,7 +61,9 @@
         place_name: _place.name,
         place_image: place_image(_place),
         place_address:  _place.location.address || "",
-        place_origin:_place.origin
+        place_origin:_place.origin,
+        place_lat:_place.location.lat,
+        place_lng:_place.location.lng
       }),
       spacing = 6,
       imgDimensions = 45,
