@@ -50,6 +50,24 @@
       });
     },
 
+    //return yums nearby your current location
+    getYumsNearby: function(/*Object*/ _args) {
+      Yumit.model.request({
+        method:'GET',
+        action:'http://dev.yumit.com/api/v0/yums/nearby.json',
+        parameters: 'latlon=-33.441779525,-70.6503987',
+        error: function(e,xhr) {
+          Yumit.ui.alert('Arguments', _args.error);
+        },
+        success: function(json,xhr) {
+          var results = [];
+          for (var i=0,l=json.length;i<l;i++) {
+            results.push(json[i].yum);
+          }
+          if (_args.success) { _args.success(results); }
+        }
+      });
+    },
     //create a place row from the given data from yumit
     createYumRow: function(_yum) {
       var row = Ti.UI.createTableViewRow({

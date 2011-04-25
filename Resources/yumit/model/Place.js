@@ -15,7 +15,7 @@
       }
       Yumit.model.request({
         method:'GET',
-        action:'http://dev.yumit.com/api/v0/places/nearby', //'?latlon=-33.441355,-70.650566',
+        action:'http://dev.yumit.com/api/v0/places/nearby.json', //'?latlon=-33.441355,-70.650566',
         //parameters: params,
         //parameters: 'latlon=-33.441779525,-70.6503987',
         parameters: 'latlon=-33.441779525,-70.6503987&query='+(params.query || ''),

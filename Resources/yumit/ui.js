@@ -9,7 +9,7 @@ Yumit.ui ={};
   //create a film strip like view
   Yumit.ui.createFilmStripView = function(_args) {
     var ww  = Ti.Platform.displayCaps.platformWidth;
-    var root = Ti.UI.createView( {top:110,bottom:0,left:0,right:0} ),
+    var root = Ti.UI.createView( _args.space ),
     views = _args.views,
     container = Ti.UI.createView({
       top:0,

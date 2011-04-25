@@ -151,7 +151,8 @@ var appFilmStrip = Yumit.ui.createFilmStripView({
     dishes(),
     users(),
     map()
-  ]
+  ],
+  space: {top:110,bottom:0,left:0,right:0}
 });
 ////////////////////////////////////////////////////////////////////
 
