@@ -21,6 +21,29 @@
    width:Yumit.constants.imgDimensions,
    borderRadius:5
 }
+/*
+ Yums
+*/
+#yumImageView {
+   top:65,
+   left:Yumit.constants.spacing,
+   height:305,
+   width:305,
+   borderRadius:0
+}
+#yumLabelTags {
+  color:"#ffffff",
+  borderRadius:3,
+  shadowColor:"#999",
+  shadowOffset:{x:1, y:0},
+  font: {
+    fontFamily:Yumit.constants.fontFamily,
+    fontSize:10,
+    fontWeight:'bold'
+  },
+  height:'auto',
+  textAlign:'left'
+}
 
 /*
     Labels

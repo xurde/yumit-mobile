@@ -13,16 +13,19 @@ Ti.include(
   '/yumit/ui.js',
   '/yumit/model/model.js',
   '/yumit/model/Place.js',
+  '/yumit/model/Yum.js',
   '/yumit/view/places_list.js',
   '/yumit/view/place.js',
   '/yumit/view/dish.js',
-  '/yumit/view/yum_form.js'
+  '/yumit/view/yum_form.js',
+  '/yumit/view/yums_friends.js',
+  '/yumit/view/missing.js'
 );
 
 var tab0 = Titanium.UI.createTab({
     title:'Activity',
     icon:'images/friends.png',
-    window:Yumit.ui.places_list()
+    window:Yumit.ui.yums_friends()
 });
 
 var tab1 = Titanium.UI.createTab({
@@ -49,7 +52,7 @@ var tab2 = Titanium.UI.createTab({
 var tab3 = Titanium.UI.createTab({
     title:'Settings',
     icon:'images/settings.png',
-    window:Yumit.ui.places_list()
+    window:Yumit.ui.missing()
 });
 
 //
