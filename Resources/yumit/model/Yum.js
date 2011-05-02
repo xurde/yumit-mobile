@@ -36,7 +36,7 @@
         action:'http://dev.yumit.com/api/v0/yums/friends.json',
         username:'pablete', //Titanium.App.Properties.getString("username"),
         password:'pablete', //Titanium.App.Properties.getString("password"),
-      //  parameters: '',
+        parameters: '',
         error: function(e,xhr) {
           Yumit.ui.alert('Arguments', _args.error);
         },
@@ -71,7 +71,6 @@
     //create a place row from the given data from yumit
     createYumRow: function(_yum) {
       var row = Ti.UI.createTableViewRow({
-        selectedBackgroundColor: Yumit.constants.grayColor, //I know, this is dumb, but it's currently inconsistent x-platform
         backgroundSelectedColor: Yumit.constants.grayColor,
         height:'auto',
         yum_id: _yum.id,
@@ -88,8 +87,6 @@
        image: _yum.user_photo_url
       });
       row.add(icon);
-
-      var avatarOffset = spacing*2+imgDimensions;
 
       var user_and_place = new Label({
         id:'labelBold',
@@ -129,7 +126,7 @@
 
 //////////////////////////////////////// TAGS HACK
       var daview = Ti.UI.createView({
-          backgroundColor:"ffffff",
+          backgroundColor:"#FFFFFF",
           top:405,
           height:40,
           width:320,

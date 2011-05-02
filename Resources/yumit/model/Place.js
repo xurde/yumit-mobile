@@ -1,10 +1,7 @@
 (function(){
-  var place_image = function(_place) {
-    return (_place.origin == "yumit") ? '/images/yumit-icon.png' : _place.icon ;
-  };
   Yumit.model.Place = {
-    distanceInMeters: function(place) {
-      return place.location.distance+" meters";
+    distanceInMeters: function(_place) {
+      return _place.location.distance+" meters";
     },
 
     //return places nearby
@@ -15,10 +12,8 @@
       }
       Yumit.model.request({
         method:'GET',
-        action:'http://dev.yumit.com/api/v0/places/nearby.json', //'?latlon=-33.441355,-70.650566',
-        //parameters: params,
-        //parameters: 'latlon=-33.441779525,-70.6503987',
-        parameters: 'latlon=-33.441779525,-70.6503987&query='+(params.query || ''),
+        action:'http://dev.yumit.com/api/v0/places/nearby.json',
+        parameters: 'latlon=-33.441779525,-70.6503987&query='+params.query,
         error: function(e,xhr) {
           Yumit.ui.alert('Arguments', _args.error);
         },
@@ -54,28 +49,27 @@
     //create a place row from the given data from yumit
     createPlaceRow: function(_place) {
       var row = Ti.UI.createTableViewRow({
-        selectedBackgroundColor: Yumit.constants.grayColor, //I know, this is dumb, but it's currently inconsistent x-platform
+        backgroundColor: "#CCC",
         backgroundSelectedColor: Yumit.constants.grayColor,
-        height:'auto',
+        height:60,
         place_id: _place.id,
         place_name: _place.name,
-        place_image: place_image(_place),
+        place_image: _place.icon,
         place_address:  _place.location.address || "",
-        place_origin:_place.origin,
-        place_lat:_place.location.lat,
-        place_lng:_place.location.lng
+        place_origin: _place.origin,
+        place_lat: _place.location.lat,
+        place_lng: _place.location.lng
       }),
-      spacing = 6,
-      imgDimensions = 45,
-      nameHeight = 18,
-      metaHeight = 14;
+        spacing = 6,
+        imgDimensions = 45,
+        nameHeight = 18,
+        metaHeight = 14;
+
       var icon = new ImageView({
-       id:'defaultImageView',
-       image:(_place.origin == "yumit") ? 'images/yumit-icon.png' : _place.icon
+        id:'defaultImageView',
+        image: _place.icon
       });
       row.add(icon);
-
-      var avatarOffset = spacing*2+imgDimensions;
 
       var name = new Label({
         id:'labelBold',
@@ -101,7 +95,6 @@
     //create a place row from the given data from yumit
     createDishRow: function(_dish) {
       var row = Ti.UI.createTableViewRow({
-        selectedBackgroundColor: Yumit.constants.grayColor, //I know, this is dumb, but it's currently inconsistent x-platform
         backgroundSelectedColor: Yumit.constants.grayColor,
         height:'auto',
         dish_id: _dish.id,

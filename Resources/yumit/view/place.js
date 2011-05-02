@@ -53,28 +53,16 @@
     });
     winview.add(address);
 
-    var buttonObjects = [
-      {title:'Dishes', width:100, enabled:true},
-      {title:'Users', width:100, enabled:true},
-      {title:'Map', width:100, enabled:true}
-    ];
-
-    var tabbar = Titanium.UI.createTabbedBar({
-      labels:buttonObjects,
-      backgroundColor:Yumit.constants.grayColor,
+    // use this instead of Titanium.UI.createTabbedBar
+    var tabView = Yumit.ui.createtabbedNavigation({
       top:60,
-      style:Titanium.UI.iPhone.SystemButtonStyle.BAR,
-      height:40,
-      index:0
+      labels:[{title:'Dishes', enabled:true},
+              {title:'Users', enabled:false},
+              {title:'Map', enabled:false}],
+      callback: function(i) { appFilmStrip.fireEvent('changeIndex',{idx: i});}
     });
 
-    winview.add(tabbar);
-
-    var plain = false;
-    tabbar.addEventListener('click', function(e) {
-       Ti.API.info("You clicked index " + e.index);
-       appFilmStrip.fireEvent('changeIndex',{idx:e.index});
-    });
+    winview.add(tabView);
 
     win.add(winview);
 
@@ -108,12 +96,14 @@
 
     return tableView;
   }
+
+/////////////////////////////////////////////////////////////////////
 function map(){
 
   var annotation = Titanium.Map.createAnnotation({
     latitude:_place.place_lat,
     longitude:_place.place_lng,
-    title:_place.name,
+    title:_place.place_name,
     subtitle:_place.place_address+ '(xxx meters)',
     animate:true,
      leftButton:'../../images/default.png',
@@ -137,6 +127,7 @@ function map(){
   return mapView;
 }
 
+/////////////////////////////////////////////////////////////////////
 function users(){
   var nothing = Ti.UI.createView({
     top:0,left:0, width:Ti.Platform.displayCaps.platformWidth, height:'auto',
@@ -144,49 +135,17 @@ function users(){
   });
   return nothing;
 }
+
 ////////////////////////////////////////////////////////////////////
 
-var appFilmStrip = Yumit.ui.createFilmStripView({
-  views: [
-    dishes(),
-    users(),
-    map()
-  ],
-  space: {top:110,bottom:0,left:0,right:0}
-});
-////////////////////////////////////////////////////////////////////
-
-//toggle view state of application to the relevant tab
-function selectIndex(_idx) {
-  for (var i = 0, l = tabs.length; i<l; i++) {
-    //select the tab and move the tab 'cursor'
-    if (_idx === i) {
-      //if the tab is already selected, do nothing
-      if (!tabs[i].on) {
-        Ti.API.info('selecting tab index: '+_idx);
-        //animate the tab
-        tab.animate({
-          duration:$$.animationDuration,
-          left:tabWidth*i,
-          bottom:0
-        },function(idx) { //use closure to retain value of i in idx
-          return function() {
-            if (!tabs[idx].on) {
-              tabs[idx].toggle();
-            }
-          };
-        }(i));
-
-        //set the current film strip index
-        appFilmStrip.fireEvent('changeIndex',{idx:i});
-      }
-    }
-    else if (tabs[i].on && (_idx !== i)) {
-      tabs[i].toggle();
-    }
-  }
-}
-//////////////////////////////////////////
+    var appFilmStrip = Yumit.ui.createFilmStripView({
+      views: [
+        dishes(),
+        users(),
+        map()
+      ],
+      space: {top:95,bottom:0,left:0,right:0}
+    });
 
     win.add(appFilmStrip);
 

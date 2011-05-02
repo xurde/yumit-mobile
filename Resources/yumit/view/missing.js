@@ -2,10 +2,10 @@
   Yumit.ui.missing = function(){
     var win = new Window({
       id: 'defaultWindow',
-      title:'Missing'
+      title:'Missing',
+      backgroundColor: '#0000CC'
     });
-    var emptyView = Ti.UI.createWindow({backgroundColor: '#CCCCCC'});
-    win.add(emptyView);
+
     return win;
   };
 })();

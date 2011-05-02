@@ -1,13 +1,10 @@
 var Yumit={};
 Ti.include('/yumit/constants.js');
 
-Ti.include('redux.js');
-includeRJSSGlobal('styles/yumit.rjss');
-
 var used = [Ti.UI.createLabel, Ti.UI.createAlertDialog, Ti.UI.createButton, Ti.UI.createImageView,
     Ti.UI.createAnimation, Ti.UI.createWindow, Ti.UI.createScrollView];
-
-var tabGroup = Titanium.UI.createTabGroup();
+Ti.include('redux.js');
+includeRJSSGlobal('styles/yumit.rjss');
 
 Ti.include(
   '/yumit/ui.js',
@@ -18,16 +15,24 @@ Ti.include(
   '/yumit/view/place.js',
   '/yumit/view/dish.js',
   '/yumit/view/yum_form.js',
-  '/yumit/view/yums_friends.js',
+  '/yumit/view/yums_activity.js',
   '/yumit/view/missing.js'
 );
 
+var tabGroup = Titanium.UI.createTabGroup();
+
+//
+// ACTIVITY
+//
 var tab0 = Titanium.UI.createTab({
     title:'Activity',
-    icon:'images/friends.png',
-    window:Yumit.ui.yums_friends()
+    icon:'images/activity.png',
+    window:Yumit.ui.yums_activity()
 });
 
+//
+// PLACES
+//
 var tab1 = Titanium.UI.createTab({
     title:'Places',
     icon:'images/places.png',
@@ -49,6 +54,9 @@ var tab2 = Titanium.UI.createTab({
     window:win2
 });
 
+//
+// SETTINGS
+//
 var tab3 = Titanium.UI.createTab({
     title:'Settings',
     icon:'images/settings.png',

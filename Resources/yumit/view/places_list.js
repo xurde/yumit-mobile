@@ -7,51 +7,56 @@
 
     var search = Titanium.UI.createSearchBar({
       barColor:Yumit.constants.darkRed,
-      showCancel:false,
-      hintText:'search for places'
+      showCancel:true,
+      hintText:'search for places',
+      top:0,
+      height:45
     });
 
+    win.add(search);
+
     var tableView = Ti.UI.createTableView({
-      top:0,
-      minRowHeight:60,
-      search:search,
-      hintText: 'Find a Restaurant',
-      filterAttribute:'place_name'
+      top:45,
+      minRowHeight:60
     });
 
     var refresh_places = function(places) {
-      var tvData = [];
+      var tableData = [];
       for (var i=0,l=places.length;i<l;i++) {
-        tvData.push(Yumit.model.Place.createPlaceRow(places[i]));
-      }
-      tableView.setData(tvData);
+        tableData.push(Yumit.model.Place.createPlaceRow(places[i]));
+      };
+      tableView.setData(tableData, { animationStyle : Titanium.UI.iPhone.RowAnimationStyle.DOWN });
     };
 
     search.addEventListener('change', function(e) {
-       //e.value; // search string as user types
+      // return e.value;
+      // Titanium.API.info('search bar: you type ' + e.value + ' act val ' + search.value);
+    });
+
+    search.addEventListener('blur', function(e) {
+      Titanium.API.info('BLUR');
+      return e.value;
     });
 
     search.addEventListener('return', function(e) {
+      Titanium.API.info('RETURN');
+      search.blur();
       Yumit.model.Place.getPlacesNearby({
         query:e.value,
         success:function(places){
           refresh_places(places);
-          search.value = '';
-          search.blur();
+          tableView.scrollToIndex(0,{animated:true});
         }
       });
+      return e.value;
     });
 
     search.addEventListener('cancel', function(e) {
-      search.blur();
+      Titanium.API.info('CANCEL');
     });
 
-    search.addEventListener('focus', function(e){
-        win.hideNavBar();
-    });
-
-    search.addEventListener('blur', function(e){
-        win.showNavBar();
+    search.addEventListener('focus', function(e) {
+       Titanium.API.info('FOCUS');
     });
 
     tableView.addEventListener('click',function(e) {
