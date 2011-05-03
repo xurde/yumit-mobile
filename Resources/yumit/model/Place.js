@@ -49,7 +49,7 @@
     //create a place row from the given data from yumit
     createPlaceRow: function(_place) {
       var row = Ti.UI.createTableViewRow({
-        backgroundColor: "#CCC",
+        backgroundColor: "#FFF",
         backgroundSelectedColor: Yumit.constants.grayColor,
         height:60,
         place_id: _place.id,
@@ -97,6 +97,7 @@
       var row = Ti.UI.createTableViewRow({
         backgroundSelectedColor: Yumit.constants.grayColor,
         height:'auto',
+        //height:Yumit.constants.spacing*2+Yumit.constants.imgDimensions+5,
         dish_id: _dish.id,
         dish_name: _dish.name,
         dish_photo:_dish.photo,
@@ -136,14 +137,25 @@
          subtitle:_place.location.address+" ("+_place.location.distance+" meters)",
          animate:true,
           rightButton: Titanium.UI.iPhone.SystemButton.DISCLOSURE,
-          leftButton: '../../images/default.png', //(_place.origin == "yumit") ? 'images/default.png' : _place.icon,
-          image: (_place.origin == "yumit") ? '../../images/yumit-mini.png' : '../../images/foursquare-mini.png'
+          leftButton: '../../image/default.png'
        });
-       annotation.addEventListener('click', function(e){
-          if (e.clicksource == 'rightButton') {
-            Titanium.UI.createAlertDialog({title:_place.name, message:"Touched"}).show();
-         }
+
+       annotation.addEventListener('click',function (e) {
+         if (e.clicksource == 'rightButton') {
+           var y = {
+             place_id: _place.id,
+             place_name: _place.name,
+             place_image: _place.icon,
+             place_address:  _place.location.address || "",
+             place_origin: _place.origin,
+             place_lat: _place.location.lat,
+             place_lng: _place.location.lng
+           };
+          //remember not to choose stupid naming conventions next time
+          tabGroup.activeTab.open(Yumit.ui.place(y),{animated:true});
+         };
        });
+
        return annotation;
      }
   };
