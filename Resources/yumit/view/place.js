@@ -129,11 +129,36 @@ function map(){
 
 /////////////////////////////////////////////////////////////////////
 function users(){
-  var nothing = Ti.UI.createView({
-    top:0,left:0, width:Ti.Platform.displayCaps.platformWidth, height:'auto',
-    backgroundColor:'#ffdddd'
-  });
-  return nothing;
+
+   var tableView = Ti.UI.createTableView({
+      top:0,
+      minRowHeight:60
+    });
+
+    // Whenever we have a user page
+    // tableView.addEventListener('click',function(e) {
+    //    var _dish = e.rowData;
+    //    var win = Yumit.ui.dish(_place, e.rowData);
+    //    tabGroup.activeTab.open(win,{animated:true});
+    //  });
+
+    var refresh_users = function(users) {
+      var userData = [];
+      for (var i=0,l=users.length;i<l;i++) {
+        userData.push(Yumit.model.Place.createUserRow(users[i]));
+      }
+      tableView.setData(userData);
+    };
+
+    if (_place.place_origin == "yumit") {
+      Yumit.model.Place.getUsers({
+        place_id: _place.place_id,
+        success: refresh_users
+      });
+    };
+
+    return tableView;
+
 }
 
 ////////////////////////////////////////////////////////////////////

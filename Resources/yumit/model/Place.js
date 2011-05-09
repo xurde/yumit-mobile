@@ -4,6 +4,10 @@
       return _place.location.distance+" meters";
     },
 
+    safeSubString: function(_str, _len) {
+      return (_str.length > _len) ? _str.substr(_str, (_len-3))+"..." : _str ;
+    },
+
     //return places nearby
     getPlacesNearby: function(/*Object*/ _args) {
       var params={ query:'' };
@@ -46,6 +50,24 @@
       });
     },
 
+    //return places nearby
+    getUsers: function(/*Object*/ _args) {
+      Yumit.model.request({
+        method:'GET',
+        action:'http://dev.yumit.com/api/v0/places/'+_args.place_id+'/users.json',
+      //  parameters: '',
+        error: function(e,xhr) {
+          Yumit.ui.alert('Arguments', _args.error);
+        },
+        success: function(json,xhr) {
+          var results = [];
+          for (var i=0,l=json.length;i<l;i++) {
+            results.push(json[i].user);
+          }
+          if (_args.success) { _args.success(results); }
+        }
+      });
+    },
     //create a place row from the given data from yumit
     createPlaceRow: function(_place) {
       var row = Ti.UI.createTableViewRow({
@@ -102,7 +124,7 @@
         dish_name: _dish.name,
         dish_photo:_dish.photo,
         dish_category_name:_dish.category_name,
-        dish_yums_count:_dish.yums_count
+        dish_yums_count:_dish.count
       });
 
       var icon = new ImageView({id:'defaultImageView', image:_dish.photo });
@@ -110,7 +132,7 @@
 
       var name = new Label({
         id:'labelBold',
-        text: (_dish.name.length > 30) ? _dish.name.substr(name, 27)+"..." : _dish.name
+        text: Yumit.model.Place.safeSubString(_dish.name, 30)
       });
       row.add(name);
 
@@ -122,7 +144,45 @@
 
       var yum_count = new Label({
         id:'labelLight',
-        text:"("+_dish.yums_count+" yums)"
+        text:"("+_dish.count+" yums)"
+      });
+      row.add(yum_count);
+
+      return row;
+    },
+
+    //create a place row from the given data from yumit
+    createUserRow: function(_user) {
+      _user.name = _user.name || "";
+      var row = Ti.UI.createTableViewRow({
+        backgroundSelectedColor: Yumit.constants.grayColor,
+        height:'auto',
+        //height:Yumit.constants.spacing*2+Yumit.constants.imgDimensions+5,
+        user_id: _user.id,
+        user_login: _user.login,
+        user_photo:_user.photo_url_thumb,
+        user_name:_user.name,
+        user_yums_count:_user.yums_count
+      });
+
+      var icon = new ImageView({id:'defaultImageView', image:_user.photo_url_thumb });
+      row.add(icon);
+
+      var login = new Label({
+        id:'labelBold',
+        text: Yumit.model.Place.safeSubString(_user.login, 30)
+      });
+      row.add(login);
+
+      var name = new Label({
+        id:'labelNormal',
+        text: Yumit.model.Place.safeSubString(_user.name, 40)
+      });
+      row.add(name);
+
+      var yum_count = new Label({
+        id:'labelLight',
+        text:"("+_user.count+" yums)"
       });
       row.add(yum_count);
 
