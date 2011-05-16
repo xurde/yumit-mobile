@@ -1,4 +1,5 @@
 var Yumit={};
+Yumit.global = {};
 Ti.include('/yumit/constants.js');
 
 var used = [Ti.UI.createLabel, Ti.UI.createAlertDialog, Ti.UI.createButton, Ti.UI.createImageView,
@@ -8,6 +9,7 @@ includeRJSSGlobal('styles/yumit.rjss');
 
 Ti.include(
   '/yumit/ui.js',
+  '/yumit/view/loading.js',
   '/yumit/model/model.js',
   '/yumit/model/Place.js',
   '/yumit/model/Yum.js',
@@ -28,6 +30,7 @@ var tab0 = Titanium.UI.createTab({
     title:'Activity',
     icon:'images/activity.png',
     window:Yumit.ui.yums_activity()
+    // window:Yumit.ui.missing()
 });
 
 //
@@ -37,6 +40,7 @@ var tab1 = Titanium.UI.createTab({
     title:'Places',
     icon:'images/places.png',
     window:Yumit.ui.places_list()
+    // window:Yumit.ui.missing()
 });
 
 //
