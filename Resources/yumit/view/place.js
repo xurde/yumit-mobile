@@ -110,21 +110,16 @@ function map(){
      image:'../../images/foursquare-mini.png'
   });
 
-  var zoomregion = {latitude:-33.441779525,longitude:-70.6503987,latitudeDelta:0.0025, longitudeDelta:0.0045};
+  var zoomregion = {latitude:_place.place_lat,longitude:_place.place_lng,latitudeDelta:0.0025, longitudeDelta:0.0045};
    //   santiago = {latitude:tt.geo.cords.latitude,longitude:tt.geo.cords.longitude,
    //               latitudeDelta:0.010, longitudeDelta:0.018};
    // CREATE MAP VIEW
    //
-   var mapView = Titanium.Map.createView({
-     mapType: Titanium.Map.STANDARD_TYPE,
-     region: zoomregion,
-     animate:true,
-     regionFit:true,
-     userLocation:true,
-     annotations:[annotation]
-   });
+   Yumit.ui.mapview.region = zoomregion;
+   Yumit.ui.mapview.annotations = [annotation];
+   Yumit.ui.mapview.top = 0;
 
-  return mapView;
+  return Yumit.ui.mapview;
 }
 
 /////////////////////////////////////////////////////////////////////

@@ -1,4 +1,5 @@
 (function(){
+
   Yumit.ui.places_list = function(){
     var win = new Window({
       id: 'defaultWindow',
@@ -9,7 +10,16 @@
       top:0,
       labels:[{title:'List', enabled:true},
               {title:'Map', enabled:false}],
-      callback: function(i) { appFilmStrip.fireEvent('changeIndex',{idx: i});}
+      callback: function(i) {
+        appFilmStrip.fireEvent('changeIndex',{idx: i});
+        if (i == 1) {
+          if (Yumit.current.places_annotations && table_map.annotations.length < 2) {
+            Yumit.ui.mapview.top = 10;
+            Yumit.ui.mapview.removeAllAnnotations();
+            Yumit.ui.mapview.annotations = Yumit.current.places_annotations;
+          }
+        }
+      }
     });
 
     win.add(tabView);
@@ -35,6 +45,7 @@
       table_list.setData(tableData, { animationStyle : Titanium.UI.iPhone.RowAnimationStyle.DOWN });
       table_map.removeAllAnnotations();
       table_map.annotations = mapData;
+      Yumit.current.places_annotations = mapData;
       table_list.scrollToIndex(0,{animated:true});
     };
 
@@ -87,19 +98,14 @@
 ////////////////////////////////////////////////////
     function show_map() {
       var zoomregion = {latitude:-33.441779525,longitude:-70.6503987,latitudeDelta:0.0025, longitudeDelta:0.0045};
-       //   santiago = {latitude:tt.geo.cords.latitude,longitude:tt.geo.cords.longitude,
-       //               latitudeDelta:0.010, longitudeDelta:0.018};
-       // CREATE MAP VIEW
-       //
-       var mapView = Titanium.Map.createView({
-         top:10,
-         mapType: Titanium.Map.STANDARD_TYPE,
-         region: zoomregion,
-         regionFit:true,
-         userLocation:true
-       });
+      //   santiago = {latitude:tt.geo.cords.latitude,longitude:tt.geo.cords.longitude,
+      //               latitudeDelta:0.010, longitudeDelta:0.018};
+      // CREATE MAP VIEW
+      //
+      Yumit.ui.mapview.region = zoomregion;
+      Yumit.ui.mapview.top = 10;
 
-      return mapView;
+      return Yumit.ui.mapview;
     }
 
 ///////////Trigger

@@ -1,5 +1,6 @@
 var Yumit={};
 Yumit.global = {};
+Yumit.current = {};
 Ti.include('/yumit/constants.js');
 
 var used = [Ti.UI.createLabel, Ti.UI.createAlertDialog, Ti.UI.createButton, Ti.UI.createImageView,
@@ -10,6 +11,7 @@ includeRJSSGlobal('styles/yumit.rjss');
 Ti.include(
   '/yumit/ui.js',
   '/yumit/view/loading.js',
+  '/yumit/view/geolocation.js',
   '/yumit/model/model.js',
   '/yumit/model/Place.js',
   '/yumit/model/Yum.js',
@@ -46,16 +48,10 @@ var tab1 = Titanium.UI.createTab({
 //
 // create controls tab and root window
 //
-var win2 = Titanium.UI.createWindow({
-    id: 'defaultWindow',
-    title:'Map',
-    url:'yumit/view/places_map.js'
-});
-win2.Yumit = Yumit;
 var tab2 = Titanium.UI.createTab({
     title:'Dishes',
     icon:'images/dishes.png',
-    window:win2
+    window:Yumit.ui.missing()
 });
 
 //
