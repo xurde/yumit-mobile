@@ -62,7 +62,17 @@
               var tvData = [];
               for (var i=0,l=yums.length;i<l;i++) {
                 tvData.push(Yumit.model.Yum.createYumRow(yums[i]));
-              }
+              };
+              if(tvData.length == 0) { //NO YUMS
+                var error_row = Ti.UI.createTableViewRow({height:150});
+                var error_label = Ti.UI.createLabel({
+                  text:'Sorry, No Yums nearby..',
+                  font:{fontSize:14},
+                  color:'#888',
+                  left:50});
+                error_row.add(error_label);
+                tvData.push(error_row);
+              };
               tableView.setData(tvData);
             };
 
@@ -73,9 +83,18 @@
               // tabGroup.activeTab.open(win,{animated:true});
             });
 
-            Yumit.model.Yum.getYumsNearby({
-              success: refresh_yums
+            ///////////////////////
+            // PSEUDO API
+            ///////////////////////
+
+            Titanium.App.addEventListener('Yumit:yums:getYumsNearby', function() {
+             Ti.API.info("get yums nearby triggered!");
+              Yumit.model.Yum.getYumsNearby({
+                location: Yumit.current.latitude + "," + Yumit.current.longitude,
+                success: refresh_yums
+              });
             });
+
 
             return tableView;
           }
@@ -91,6 +110,7 @@
         });
 
         win.add(appFilmStrip);
+
 
     return win;
   };

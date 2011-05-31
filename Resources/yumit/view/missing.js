@@ -3,7 +3,7 @@
     var win = new Window({
       id: 'defaultWindow',
       title:'Missing',
-      backgroundColor: '#0000CC'
+      backgroundColor: '#FFF'
     });
 
     return win;

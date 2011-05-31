@@ -17,4 +17,39 @@
     metaHeight: 14,
     avatarOffset: 6*2+48 //spacing*2+imgDimensions
   };
+
+  Yumit.android = Ti.Platform.name == 'android';
+
+  //
+  // returns true if iphone/ipad and version is 3.2+
+  //
+  Yumit.IPhone3_2_Plus = (function() {
+    // add iphone specific tests
+    if (Titanium.Platform.name == 'iPhone OS') {
+      var version = Titanium.Platform.version.split(".");
+      var major = parseInt(version[0],10);
+      var minor = parseInt(version[1],10);
+
+      // can only test this support on a 3.2+ device
+      if (major > 3 || (major == 3 && minor > 1)) {
+        return true;
+      };
+    };
+    return false;
+  })();
+
+  Yumit.iOS4Plus = (function() {
+    // add iphone specific tests
+    if (Titanium.Platform.name == 'iPhone OS') {
+      var version = Titanium.Platform.version.split(".");
+      var major = parseInt(version[0],10);
+
+      // can only test this support on a 3.2+ device
+      if (major >= 4) {
+        return true;
+      };
+    };
+    return false;
+  })();
+
 })();

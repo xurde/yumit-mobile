@@ -82,7 +82,7 @@ Yumit.loading.androidSpinner = null;
   Titanium.App.addEventListener('Yumit:ui:showLoading', function(e) {
     Ti.API.info("after_show");
     if(e.title == null) { e.title = 'Loading'; };
-    if(Ti.Platform.name == 'android') {
+    if(Yumit.android) {
       Yumit.loading.androidSpinner = Titanium.UI.createActivityIndicator({message:e.title});
       Yumit.loading.androidSpinner.show();
     } else {
@@ -95,7 +95,7 @@ Yumit.loading.androidSpinner = null;
   Titanium.App.addEventListener('Yumit:ui:changeLoading', function(e) {
     Ti.API.info("after_change");
     if(e.title) {
-      if(Ti.Platform.name == 'android') {
+      if(Yumit.android) {
         Yumit.loading.androidSpinner.hide();
         Yumit.loading.androidSpinner = Titanium.UI.createActivityIndicator({message:e.title});
         // Yumit.loading.androidSpinner.message = e.title;
@@ -109,7 +109,7 @@ Yumit.loading.androidSpinner = null;
 
   Titanium.App.addEventListener('Yumit:ui:hideLoading', function(e) {
     Ti.API.info("after_hide");
-    if(Ti.Platform.name == 'android') {
+    if(Yumit.android) {
       Yumit.loading.androidSpinner.hide();
     } else {
       Yumit.ui.hideLoading();

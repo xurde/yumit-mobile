@@ -14,10 +14,11 @@
       if (_args.query) {
         params.query = _args.query;
       }
+      params.location = _args.location;
       Yumit.model.request({
         method:'GET',
         action:'http://dev.yumit.com/api/v0/places/nearby.json',
-        parameters: 'latlon=-33.441779525,-70.6503987&query='+params.query,
+        parameters: 'latlon='+params.location+'&query='+params.query,
         error: function(e,xhr) {
           Yumit.ui.alert('Arguments', _args.error);
         },

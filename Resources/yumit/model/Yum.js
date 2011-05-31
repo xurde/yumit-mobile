@@ -52,10 +52,12 @@
 
     //return yums nearby your current location
     getYumsNearby: function(/*Object*/ _args) {
+      var params={};
+      params.location = _args.location;
       Yumit.model.request({
         method:'GET',
         action:'http://dev.yumit.com/api/v0/yums/nearby.json',
-        parameters: 'latlon=-33.441779525,-70.6503987',
+        parameters: 'latlon='+params.location,
         error: function(e,xhr) {
           Yumit.ui.alert('Arguments', _args.error);
         },

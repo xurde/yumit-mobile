@@ -11,7 +11,6 @@ includeRJSSGlobal('styles/yumit.rjss');
 Ti.include(
   '/yumit/ui.js',
   '/yumit/view/loading.js',
-  '/yumit/view/geolocation.js',
   '/yumit/model/model.js',
   '/yumit/model/Place.js',
   '/yumit/model/Yum.js',
@@ -42,22 +41,13 @@ var tab1 = Titanium.UI.createTab({
     title:'Places',
     icon:'images/places.png',
     window:Yumit.ui.places_list()
-    // window:Yumit.ui.missing()
+    //window:Yumit.ui.missing()
 });
 
-//
-// create controls tab and root window
-//
+// //
+// // SETTINGS
+// //
 var tab2 = Titanium.UI.createTab({
-    title:'Dishes',
-    icon:'images/dishes.png',
-    window:Yumit.ui.missing()
-});
-
-//
-// SETTINGS
-//
-var tab3 = Titanium.UI.createTab({
     title:'Settings',
     icon:'images/settings.png',
     window:Yumit.ui.missing()
@@ -69,7 +59,27 @@ var tab3 = Titanium.UI.createTab({
 tabGroup.addTab(tab0);
 tabGroup.addTab(tab1);
 tabGroup.addTab(tab2);
-tabGroup.addTab(tab3);
 
 // open tab group
 tabGroup.open();
+
+Ti.include('/yumit/view/geolocation.js');
+
+//////////////////////////////////// GLOBAL TIMER?
+
+// var timer = null;
+//
+// timer = setInterval(function() {
+//   Ti.API.info("Global Timer");
+//   Titanium.App.fireEvent('Yumit:ui:showLoading',{title:"Obtaining Geolocation"});
+//   Titanium.App.fireEvent('Yumit:core:getGeolocation');
+//   if (Yumit.current.locationAdded) {
+//     clearInterval(timer);
+//     setTimeout(function(){Titanium.App.fireEvent("Yumit:ui:hideLoading");}, 1000);
+//     Titanium.App.fireEvent('Yumit:places:getPlacesNearby');
+//     Titanium.App.fireEvent('Yumit:yums:getYumsNearby');
+//   };
+// }, 2000);
+//
+
+
