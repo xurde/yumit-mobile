@@ -33,7 +33,7 @@
     getYumsFriends: function(/*Object*/ _args) {
       Yumit.model.request({
         method:'GET',
-        action:'http://dev.yumit.com/api/v0/yums/friends.json',
+        action:'http://yumit20.yumit.com/api/v0/yums/friends.json',
         username:'pablete', //Titanium.App.Properties.getString("username"),
         password:'pablete', //Titanium.App.Properties.getString("password"),
         parameters: '',
@@ -56,7 +56,7 @@
       params.location = _args.location;
       Yumit.model.request({
         method:'GET',
-        action:'http://dev.yumit.com/api/v0/yums/nearby.json',
+        action:'http://yumit20.yumit.com/api/v0/yums/nearby.json',
         parameters: 'latlon='+params.location,
         error: function(e,xhr) {
           Yumit.ui.alert('Arguments', _args.error);

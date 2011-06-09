@@ -185,7 +185,7 @@
       };
       var a_username = "pablete"; //Titanium.App.Properties.getString("username"),
       var a_password = "pablete"; //Titanium.App.Properties.getString("password"),
-      xhr.open('POST','http://dev.yumit.com/api/v0/yums.json');
+      xhr.open('POST','http://yumit20.yumit.com/api/v0/yums.json');
       Ti.API.info('Authorization\n'+'Basic '+Ti.Utils.base64encode(a_username+':'+a_password));
       xhr.setRequestHeader('Authorization','Basic '+Ti.Utils.base64encode(a_username+':'+a_password));
       xhr.setRequestHeader('Content-Type','multipart/form-data');

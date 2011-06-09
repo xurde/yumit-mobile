@@ -19,6 +19,7 @@ Ti.include(
   '/yumit/view/dish.js',
   '/yumit/view/yum_form.js',
   '/yumit/view/yums_activity.js',
+  '/yumit/view/settings.js',
   '/yumit/view/missing.js'
 );
 
@@ -41,7 +42,7 @@ var tab1 = Titanium.UI.createTab({
     title:'Places',
     icon:'images/places.png',
     window:Yumit.ui.places_list()
-    //window:Yumit.ui.missing()
+    // window:Yumit.ui.missing()
 });
 
 // //
@@ -50,7 +51,8 @@ var tab1 = Titanium.UI.createTab({
 var tab2 = Titanium.UI.createTab({
     title:'Settings',
     icon:'images/settings.png',
-    window:Yumit.ui.missing()
+    window:Yumit.ui.settings()
+    // window:Yumit.ui.missing()
 });
 
 //
