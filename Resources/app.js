@@ -20,6 +20,7 @@ Ti.include(
   '/yumit/view/yum_form.js',
   '/yumit/view/yums_activity.js',
   '/yumit/view/settings.js',
+  '/yumit/view/login.js',
   '/yumit/view/missing.js'
 );
 
@@ -62,10 +63,23 @@ tabGroup.addTab(tab0);
 tabGroup.addTab(tab1);
 tabGroup.addTab(tab2);
 
-// open tab group
-tabGroup.open();
 
-Ti.include('/yumit/view/geolocation.js');
+/////////////////////////////////////////////////////////
+var login_window = Yumit.ui.login();
+login_window.open({modal:true});
+////////////////////////////////////////////////////////
+
+// tabGroup.open();
+
+//Ti.include('/yumit/view/geolocation.js');
+
+
+
+
+
+
+
+
 
 //////////////////////////////////// GLOBAL TIMER?
 
