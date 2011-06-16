@@ -14,23 +14,19 @@
     });
 
     var scrollView = Ti.UI.createScrollView({
-        backgroundColor:'#eedddd',
-        contentWidth:'auto',
-        contentHeight:'auto',
+        backgroundColor:'#fff',
+        contentWidth:320,
+        contentHeight:480,
         top:0,
-        width:320,
-        height:480,
         showVerticalScrollIndicator:true,
         showHorizontalScrollIndicator:false,
         verticalBounce:true
     });
+    win.add(scrollView);
 
     var winview = Ti.UI.createView({
-      top:0,
-      contentWidth:320,
-      contentHeight:480
+      top:0
     });
-
     scrollView.add(winview);
 
     var spacing = 6,
@@ -92,18 +88,16 @@
       font:{fontFamily:'courier',fontSize:14},
       color:'#888',
       textAlign:'left',
-      //appearance:Titanium.UI.KEYBOARD_APPEARANCE_ALERT,
       keyboardType:Titanium.UI.KEYBOARD_DEFAULT,
       returnKeyType:Titanium.UI.RETURNKEY_NEXT,
       borderWidth:2,
       borderColor:'#bbb',
       borderRadius:7,
       borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED
-      //suppressReturn:false
-
     });
     description.addEventListener("focus", function(){ description.value='';});
     description.addEventListener('return', function() {
+        scrollView.scrollTo(0,50);
         tags.focus();
     });
     winview.add(description);
@@ -119,12 +113,27 @@
       keyboardType:Titanium.UI.KEYBOARD_DEFAULT,
       returnKeyType:Titanium.UI.RETURNKEY_DEFAULT
     });
+    tags.addEventListener("focus", function(){
+      scrollView.scrollTo(0,50);
+    });
     tags.addEventListener('return', function() {
-        scrollView.scrollTo(0,0);
+      scrollView.scrollTo(0,0);
     });
     winview.add(tags);
 
     /////////////////////////////////////////////////////////////////////////////BOTON
+    var uploadLabel = Ti.UI.createLabel({
+      text: 'Upload Complete!',
+      textAlign:'center',
+      font:{fontSize:14, fontWeight:'bold'},
+      height:'auto',
+      width:'auto',
+      color:'#000',
+      top:250,
+      visible:false
+    });
+    winview.add(uploadLabel);
+
     var ind = Titanium.UI.createProgressBar({
       width:200,
       height:50,
@@ -134,11 +143,10 @@
       style:Titanium.UI.iPhone.ProgressBarStyle.BAR,
       top:240,
       message:'Upload Progress:',
-      font:{fontSize:12, fontWeight:'bold'},
+      font:{fontSize:14, fontWeight:'bold'},
       color:Yumit.constants.textColor
     });
     winview.add(ind);
-  //  ind.show();
 
     var yumit = Titanium.UI.createButton({
       title:'Yumit!',
@@ -152,6 +160,7 @@
 
     yumit.addEventListener('click', function (){
       ind.show();
+
       var xhr = Titanium.Network.createHTTPClient();
       xhr.onerror = function(e) {
         ind.hide();
@@ -164,7 +173,6 @@
       xhr.onload = function() {
         ind.hide();
         var jsonReply = JSON.parse(this.responseText);
-//        var doc = this.responseXML.documentElement;
         if (this.responseText.length > 0 && jsonReply.success === "false" ) {
           Titanium.UI.createAlertDialog({
             title:'Well, this is awkward...',
@@ -172,7 +180,10 @@
           }).show();
         }
         else {
-          resultLabel.text = 'Upload Complete!';
+          uploadLabel.visible = true;
+          setTimeout(function(){
+            win.close();
+          }, 1000);
           //play sound with
           //var yay = Titanium.Media.createSound({url:'yay.caf'});
           //yay.play();
@@ -183,11 +194,12 @@
       xhr.onsendstream = function(e) {
         ind.value = e.progress;
       };
-      var a_username = "pablete"; //Titanium.App.Properties.getString("username"),
-      var a_password = "pablete"; //Titanium.App.Properties.getString("password"),
+      var authorization = Titanium.App.Properties.getString("username");
+      authorization += ':'+Titanium.App.Properties.getString("password");
+
       xhr.open('POST','http://yumit20.yumit.com/api/v0/yums.json');
-      Ti.API.info('Authorization\n'+'Basic '+Ti.Utils.base64encode(a_username+':'+a_password));
-      xhr.setRequestHeader('Authorization','Basic '+Ti.Utils.base64encode(a_username+':'+a_password));
+      Ti.API.info('Authorization\n'+'Basic '+Ti.Utils.base64encode(authorization));
+      xhr.setRequestHeader('Authorization','Basic '+Ti.Utils.base64encode(authorization));
       xhr.setRequestHeader('Content-Type','multipart/form-data');
       xhr.send({
         place_id: _place.place_id,
@@ -199,7 +211,7 @@
       //yay.play();
     });
 
-    win.add(scrollView);
+
 
     return win;
   };

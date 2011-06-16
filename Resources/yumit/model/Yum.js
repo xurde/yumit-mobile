@@ -34,8 +34,8 @@
       Yumit.model.request({
         method:'GET',
         action:'http://yumit20.yumit.com/api/v0/yums/friends.json',
-        username:'pablete', //Titanium.App.Properties.getString("username"),
-        password:'pablete', //Titanium.App.Properties.getString("password"),
+        username: Titanium.App.Properties.getString("username"),
+        password: Titanium.App.Properties.getString("password"),
         parameters: '',
         error: function(e,xhr) {
           Yumit.ui.alert('Arguments', _args.error);

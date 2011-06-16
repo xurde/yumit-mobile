@@ -42,9 +42,15 @@
             // tabGroup.activeTab.open(win,{animated:true});
           });
 
+          ///////////////////////
+          // PSEUDO API
+          ///////////////////////
 
-          Yumit.model.Yum.getYumsFriends({
-            success: refresh_yums
+          Titanium.App.addEventListener('Yumit:yums:getYumsFriends', function() {
+           Ti.API.info("get yums nearby triggered!");
+             Yumit.model.Yum.getYumsFriends({
+               success: refresh_yums
+             });
           });
 
           return tableView;

@@ -30,7 +30,10 @@
       };
 
       if (index == 2) {
-        alert("logout");
+        Titanium.App.Properties.removeProperty("username");
+        Titanium.App.Properties.removeProperty("password");
+        var login_window = Yumit.ui.login();
+        login_window.open({modal:true});
       };
     });
 
@@ -52,8 +55,12 @@
       backgroundColor: '#FFF'
     });
 
+    var login_mobile_url = 'http://yumit20.yumit.com/login_mobile';
+    login_mobile_url += '?u='+Titanium.App.Properties.getString("username");
+    login_mobile_url += '&p='+Titanium.App.Properties.getString("password");
+    login_mobile_url += '&mobile=1';
     var webview = Titanium.UI.createWebView({
-      url:'http://yumit20.yumit.com/login_mobile?u=pablete&p=pablete&mobile=1'
+      url:login_mobile_url
     });
 
     var backButton = Ti.UI.createButton({title: 'Back'});

@@ -5,8 +5,8 @@
       backgroundColor: '#FFF'
     });
 
-    var usernameValue = Titanium.App.Properties.getString("username");
-    var passwordValue = Titanium.App.Properties.getString("password");
+    var usernameValue; //= Titanium.App.Properties.getString("username");
+    var passwordValue; //= Titanium.App.Properties.getString("password");
 
     var container = Titanium.UI.createView({
       top:0,
@@ -114,22 +114,35 @@
     container.add(createAccountButton);
 
     loginButton.addEventListener("click", function(e) {
-
+      passwordField.blur();
       Titanium.App.fireEvent("Yumit:ui:showLoading",{title:"Connecting"});
-      setTimeout(function(){
-        Titanium.App.fireEvent("Yumit:ui:hideLoading");
-      }, 2000);
-      setTimeout(function(){
-        login_win.close({opacity:0,duration:500});
-        tabGroup.open();
-      }, 2500);
+      // setTimeout(function(){
+      //   Titanium.App.fireEvent("Yumit:ui:hideLoading");
+      // }, 2000);
+      // setTimeout(function(){
+      //   login_win.close({opacity:0,duration:500});
+      //   tabGroup.open();
+      // }, 2500);
       // Titanium.App.Properties.setString("username",usernameValue);
       // Titanium.App.Properties.setString("password",passwordValue);
-      // Yumit.model.User.login({
-      //   username: Yumit.current.latitude + "," + Yumit.current.longitude,
-      //   password:
-      //   success: refresh_places
-      // });
+      Yumit.model.User.login({
+        username: usernameValue,
+        password: passwordValue,
+        success: function(){
+          Titanium.App.Properties.setString("username",usernameValue);
+          Titanium.App.Properties.setString("password",passwordValue);
+          Titanium.App.fireEvent("Yumit:ui:hideLoading");
+          Titanium.App.fireEvent('Yumit:yums:getYumsFriends');
+          setTimeout(function(){
+            login_win.close({opacity:0,duration:500});
+            tabGroup.open();
+          }, 500);
+        },
+        error: function(){
+          Titanium.App.fireEvent("Yumit:ui:hideLoading");
+          alert("nooooooo");
+        }
+      });
     });
 
     // addButton.addEventListener('click', function() {

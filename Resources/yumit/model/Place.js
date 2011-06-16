@@ -37,7 +37,7 @@
       Yumit.model.request({
         method:'GET',
         action:'http://yumit20.yumit.com/api/v0/places/'+_args.place_id+'/dishes.json',
-      //  parameters: '',
+        parameters: '',
         error: function(e,xhr) {
           Yumit.ui.alert('Arguments', _args.error);
         },
@@ -56,7 +56,7 @@
       Yumit.model.request({
         method:'GET',
         action:'http://yumit20.yumit.com/api/v0/places/'+_args.place_id+'/users.json',
-      //  parameters: '',
+        parameters: '',
         error: function(e,xhr) {
           Yumit.ui.alert('Arguments', _args.error);
         },

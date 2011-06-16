@@ -14,6 +14,7 @@ Ti.include(
   '/yumit/model/model.js',
   '/yumit/model/Place.js',
   '/yumit/model/Yum.js',
+  '/yumit/model/User.js',
   '/yumit/view/places_list.js',
   '/yumit/view/place.js',
   '/yumit/view/dish.js',
@@ -65,20 +66,17 @@ tabGroup.addTab(tab2);
 
 
 /////////////////////////////////////////////////////////
-var login_window = Yumit.ui.login();
-login_window.open({modal:true});
+if (Titanium.App.Properties.hasProperty("username")==0) {
+  var login_window = Yumit.ui.login();
+  login_window.open({modal:true});
+} else {
+  Titanium.App.fireEvent('Yumit:yums:getYumsFriends');
+  tabGroup.open();
+};
+
+
 ////////////////////////////////////////////////////////
-
-// tabGroup.open();
-
-//Ti.include('/yumit/view/geolocation.js');
-
-
-
-
-
-
-
+Ti.include('/yumit/view/geolocation.js');
 
 
 //////////////////////////////////// GLOBAL TIMER?
@@ -97,5 +95,3 @@ login_window.open({modal:true});
 //   };
 // }, 2000);
 //
-
-

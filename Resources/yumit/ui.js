@@ -118,11 +118,11 @@ Yumit.ui ={};
 
     for (var i = 0, l = _labels.length; i<l; i++) {
       tabs.push(createTab(_labels[i].title,
-                          (function(x) {
+                          function(x) {
                               return function(){
-                                selectIndex(x,_callback);
+                                selectIndex(x, _callback);
                               };
-                            })(i),
+                            }(i),
                           _labels[i].enabled));
 
       //add tabs to layout

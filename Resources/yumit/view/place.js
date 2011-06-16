@@ -104,7 +104,7 @@ function map(){
     latitude:_place.place_lat,
     longitude:_place.place_lng,
     title:_place.place_name,
-    subtitle:_place.place_address+ '(xxx meters)',
+    subtitle:_place.place_address,
     animate:true,
      leftButton:'../../images/default.png',
      image:'../../images/foursquare-mini.png'

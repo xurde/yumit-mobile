@@ -8,4 +8,15 @@
 
     return win;
   };
+
+  Yumit.ui.test_window = function(){
+    var win = new Window({
+      id: 'defaultWindow',
+      title:'Test Window',
+      backgroundColor: '#FFF'
+    });
+
+    return win;
+  };
+
 })();
