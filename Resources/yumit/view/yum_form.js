@@ -197,7 +197,7 @@
       var authorization = Titanium.App.Properties.getString("username");
       authorization += ':'+Titanium.App.Properties.getString("password");
 
-      xhr.open('POST','http://yumit20.yumit.com/api/v0/yums.json');
+      xhr.open('POST','http://new.yumit.com/api/v0/yums.json');
       Ti.API.info('Authorization\n'+'Basic '+Ti.Utils.base64encode(authorization));
       xhr.setRequestHeader('Authorization','Basic '+Ti.Utils.base64encode(authorization));
       xhr.setRequestHeader('Content-Type','multipart/form-data');

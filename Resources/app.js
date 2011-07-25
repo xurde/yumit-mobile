@@ -78,7 +78,8 @@ if (Titanium.App.Properties.hasProperty("username")==0) {
 ////////////////////////////////////////////////////////
 Ti.include('/yumit/view/geolocation.js');
 
-
+//Ti.App.Properties.base_url = 'http://yumit20.yumit.com/api/v0/places/nearby.json';
+Ti.App.Properties.base_url = 'http://new.yumit.com/api/v0/places/';
 //////////////////////////////////// GLOBAL TIMER?
 
 // var timer = null;
