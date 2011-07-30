@@ -1,6 +1,6 @@
 (function(){
 
- // Titanium.App.fireEvent('Yumit:ui:showLoading',{title:"Obtaining Geolocation"});
+  Titanium.App.fireEvent('Yumit:ui:showLoading',{title:"Obtaining Geolocation"});
 
   Ti.Geolocation.preferredProvider = "gps";
 

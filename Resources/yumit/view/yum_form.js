@@ -1,5 +1,5 @@
 (function(){
-    Yumit.ui.yum_form = function(){
+    Yumit.ui.yum_form = function(_place,_dish,_photo){
         var win = new Window({
             id: 'defaultWindow',
             title:'Post a Yum'
@@ -42,7 +42,7 @@
                 fontWeight:'bold'
             },
             height:'auto',
-            text:"place name",
+            text:_place.place_name,
             width:'auto',
             top:10,
             right:spacing
@@ -57,7 +57,7 @@
                 fontWeight:'bold'
             },
             height:'auto',
-            text:"dish",
+            text:_dish.dish_name,
             width:'auto',
             top:25,
             right:spacing
@@ -67,7 +67,16 @@
         var horizontal = function(media){
             return (media.height <  media.width);
         };
-
+        
+        var avatar = Ti.UI.createImageView({
+            top:7,
+            left:7,
+            height:horizontal(_photo) ? 105 : 140,
+            width:horizontal(_photo) ? 140 : 105,
+            borderRadius:5,
+            image: _photo
+        });
+        winview.add(avatar);
 
         var share = Ti.UI.createLabel({
             color:Yumit.constants.textColor,

@@ -43,8 +43,8 @@ var tab0 = Titanium.UI.createTab({
 var tab1 = Titanium.UI.createTab({
     title:'Places',
     icon:'images/places.png',
-    window:Yumit.ui.yum_form()
-    //window:Yumit.ui.places_list()
+    //window:Yumit.ui.yum_form()
+    window:Yumit.ui.places_list()
     // window:Yumit.ui.missing()
 });
 
