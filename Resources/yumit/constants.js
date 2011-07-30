@@ -19,7 +19,8 @@
   };
 
   Yumit.android = Ti.Platform.name == 'android';
-
+  //Yumit.api_path = "http://10.211.55.2:3000"
+  Yumit.api_path = "http://new.yumit.com"
   //
   // returns true if iphone/ipad and version is 3.2+
   //

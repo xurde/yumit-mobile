@@ -1,6 +1,6 @@
 (function(){
 
-  Titanium.App.fireEvent('Yumit:ui:showLoading',{title:"Obtaining Geolocation"});
+ // Titanium.App.fireEvent('Yumit:ui:showLoading',{title:"Obtaining Geolocation"});
 
   Ti.Geolocation.preferredProvider = "gps";
 
@@ -35,7 +35,7 @@
   Titanium.Geolocation.accuracy = Titanium.Geolocation.ACCURACY_BEST;
 
   Titanium.Geolocation.distanceFilter = 20;
-
+  
   Yumit.locationCallback = function(e) {
    if (!e.success || e.error) {
      Ti.API.info("Code translation: "+translateErrorCode(e.code));

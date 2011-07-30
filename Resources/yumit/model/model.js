@@ -2,7 +2,7 @@ Yumit.model = {};
 (function() {
   Yumit.model.request = function(/*Object*/ _params) {
     var postingUrl = _params.action +"?"+ _params.parameters;
-
+    Ti.API.info("Posting Url : " + postingUrl);
     var xhr = Titanium.Network.createHTTPClient();
     xhr.onerror = function(e) {
       Ti.API.error('There was an error posting request: '+JSON.stringify(e));

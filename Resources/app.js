@@ -2,7 +2,7 @@ var Yumit={};
 Yumit.global = {};
 Yumit.current = {};
 Ti.include('/yumit/constants.js');
-
+Ti.include('/yumit/lib/birdhouse.js');
 var used = [Ti.UI.createLabel, Ti.UI.createAlertDialog, Ti.UI.createButton, Ti.UI.createImageView,
     Ti.UI.createAnimation, Ti.UI.createWindow, Ti.UI.createScrollView];
 Ti.include('redux.js');
@@ -43,7 +43,8 @@ var tab0 = Titanium.UI.createTab({
 var tab1 = Titanium.UI.createTab({
     title:'Places',
     icon:'images/places.png',
-    window:Yumit.ui.places_list()
+    window:Yumit.ui.yum_form()
+    //window:Yumit.ui.places_list()
     // window:Yumit.ui.missing()
 });
 
@@ -73,7 +74,15 @@ if (Titanium.App.Properties.hasProperty("username")==0) {
   Titanium.App.fireEvent('Yumit:yums:getYumsFriends');
   tabGroup.open();
 };
+Titanium.Facebook.appid = "336361767890";
+Titanium.Facebook.permissions = ['publish_stream', 'read_stream'];
 
+Ti.App.Properties.searchType = 0;
+
+Ti.App.Properties.BH = new BirdHouse({
+    consumer_key: "U1L5Rwh08FBeFqfyMgPTKA",
+    consumer_secret: "QbWpQAATvDLwABZYjPN0uHcd1LSrWkp4usvBi8xY"
+});
 
 ////////////////////////////////////////////////////////
 Ti.include('/yumit/view/geolocation.js');

@@ -55,7 +55,7 @@
       backgroundColor: '#FFF'
     });
 
-    var login_mobile_url = 'http://new.yumit.com/login_mobile';
+    var login_mobile_url = Yumit.api_path+'/login_mobile';
     login_mobile_url += '?u='+Titanium.App.Properties.getString("username");
     login_mobile_url += '&p='+Titanium.App.Properties.getString("password");
     login_mobile_url += '&mobile=1';

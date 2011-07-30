@@ -20,8 +20,8 @@
           _args.success();
         }
       };
-
-      xhr.open('POST','http://new.yumit.com/api/v0/authenticates.json');
+      Ti.API.info("posting url : "+ Yumit.api_path+'/api/v0/authenticates.json');
+      xhr.open('POST',Yumit.api_path+'/api/v0/authenticates.json');
       xhr.send({
         login: _args.username,
         password: _args.password
