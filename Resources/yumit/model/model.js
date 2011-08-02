@@ -6,7 +6,7 @@ Yumit.model = {};
     var xhr = Titanium.Network.createHTTPClient();
     xhr.onerror = function(e) {
       Ti.API.error('There was an error posting request: '+JSON.stringify(e));
-      Yumit.ui.alert('Yumit Error', 'General Error');
+      Yumit.ui.alert('Yumit Error', 'Error while connecting the API Server: ' + postingUrl);
       if (_params.error) {
         _params.error(e,xhr);
       }
@@ -15,7 +15,7 @@ Yumit.model = {};
     xhr.onload = function(){
       try {
         if(this.responseText.match(/html xmlns/)){
-          Yumit.ui.alert('Yumit Error', 'General Error');
+          Yumit.ui.alert('Yumit Error', 'Error while parsing response from API Server');
           Ti.API.error('Yumit Error: '+this.responseText);
           return;
         }
