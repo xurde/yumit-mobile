@@ -288,9 +288,12 @@
             Ti.API.info('Authorization\n'+'Basic '+Ti.Utils.base64encode(authorization));
             xhr.setRequestHeader('Authorization','Basic '+Ti.Utils.base64encode(authorization));
             xhr.setRequestHeader('Content-Type','multipart/form-data');
+            // alert('place_id: ' + _place.place_id
+                  // + ' dish_id: ' + _dish.dish_id
+                  // + ' text' + description.value);
             xhr.send({
-                // place_id: _place.place_id,
-                // dish_id: _dish.dish_id,
+                place_id: _place.place_id,
+                dish_id: _dish.dish_id,
                 // photo: _photo,
                 text: description.value,
                 tags: tags.value
