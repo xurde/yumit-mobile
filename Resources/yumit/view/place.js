@@ -68,9 +68,17 @@
 
 /////////////////////////////////////////////////////////////////////
  function dishes(){
+ 	var dishView = Ti.UI.createView();
     var tableView = Ti.UI.createTableView({
-      top:0,
-      minRowHeight:60
+      top: 40,
+      minRowHeight: 60
+    });
+    var addDishButton = Ti.UI.createButton({
+    	 title:'Add new Dish',
+         color:Yumit.constants.darkRed,
+         highlightedColor:'#0f0',
+         top: 0,
+         height: 40
     });
 
     tableView.addEventListener('click',function(e) {
@@ -94,7 +102,9 @@
       });
     };
 
-    return tableView;
+	dishView.add(tableView);
+	dishView.add(addDishButton);
+    return dishView;
   }
 
 /////////////////////////////////////////////////////////////////////
