@@ -4,7 +4,9 @@
     //return success or error if login
     login: function(/*Object*/ _args) {
 
-      var xhr = Titanium.Network.createHTTPClient();
+      var xhr = Titanium.Network.createHTTPClient({
+      	timeout: Yumit.constants.httpTimeout
+      });
       xhr.onerror = function(e) {
         Titanium.UI.createAlertDialog({
           title:'Error...',
