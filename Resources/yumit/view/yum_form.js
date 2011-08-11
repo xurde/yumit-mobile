@@ -246,11 +246,15 @@
         winview.add(yumit);
 
         yumit.addEventListener('click', function (){
+        	yumit.enabled = false;
             ind.show();
 
-            var xhr = Titanium.Network.createHTTPClient();
+            var xhr = Titanium.Network.createHTTPClient({
+            	timeout: Yumit.constants.httpTimeout
+            });
             xhr.onerror = function(e) {
                 ind.hide();
+                yumit.enabled = true;
                 Titanium.UI.createAlertDialog({
                     title:'Well, this is awkward...',
                     message: 'We had a problem posting your image - please try again'
@@ -259,6 +263,7 @@
 
             xhr.onload = function() {
                 ind.hide();
+                yumit.enabled = true;
                 var jsonReply = JSON.parse(this.responseText);
                 if (this.responseText.length > 0 && jsonReply.success === "false" ) {
                     Titanium.UI.createAlertDialog({

@@ -4,7 +4,7 @@ Yumit.model = {};
     var postingUrl = _params.action +"?"+ _params.parameters;
     Ti.API.info("Posting Url : " + postingUrl);
     var xhr = Titanium.Network.createHTTPClient({
-    	timeout: 10*1000
+    	timeout: Yumit.constants.httpTimeout
     });
     xhr.onerror = function(e) {
       Ti.API.error('There was an error posting request: '+JSON.stringify(e));
