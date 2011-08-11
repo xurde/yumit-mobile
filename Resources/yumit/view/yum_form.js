@@ -71,8 +71,8 @@
         var avatar = Ti.UI.createImageView({
             top:7,
             left:7,
-            height:horizontal(_photo) ? 105 : 140,
-            width:horizontal(_photo) ? 140 : 105,
+            height: 105,
+            width:horizontal(_photo) ? 140 : 79,
             borderRadius:5,
             image: _photo
         });
@@ -213,7 +213,7 @@
             height:'auto',
             width:'auto',
             color:'#000',
-            top:250,
+            top:300,
             visible:false
         });
         winview.add(uploadLabel);
@@ -225,7 +225,7 @@
             max:1,
             value:0,
             style:Titanium.UI.iPhone.ProgressBarStyle.BAR,
-            top:240,
+            top:290,
             message:'Upload Progress:',
             font:{
                 fontSize:14, 
@@ -241,7 +241,7 @@
             highlightedColor:'#0f0',
             width:200,
             height:40,
-            top:310
+            top:350
         });
         winview.add(yumit);
 
@@ -288,13 +288,11 @@
             Ti.API.info('Authorization\n'+'Basic '+Ti.Utils.base64encode(authorization));
             xhr.setRequestHeader('Authorization','Basic '+Ti.Utils.base64encode(authorization));
             xhr.setRequestHeader('Content-Type','multipart/form-data');
-            // alert('place_id: ' + _place.place_id
-                  // + ' dish_id: ' + _dish.dish_id
-                  // + ' text' + description.value);
+            
             xhr.send({
                 place_id: _place.place_id,
                 dish_id: _dish.dish_id,
-                // photo: _photo,
+                photo: _photo,
                 text: description.value,
                 tags: tags.value
             });
