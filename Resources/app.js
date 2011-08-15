@@ -15,6 +15,7 @@ Ti.include(
   '/yumit/model/Place.js',
   '/yumit/model/Yum.js',
   '/yumit/model/User.js',
+  '/yumit/model/Dish.js',
   '/yumit/view/places_list.js',
   '/yumit/view/place.js',
   '/yumit/view/dish.js',
