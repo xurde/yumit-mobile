@@ -162,6 +162,25 @@
 /////////////////////////////
 
       return row;
+    },
+    
+    getYumsForDishAndPlace: function(_args) {
+      Yumit.model.request({
+        method:'GET',
+        action: Yumit.api_path+'/api/v0/place/' + _args.placeId + 
+        			'/dish/' + _args.dishId + '/yums.json',
+        username: Titanium.App.Properties.getString("username"),
+        password: Titanium.App.Properties.getString("password"),
+        parameters: '',
+        error: function(e,xhr) {
+          Yumit.ui.alert('Arguments', _args.error);
+        },
+        success: function(json,xhr) {
+          if (_args.success) { 
+          	_args.success(json);
+          }
+        }
+      });
     }
 
   };
