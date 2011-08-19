@@ -34,8 +34,8 @@ Yumit.model = {};
       }
     };
     xhr.open(_params.method, postingUrl);
-    if (_params.username) {
-      xhr.setRequestHeader('Authorization','Basic '+Ti.Utils.base64encode(_params.username+':'+_params.password));
+    if (_params.token) {
+    	xhr.setRequestHeader('token', _params.token);
     }
 
     xhr.send();

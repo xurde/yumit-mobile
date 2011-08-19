@@ -19,7 +19,7 @@
         if (this.responseText.length > 0 && jsonReply.success === "false" ) {
           _args.error();
         } else {
-          _args.success();
+          _args.success(jsonReply.token);
         }
       };
       Ti.API.info("posting url : "+ Yumit.api_path+'/api/v0/authenticates.json');

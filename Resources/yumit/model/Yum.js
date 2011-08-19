@@ -34,8 +34,7 @@
       Yumit.model.request({
         method:'GET',
         action:Yumit.api_path+'/api/v0/yums/friends.json',
-        username: Titanium.App.Properties.getString("username"),
-        password: Titanium.App.Properties.getString("password"),
+        token: Titanium.App.Properties.getString("token"),
         parameters: '',
         error: function(e,xhr) {
           Yumit.ui.alert('Arguments', _args.error);
@@ -169,8 +168,7 @@
         method:'GET',
         action: Yumit.api_path+'/api/v0/place/' + _args.placeId + 
         			'/dish/' + _args.dishId + '/yums.json',
-        username: Titanium.App.Properties.getString("username"),
-        password: Titanium.App.Properties.getString("password"),
+        token: Titanium.App.Properties.getString("token"),
         parameters: '',
         error: function(e,xhr) {
           Yumit.ui.alert('Arguments', _args.error);

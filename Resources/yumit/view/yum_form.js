@@ -286,12 +286,11 @@
             xhr.onsendstream = function(e) {
                 ind.value = e.progress;
             };
-            var authorization = Titanium.App.Properties.getString("username");
-            authorization += ':'+Titanium.App.Properties.getString("password");
+
+            var authorization = Titanium.App.Properties.getString("token");
 
             xhr.open('POST',Yumit.api_path+'/api/v0/yums.json');
-            Ti.API.info('Authorization\n'+'Basic '+Ti.Utils.base64encode(authorization));
-            xhr.setRequestHeader('Authorization','Basic '+Ti.Utils.base64encode(authorization));
+            xhr.setRequestHeader('token', authorization);
             xhr.setRequestHeader('Content-Type','multipart/form-data');
             
             xhr.send({

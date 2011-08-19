@@ -128,9 +128,9 @@
       Yumit.model.User.login({
         username: usernameValue,
         password: passwordValue,
-        success: function(){
-          Titanium.App.Properties.setString("username",usernameValue);
-          Titanium.App.Properties.setString("password",passwordValue);
+        success: function(token){
+        	Titanium.App.Properties.setString("token",token);
+          
           Titanium.App.fireEvent("Yumit:ui:hideLoading");
           Titanium.App.fireEvent('Yumit:yums:getYumsFriends');
           setTimeout(function(){

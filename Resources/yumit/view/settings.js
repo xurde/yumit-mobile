@@ -30,8 +30,7 @@
       };
 
       if (index == 2) {
-        Titanium.App.Properties.removeProperty("username");
-        Titanium.App.Properties.removeProperty("password");
+        Titanium.App.Properties.removeProperty("token");
         var login_window = Yumit.ui.login();
         login_window.open({modal:true});
       };
