@@ -1,5 +1,5 @@
 (function(){
-    Yumit.ui.yum_form = function(_place,_dish,_photo){
+    Yumit.ui.yum_form = function(_place, _dish, _photo){
         var win = new Window({
             id: 'defaultWindow',
             title:'Post a Yum'
@@ -42,7 +42,7 @@
                 fontWeight:'bold'
             },
             height:'auto',
-            text:_place.place_name,
+            text:_place.name,
             width:'auto',
             top:10,
             right:spacing
@@ -57,7 +57,7 @@
                 fontWeight:'bold'
             },
             height:'auto',
-            text:_dish.dish_name,
+            text:_dish.name,
             width:'auto',
             top:25,
             right:spacing
@@ -295,8 +295,8 @@
             xhr.setRequestHeader('Content-Type','multipart/form-data');
             
             xhr.send({
-                place_id: _place.place_id,
-                dish_id: _dish.dish_id,
+                place_id: _place.id,
+                dish_id: _dish.id,
                 photo: _photo,
                 text: description.value,
                 tags: tags.value

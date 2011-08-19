@@ -1,5 +1,5 @@
 (function(){
-  Yumit.ui.yums_activity = function(){
+  Yumit.ui.yums_activity = function(_tab){
     var win = new Window({
       id: 'defaultWindow',
       title:'Activity'
@@ -9,6 +9,18 @@
       systemButton:Titanium.UI.iPhone.SystemButton.CAMERA
     });
     win.rightNavButton = map_button;
+    
+    var onPhotoSelect = function(photo) {
+    	var nextWin = Yumit.ui.selectPlaceForm(_tab, photo);
+    	_tab.open(nextWin, {animated:true});
+    }
+    
+
+    
+    map_button.addEventListener('click', function(e) {
+    	Yumit.ui.selectPhoto(win, onPhotoSelect);
+    	//onPhotoSelect();
+    });
 
     var tabView = Yumit.ui.createtabbedNavigation({
       labels:[{title:'Following', enabled:true},

@@ -23,7 +23,10 @@ Ti.include(
   '/yumit/view/yums_activity.js',
   '/yumit/view/settings.js',
   '/yumit/view/login.js',
-  '/yumit/view/missing.js'
+  '/yumit/view/missing.js',
+  '/yumit/view/postyum/selectphoto.js',
+  '/yumit/view/postyum/selectplace.js',
+  '/yumit/view/postyum/selectdish.js'
 );
 
 var tabGroup = Titanium.UI.createTabGroup();
@@ -34,9 +37,11 @@ var tabGroup = Titanium.UI.createTabGroup();
 var tab0 = Titanium.UI.createTab({
     title:'Activity',
     icon:'images/activity.png',
-    window:Yumit.ui.yums_activity()
+    //window:Yumit.ui.yums_activity()
     // window:Yumit.ui.missing()
 });
+
+tab0.window = Yumit.ui.yums_activity(tab0);
 
 //
 // PLACES

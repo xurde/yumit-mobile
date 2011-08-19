@@ -73,15 +73,16 @@
       top: 0,
       minRowHeight: 60
     });
-    var addDishButton = Ti.UI.createButton({
-    	 title:'Add a new Dish',
-         highlightedColor:'#0f0',
-         bottom: 0,
-         height: 40
-    });
-    setTimeout(function(){
-		tableView.height = tableView.height - addDishButton.height;
-	}, 500);
+    // var addDishButton = Ti.UI.createButton({
+    	 // title:'Add a new Dish',
+         // highlightedColor:'#0f0',
+         // bottom: 0,
+         // height: 40,
+         // visible: false
+    // });
+    // setTimeout(function(){
+		// tableView.height = tableView.height - addDishButton.height;
+	// }, 500);
 	
 
     tableView.addEventListener('click',function(e) {
@@ -110,28 +111,28 @@
       });
     };
     
-    addDishButton.addEventListener('click', function(e){
-    	showAddDishView(true);
-    });
+    // addDishButton.addEventListener('click', function(e){
+    	// showAddDishView(true);
+    // });
     
-    var showAddDishView = function(show){
-    	var doShow = (show == true);
-    	tableView.visible = !doShow;
-    	addDishButton.visible = !doShow;
-    	addDishView.visible = doShow;
-    }
+    // var showAddDishView = function(show){
+    	// var doShow = (show == true);
+    	// tableView.visible = !doShow;
+    	// addDishButton.visible = !doShow;
+    	// addDishView.visible = doShow;
+    // }
     
     
-    var addDishView = Ti.UI.createView({
-		height: '100%',
-	    backgroundColor: '#FFF',
-		visible: false
-	});
-    createAddDishView(addDishView, showAddDishView, addDish);
+    // var addDishView = Ti.UI.createView({
+		// height: '100%',
+	    // backgroundColor: '#FFF',
+		// visible: false
+	// });
+    // createAddDishView(addDishView, showAddDishView, addDish);
 
 	dishView.add(tableView);
-	dishView.add(addDishButton);
-	dishView.add(addDishView);
+	// dishView.add(addDishButton);
+	// dishView.add(addDishView);
 	
     return dishView;
   }
