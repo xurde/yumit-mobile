@@ -79,7 +79,7 @@
       top:15,
       right: 10
     });
-    winview.add(post_a_yum);
+    //winview.add(post_a_yum);
 
     var chooseMediaSource = function(event) {
       switch(event.index) {

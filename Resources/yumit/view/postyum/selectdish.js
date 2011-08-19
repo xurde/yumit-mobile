@@ -1,5 +1,5 @@
 (function(){
-	Yumit.ui.selectDishForm = function(_tab, _photo, _place) {
+	Yumit.ui.selectDishForm = function(_closeCallback, _tab, _photo, _place) {
 		var win = new Window({
   			id: 'defaultWindow',
 			title: 'Select a Dish'
@@ -61,8 +61,14 @@
 			makeRequest();
 		});
 		
+		var closeFunction = function() {
+			win.close();
+			_closeCallback();
+
+		}
+		
 		table.addEventListener('click', function(e){
-			var nextWin = Yumit.ui.yum_form(_place, e.rowData.dishData, _photo);
+			var nextWin = Yumit.ui.yum_form(closeFunction, _place, e.rowData.dishData, _photo);
 			_tab.open(nextWin, {animated:true});
 		});
         

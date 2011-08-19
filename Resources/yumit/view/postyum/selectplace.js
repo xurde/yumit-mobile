@@ -59,8 +59,14 @@
 			makeRequest();
 		});
 		
+		var closeFunction = function() {
+			setTimeout(function() {
+				win.close();
+			}, 400);
+		}
+		
 		table.addEventListener('click', function(e){
-			var nextWin = Yumit.ui.selectDishForm(_tab, _photo, e.rowData.placeData);
+			var nextWin = Yumit.ui.selectDishForm(closeFunction, _tab, _photo, e.rowData.placeData);
 			_tab.open(nextWin, {animated:true});
 		});
 		

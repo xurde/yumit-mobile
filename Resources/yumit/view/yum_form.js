@@ -1,5 +1,5 @@
 (function(){
-    Yumit.ui.yum_form = function(_place, _dish, _photo){
+    Yumit.ui.yum_form = function(_closeCallBack, _place, _dish, _photo){
         var win = new Window({
             id: 'defaultWindow',
             title:'Post a Yum'
@@ -275,6 +275,7 @@
                     uploadLabel.visible = true;
                     setTimeout(function(){
                         win.close();
+                        _closeCallBack();
                     }, 1000);
                 //play sound with
                 //var yay = Titanium.Media.createSound({url:'yay.caf'});
