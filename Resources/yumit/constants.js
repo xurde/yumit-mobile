@@ -16,7 +16,7 @@
     nameHeight: 18,
     metaHeight: 14,
     avatarOffset: 6*2+48, //spacing*2+imgDimensions
-    httpTimeout: 10*1000
+    httpTimeout: 45*1000
   };
 
   Yumit.android = Ti.Platform.name == 'android';
