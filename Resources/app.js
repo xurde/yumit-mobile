@@ -56,12 +56,12 @@ var tab1 = Titanium.UI.createTab({
 // //
 // // SETTINGS
 // //
-var tab2 = Titanium.UI.createTab({
-    title:'Settings',
-    icon:'images/settings.png',
-    window:Yumit.ui.settings()
-    // window:Yumit.ui.missing()
-});
+// var tab2 = Titanium.UI.createTab({
+    // title:'Settings',
+    // icon:'images/settings.png',
+    // window:Yumit.ui.settings()
+    // // window:Yumit.ui.missing()
+// });
 
 
 // //
@@ -75,7 +75,7 @@ var win = new Window({
 
 //Ti.UI.createWindow();
 var tab3 = Titanium.UI.createTab({
-    title:'Post',
+//    title:'Post',
     icon:'images/photo.png',
     window:win
 });
@@ -92,9 +92,9 @@ win.addEventListener('focus', function() {
 //  add tabs
 //
 tabGroup.addTab(tab0);
-tabGroup.addTab(tab1);
-tabGroup.addTab(tab2);
 tabGroup.addTab(tab3);
+//tabGroup.addTab(tab2);
+tabGroup.addTab(tab1);
 
 
 /////////////////////////////////////////////////////////

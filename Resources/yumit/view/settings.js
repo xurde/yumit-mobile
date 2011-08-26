@@ -4,7 +4,8 @@
     var data = [
       {title:'Edit profile', hasChild:true, color:Yumit.constants.darkRed},
       {title:'Edit sharing settings', hasChild:true, color:Yumit.constants.darkRed},
-      {title:'Logout', color:Yumit.constants.darkRed}
+      {title:'Logout', color:Yumit.constants.darkRed},
+      {title:'Close', color:Yumit.constants.darkRed}
     ];
 
     // create table view
@@ -34,6 +35,11 @@
         var login_window = Yumit.ui.login();
         login_window.open({modal:true});
       };
+      
+      if (index == 3) {
+      	settings_window.close();
+      };
+      
     });
 
     // add table view to the window
