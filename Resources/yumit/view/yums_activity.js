@@ -90,7 +90,10 @@
                   left:50});
                 error_row.add(error_label);
                 tvData.push(error_row);
+              } else {
+              	Yumit.global.yumsNearbyLoaded = true;
               };
+				Titanium.App.fireEvent("Yumit:ui:hideLoading");
               tableView.setData(tvData);
             };
 
@@ -105,13 +108,16 @@
             // PSEUDO API
             ///////////////////////
 
-            Titanium.App.addEventListener('Yumit:yums:getYumsNearby', function() {
-             Ti.API.info("get yums nearby triggered!");
-              Yumit.model.Yum.getYumsNearby({
-                location: Yumit.current.latitude + "," + Yumit.current.longitude,
-                success: refresh_yums
-              });
-            });
+			Titanium.App.addEventListener('Yumit:yums:getYumsNearby', function() {
+				Ti.API.info("get yums nearby triggered!");
+				Titanium.App.fireEvent("Yumit:ui:showLoading", {title : "Loading..."});				
+				Yumit.model.Yum.getYumsNearby({
+					location : Yumit.current.latitude + "," + Yumit.current.longitude,
+					success : refresh_yums,
+					onfinish: Titanium.App.fireEvent("Yumit:ui:hideLoading")
+				});          
+			});
+
 
 
             return tableView;
@@ -119,14 +125,21 @@
     //////////////////////////////////////////////////////////
 
         var appFilmStrip = Yumit.ui.createFilmStripView({
+        	
           views: [
             activity_following(),
-            activity_nearby(),
+//            activity_nearby(),
             activity_nearby()
           ],
           space: {top:35,bottom:0,left:0,right:0}
         });
-
+		appFilmStrip.addEventListener('changeIndex', function(e) {
+			if (e.idx == 1 && !Yumit.global.yumsNearbyLoaded) {
+				Ti.API.debug('\t>>>>appFilmStrip(yums):changeIndex:1:Loading Nearbyes');
+				Titanium.App.fireEvent('Yumit:yums:getYumsNearby');
+				
+			};
+		})
         win.add(appFilmStrip);
 
 

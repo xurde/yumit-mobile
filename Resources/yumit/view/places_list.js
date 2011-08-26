@@ -13,6 +13,14 @@
       id: 'defaultWindow',
       title:'Places'
     });
+    win.addEventListener('open', function(){
+    	if (Yumit.global.placesNearbyLoaded) {
+    		return;
+    	};
+		Titanium.App.fireEvent("Yumit:ui:showLoading", {title : "Loading..."});				
+		Ti.API.info("\t>>>Loading places!!");
+		Titanium.App.fireEvent('Yumit:places:getPlacesNearby');
+    });
 
     var tabView = Yumit.ui.createtabbedNavigation({
       top:0,
@@ -46,6 +54,7 @@
       var tableData = [];
       var mapData = [];
       for (var i=0,l=places.length;i<l;i++) {
+      	Yumit.global.placesNearbyLoaded = true;
         tableData.push(Yumit.model.Place.createPlaceRow(places[i]));
         anno = Yumit.model.Place.createPlaceAnnotation(places[i]);
         mapData.push(anno);
@@ -120,7 +129,9 @@
 
       Yumit.model.Place.getPlacesNearby({
         location: Yumit.current.latitude + "," + Yumit.current.longitude,
-        success: refresh_places
+        success: refresh_places,
+        onfinish: Titanium.App.fireEvent("Yumit:ui:hideLoading")
+
       });
     });
 

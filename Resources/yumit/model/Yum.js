@@ -59,6 +59,7 @@
         parameters: 'latlon='+params.location,
         error: function(e,xhr) {
           Yumit.ui.alert('Arguments', _args.error);
+		  if (_args.onfinish) { _args.onfinish(); }
         },
         success: function(json,xhr) {
           var results = [];
@@ -66,8 +67,9 @@
             results.push(json[i].yum);
           }
           if (_args.success) { _args.success(results); }
+		  if (_args.onfinish) { _args.onfinish(); }
         }
-      });
+        });
     },
     //create a place row from the given data from yumit
     createYumRow: function(_yum) {

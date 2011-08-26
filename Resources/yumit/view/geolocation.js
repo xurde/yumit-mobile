@@ -1,6 +1,6 @@
 (function(){
 
-  Titanium.App.fireEvent('Yumit:ui:showLoading',{title:"Obtaining Geolocation"});
+//  Titanium.App.fireEvent('Yumit:ui:showLoading',{title:"Obtaining Geolocation"});
 
   Ti.Geolocation.preferredProvider = "gps";
 
@@ -50,10 +50,10 @@
    Yumit.current.timestamp = e.coords.timestamp;
 
    Titanium.API.info('geo - location obtained: ' + new Date(e.coords.timestamp) + ' long ' + e.coords.longitude + ' lat ' + e.coords.latitude + ' accuracy ' + e.coords.accuracy);
-
    setTimeout(function(){Titanium.App.fireEvent("Yumit:ui:hideLoading");}, 1000);
-   Titanium.App.fireEvent('Yumit:places:getPlacesNearby');
-   Titanium.App.fireEvent('Yumit:yums:getYumsNearby');
+   
+        //Titanium.App.fireEvent('Yumit:places:getPlacesNearby');
+    	//Titanium.App.fireEvent('Yumit:yums:getYumsNearby');
   };
 
   Titanium.Geolocation.getCurrentPosition(Yumit.locationCallback);

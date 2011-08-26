@@ -20,6 +20,7 @@
         action:Yumit.api_path+'/api/v0/places/nearby.json',
         parameters: 'latlon='+params.location+'&query='+params.query,
         error: function(e,xhr) {
+          if (_args.onfinish) { _args.onfinish(); };
           Yumit.ui.alert('Arguments', _args.error);
         },
         success: function(json,xhr) {
@@ -27,8 +28,10 @@
           for (var i=0,l=json.length;i<l;i++) {
             results.push(json[i]);
           }
-          if (_args.success) { _args.success(results); }
-        }
+          if (_args.onfinish) { _args.onfinish(); };
+          if (_args.success) { _args.success(results);}; 
+        },
+
       });
     },
 

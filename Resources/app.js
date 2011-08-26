@@ -53,7 +53,6 @@ var tab1 = Titanium.UI.createTab({
     window:Yumit.ui.places_list()
     // window:Yumit.ui.missing()
 });
-
 // //
 // // SETTINGS
 // //
@@ -95,7 +94,6 @@ Ti.include('/yumit/view/geolocation.js');
 
 
 //////////////////////////////////// GLOBAL TIMER?
-
 // var timer = null;
 //
 // timer = setInterval(function() {
