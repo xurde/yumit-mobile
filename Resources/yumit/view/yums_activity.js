@@ -5,22 +5,22 @@
       title:'Activity'
     });
 
-    var map_button = Titanium.UI.createButton({
-      systemButton:Titanium.UI.iPhone.SystemButton.CAMERA
-    });
-    win.rightNavButton = map_button;
-    
-    var onPhotoSelect = function(photo) {
-    	var nextWin = Yumit.ui.selectPlaceForm(_tab, photo);
-    	_tab.open(nextWin, {animated:true});
-    }
-    
-
-    
-    map_button.addEventListener('click', function(e) {
-    	Yumit.ui.selectPhoto(win, onPhotoSelect);
-    	//onPhotoSelect();
-    });
+    // var map_button = Titanium.UI.createButton({
+      // systemButton:Titanium.UI.iPhone.SystemButton.CAMERA
+    // });
+    // win.rightNavButton = map_button;
+//     
+    // var onPhotoSelect = function(photo) {
+    	// var nextWin = Yumit.ui.selectPlaceForm(_tab, photo);
+    	// _tab.open(nextWin, {animated:true});
+    // }
+//     
+// 
+//     
+    // map_button.addEventListener('click', function(e) {
+    	// Yumit.ui.selectPhoto(win, onPhotoSelect);
+    	// //onPhotoSelect();
+    // });ß
 
     var tabView = Yumit.ui.createtabbedNavigation({
       labels:[{title:'Following', enabled:true},

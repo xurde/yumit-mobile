@@ -63,12 +63,38 @@ var tab2 = Titanium.UI.createTab({
     // window:Yumit.ui.missing()
 });
 
+
+// //
+// // POSTING
+// //
+var win = new Window({
+      id: 'defaultWindow',
+      title:'Post',
+      backgroundColor: '#FFF'
+    });
+
+//Ti.UI.createWindow();
+var tab3 = Titanium.UI.createTab({
+    title:'Post',
+    icon:'images/photo.png',
+    window:win
+});
+
+tab3.icon = 'images/photo.png';
+win.addEventListener('focus', function() {
+	Yumit.ui.selectPhoto(tab3, function() {
+    	var nextWin = Yumit.ui.selectPlaceForm(tab3, photo);
+    	tab3.open(nextWin, {animated:true});
+    }) 
+});
+
 //
 //  add tabs
 //
 tabGroup.addTab(tab0);
 tabGroup.addTab(tab1);
 tabGroup.addTab(tab2);
+tabGroup.addTab(tab3);
 
 
 /////////////////////////////////////////////////////////
