@@ -5,27 +5,43 @@
       title:'Activity'
     });
 
-    var refresh_button = Titanium.UI.createButton({
-//      image:'images/photo.png'
-      systemButton:Titanium.UI.iPhone.SystemButton.REFRESH
-    });
-    win.rightNavButton = refresh_button;
+    // var refresh_button = Titanium.UI.createButton({
+// //      image:'images/photo.png'
+      // systemButton:Titanium.UI.iPhone.SystemButton.REFRESH
+    // });
+    // win.rightNavButton = refresh_button;
+//     
+    // refresh_button.addEventListener('click', function(e) {
+    // });
+//     
+//     
+     // var settings_button = Titanium.UI.createButton({
+      // image:'images/photo.png'
+    // });
+//    
+   // win.leftNavButton = settings_button;
+//     
+    // settings_button.addEventListener('click', function(e) {
+   		// win = Yumit.ui.settings();
+   		// win.open(); 
+    // });
+    Yumit.ui.currentTab = 0;
+    var refresh = function() {
+    	switch(Yumit.ui.currentTab) {
+    		case 0: 
+    				Ti.App.fireEvent("Yumit:ui:showLoading", {title : "Updating..."});				
+					Ti.App.fireEvent('Yumit:yums:getYumsFriends');
+    		break;
+    		case 1: Ti.App.fireEvent('Yumit:yums:getYumsNearby');
+    		break;
+    		default: alert('Unhandled Refresh:' + Yumit.ui.currentTab);
+    		break;
+    	}
+    	if (Yumit.ui.currentTab) {};
+    };
     
-    refresh_button.addEventListener('click', function(e) {
-    });
-    
-    
-     var settings_button = Titanium.UI.createButton({
-      image:'images/photo.png'
-    });
-   
-   win.leftNavButton = settings_button;
-    
-    settings_button.addEventListener('click', function(e) {
-   		win = Yumit.ui.settings();
-   		win.open(); 
-    });
-    
+    Yumit.ui.addNavButtons({win:win, refresh:refresh});
+
     var tabView = Yumit.ui.createtabbedNavigation({
       labels:[{title:'Following', enabled:true},
               {title:'Nearby', enabled:false}],
@@ -65,7 +81,8 @@
           Titanium.App.addEventListener('Yumit:yums:getYumsFriends', function() {
            Ti.API.info("get yums nearby triggered!");
              Yumit.model.Yum.getYumsFriends({
-               success: refresh_yums
+               success: refresh_yums,
+			   onfinish: Titanium.App.fireEvent("Yumit:ui:hideLoading")
              });
           });
 
@@ -110,11 +127,11 @@
 
             ///////////////////////
             // PSEUDO API
-            ///////////////////////
+            /////////////////////// 
 
 			Titanium.App.addEventListener('Yumit:yums:getYumsNearby', function() {
 				Ti.API.info("get yums nearby triggered!");
-				Titanium.App.fireEvent("Yumit:ui:showLoading", {title : "Loading..."});				
+				Titanium.App.fireEvent("Yumit:ui:showLoading", {title : "Updating..."});				
 				Yumit.model.Yum.getYumsNearby({
 					location : Yumit.current.latitude + "," + Yumit.current.longitude,
 					success : refresh_yums,
@@ -138,6 +155,8 @@
           space: {top:35,bottom:0,left:0,right:0}
         });
 		appFilmStrip.addEventListener('changeIndex', function(e) {
+			Yumit.ui.currentTab = e.idx;
+
 			if (e.idx == 1 && !Yumit.global.yumsNearbyLoaded) {
 				Ti.API.debug('\t>>>>appFilmStrip(yums):changeIndex:1:Loading Nearbyes');
 				Titanium.App.fireEvent('Yumit:yums:getYumsNearby');

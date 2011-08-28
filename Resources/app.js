@@ -40,7 +40,6 @@ var tab0 = Titanium.UI.createTab({
     //window:Yumit.ui.yums_activity()
     // window:Yumit.ui.missing()
 });
-
 tab0.window = Yumit.ui.yums_activity(tab0);
 
 //
@@ -67,26 +66,44 @@ var tab1 = Titanium.UI.createTab({
 // //
 // // POSTING
 // //
-var win = new Window({
-      id: 'defaultWindow',
-      title:'Post',
-      backgroundColor: '#FFF'
-    });
 
-//Ti.UI.createWindow();
-var tab3 = Titanium.UI.createTab({
-//    title:'Post',
-    icon:'images/photo.png',
-    window:win
-});
+	var win = new Window({
+		id : 'defaultWindow',
+		title : 'Post',
+		backgroundColor : '#FFF'
+	});
 
-tab3.icon = 'images/photo.png';
-win.addEventListener('focus', function() {
-	Yumit.ui.selectPhoto(tab3, function() {
-    	var nextWin = Yumit.ui.selectPlaceForm(tab3, photo);
-    	tab3.open(nextWin, {animated:true});
-    }) 
-});
+	var post = function() {
+		Yumit.ui.selectPhoto(tab3, function() {
+			var nextWin = Yumit.ui.selectPlaceForm(tab3, photo);
+			tab3.open(nextWin, {
+				animated : true
+			});
+		})
+	}
+	
+	Yumit.ui.addNavButtons({
+		win : win,
+		refresh : function() {post();}
+	});
+	//Ti.UI.createWindow();
+	var tab3 = Titanium.UI.createTab({
+		//    title:'Post',
+		icon : 'images/photo.png',
+		window : win
+	});
+
+	tab3.icon = 'images/photo.png';
+	win.addEventListener('focus', function() {
+		post();
+		// Yumit.ui.selectPhoto(tab3, function() {
+			// var nextWin = Yumit.ui.selectPlaceForm(tab3, photo);
+			// tab3.open(nextWin, {
+				// animated : true
+			// });
+		// })
+	});
+
 
 //
 //  add tabs

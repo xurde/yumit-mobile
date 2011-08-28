@@ -37,6 +37,7 @@
         token: Titanium.App.Properties.getString("token"),
         parameters: '',
         error: function(e,xhr) {
+		  if (_args.onfinish) { _args.onfinish(); }
           Yumit.ui.alert('Arguments', _args.error);
         },
         success: function(json,xhr) {
@@ -44,6 +45,7 @@
           for (var i=0,l=json.length;i<l;i++) {
             results.push(json[i].yum);
           }
+		  if (_args.onfinish) { _args.onfinish(); }
           if (_args.success) { _args.success(results); }
         }
       });
@@ -58,16 +60,16 @@
         action:Yumit.api_path+'/api/v0/yums/nearby.json',
         parameters: 'latlon='+params.location,
         error: function(e,xhr) {
-          Yumit.ui.alert('Arguments', _args.error);
 		  if (_args.onfinish) { _args.onfinish(); }
+          Yumit.ui.alert('Arguments', _args.error);
         },
         success: function(json,xhr) {
           var results = [];
           for (var i=0,l=json.length;i<l;i++) {
             results.push(json[i].yum);
           }
-          if (_args.success) { _args.success(results); }
 		  if (_args.onfinish) { _args.onfinish(); }
+          if (_args.success) { _args.success(results); }
         }
         });
     },

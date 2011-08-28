@@ -136,4 +136,32 @@ Yumit.ui ={};
 
 
 
+	Yumit.ui.addNavButtons = function(_arg) {
+
+		if(!_arg.win) {
+			return;
+		};
+
+		var settings_button = Titanium.UI.createButton({
+			image : 'images/photo.png'
+		});
+		settings_button.addEventListener('click', function(e) {
+			_arg.win = Yumit.ui.settings();
+			_arg.win.open();
+		});
+
+		_arg.win.leftNavButton = settings_button;
+
+		if(_arg.refresh) {
+			var refresh_button = Titanium.UI.createButton({
+				//      image:'images/photo.png'
+				systemButton : Titanium.UI.iPhone.SystemButton.REFRESH
+			});
+
+			refresh_button.addEventListener('click', function(){_arg.refresh();});
+			_arg.win.rightNavButton = refresh_button;
+		};
+
+	}
+
 })();
