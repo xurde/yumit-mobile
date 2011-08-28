@@ -30,6 +30,12 @@ Ti.include(
 );
 
 var tabGroup = Titanium.UI.createTabGroup();
+tabGroup.addEventListener('click', function(e) {
+	alert(tabGroup.activeTab);
+	if(tabGroup.activeTab == 1) {
+		post();
+	};
+});
 
 //
 // ACTIVITY
@@ -42,6 +48,9 @@ var tab0 = Titanium.UI.createTab({
 });
 tab0.window = Yumit.ui.yums_activity(tab0);
 
+tab0.window.addEventListener('focus', function() {
+	Yumit.ui.lastActiveTab = tab0;
+});
 //
 // PLACES
 //
@@ -52,6 +61,10 @@ var tab1 = Titanium.UI.createTab({
     window:Yumit.ui.places_list()
     // window:Yumit.ui.missing()
 });
+tab1.window.addEventListener('focus', function() {
+	Yumit.ui.lastActiveTab = tab1;
+});
+
 // //
 // // SETTINGS
 // //
@@ -96,6 +109,8 @@ var tab1 = Titanium.UI.createTab({
 	tab3.icon = 'images/photo.png';
 	win.addEventListener('focus', function() {
 		post();
+		tabGroup.setActiveTab(Yumit.ui.lastActiveTab||tab0);
+		
 		// Yumit.ui.selectPhoto(tab3, function() {
 			// var nextWin = Yumit.ui.selectPlaceForm(tab3, photo);
 			// tab3.open(nextWin, {
