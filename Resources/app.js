@@ -85,7 +85,7 @@ tab1.window.addEventListener('focus', function() {
 		title : 'Post',
 		backgroundColor : '#FFF'
 	});
-
+//win.add(Ti.UI.createLabel({}))
 	var post = function() {
 		Yumit.ui.selectPhoto(tab3, function() {
 			var nextWin = Yumit.ui.selectPlaceForm(tab3, photo);
@@ -95,10 +95,10 @@ tab1.window.addEventListener('focus', function() {
 		})
 	}
 	
-	Yumit.ui.addNavButtons({
-		win : win,
-		refresh : function() {post();}
-	});
+	// Yumit.ui.addNavButtons({
+		// win : win,
+		// refresh : function() {post();}
+	// });
 	//Ti.UI.createWindow();
 	var tab3 = Titanium.UI.createTab({
 		//    title:'Post',
