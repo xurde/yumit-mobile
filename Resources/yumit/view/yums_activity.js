@@ -40,7 +40,7 @@
     	if (Yumit.ui.currentTab) {};
     };
     
-    Yumit.ui.addNavButtons({win:win, refresh:refresh});
+    Yumit.ui.addNavButtons({win:win, refresh:refresh, tab:_tab});
 
     var tabView = Yumit.ui.createtabbedNavigation({
       labels:[{title:'Following', enabled:true},

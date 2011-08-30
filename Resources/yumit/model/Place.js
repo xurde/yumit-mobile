@@ -15,6 +15,7 @@
         params.query = _args.query;
       }
       params.location = _args.location;
+      //params.location = '-33.439028,-70.648059';
       script = '/nearby.json';
       if (_args.external) {
       	script = '/external.json';

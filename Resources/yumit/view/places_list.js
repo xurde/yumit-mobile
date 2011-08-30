@@ -8,7 +8,7 @@
   userLocation:true
   });
 
-  Yumit.ui.places_list = function(){
+  Yumit.ui.places_list = function(_tab){
     var win = new Window({
       id: 'defaultWindow',
       title:'Places'
@@ -34,17 +34,6 @@
     	
     };
     
-    var refresh = function() {
-    	
-		Yumit.global.placesNearbyLoaded = false;
-		appFilmStrip.fireEvent('changeIndex',{idx: 0});
-		win.fireEvent('open');
-				
-//		tabView.selsectIndex(0,function() {tabViewCallback(0);});
-    };
-    
-    Yumit.ui.addNavButtons({win:win, refresh:refresh});
-
     var tabView = Yumit.ui.createtabbedNavigation({
       top:0,
       labels:[{title:'List', enabled:true},
@@ -62,6 +51,17 @@
       }
     });
     
+    var refresh = function() {
+    	
+		Yumit.global.placesNearbyLoaded = false;
+		appFilmStrip.fireEvent('changeIndex',{idx: 0});
+		win.fireEvent('open');
+			
+//		tabView.selsectIndex(0,function() {tabViewCallback(0);});
+    };
+    
+    Yumit.ui.addNavButtons({win:win, refresh:refresh, tab:_tab});
+
     win.add(tabView);
 
     var search = Titanium.UI.createSearchBar({

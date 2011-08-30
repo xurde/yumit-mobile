@@ -56,11 +56,11 @@ tab0.window.addEventListener('focus', function() {
 //
 var tab1 = Titanium.UI.createTab({
     title:'Places',
-    icon:'images/places.png',
+    icon:'images/places_tab.png',
     //window:Yumit.ui.yum_form()
-    window:Yumit.ui.places_list()
     // window:Yumit.ui.missing()
 });
+tab1.window = Yumit.ui.places_list(tab1);
 tab1.window.addEventListener('focus', function() {
 	Yumit.ui.lastActiveTab = tab1;
 });

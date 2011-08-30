@@ -4,8 +4,8 @@
     var data = [
       {title:'Edit profile', hasChild:true, color:Yumit.constants.darkRed},
       {title:'Edit sharing settings', hasChild:true, color:Yumit.constants.darkRed},
-      {title:'Logout', color:Yumit.constants.darkRed},
-      {title:'Close', color:Yumit.constants.darkRed}
+      {title:'Logout', color:Yumit.constants.darkRed}//,
+      //{title:'Close', color:Yumit.constants.darkRed}
     ];
 
     // create table view
@@ -36,12 +36,17 @@
         login_window.open({modal:true});
       };
       
-      if (index == 3) {
-      	settings_window.close();
-      };
+      // if (index == 3) {
+      	// settings_window.close();
+      // };
       
     });
 
+	var backButton = Titanium.UI.createButton({
+      title: 'Back',
+      style: Titanium.UI.iPhone.SystemButtonStyle.PLAIN
+    });
+    
     // add table view to the window
     var settings_window = new Window({
       id: 'defaultWindow',
@@ -49,6 +54,11 @@
       backgroundColor:'#FFF'
     });
     settings_window.add(tableview);
+    settings_window.leftNavButton = backButton;
+    
+    backButton.addEventListener('click', function(){
+      settings_window.close();
+    });
 
     return settings_window;
   };
