@@ -140,7 +140,7 @@ Yumit.ui ={};
 		};
 
 		var settings_button = Titanium.UI.createButton({
-			image : 'images/gear.png'
+			image : 'images/gear2.png'
 		});
 		settings_button.addEventListener('click', function(e) {
 			_arg.win = Yumit.ui.settings();
@@ -152,8 +152,8 @@ Yumit.ui ={};
 
 		if(_arg.refresh) {
 			var refresh_button = Titanium.UI.createButton({
-		      image:'images/refresh_double.png'
-				//systemButton : Titanium.UI.iPhone.SystemButton.REFRESH
+		      //image:'images/refresh_double.png'
+			  systemButton : Titanium.UI.iPhone.SystemButton.REFRESH
 			});
 
 			refresh_button.addEventListener('click', function(){_arg.refresh();});

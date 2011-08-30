@@ -55,4 +55,5 @@
     return false;
   })();
 
+  Yumit.fakeLocation = '-33.439028,-70.648059';
 })();

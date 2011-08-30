@@ -55,6 +55,7 @@
     getYumsNearby: function(/*Object*/ _args) {
       var params={};
       params.location = _args.location;
+      //params.location = Yumit.fakeLocation;
       Yumit.model.request({
         method:'GET',
         action:Yumit.api_path+'/api/v0/yums/nearby.json',

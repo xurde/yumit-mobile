@@ -56,7 +56,7 @@ tab0.window.addEventListener('focus', function() {
 //
 var tab1 = Titanium.UI.createTab({
     title:'Places',
-    icon:'images/places_tab.png',
+    icon:'images/places.png',
     //window:Yumit.ui.yum_form()
     // window:Yumit.ui.missing()
 });
@@ -117,8 +117,10 @@ tab1.window.addEventListener('focus', function() {
 	win.rightNavButton = rightNavButton;
 
 	var tab3 = Titanium.UI.createTab({
-		//    title:'Post',
+		title:'Post',
 		icon : 'images/photo.png',
+		//icon: 'images/default.png',
+		//backgroundImage: 'images/default.png',
 		window : win
 	});
 
@@ -147,12 +149,15 @@ tabGroup.addTab(tab1);
 
 
 /////////////////////////////////////////////////////////
-if (Titanium.App.Properties.hasProperty("username")==0) {
+if (Titanium.App.Properties.hasProperty("token")==0) {
   var login_window = Yumit.ui.login();
   login_window.open({modal:true});
 } else {
   Titanium.App.fireEvent('Yumit:yums:getYumsFriends');
-  tabGroup.open();
+  //tabGroup.open();
+  setTimeout(function(){
+    tabGroup.open();
+  }, 500);
 };
 Titanium.Facebook.appid = "336361767890";
 Titanium.Facebook.permissions = ['publish_stream', 'read_stream'];
