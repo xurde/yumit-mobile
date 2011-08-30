@@ -15,9 +15,13 @@
         params.query = _args.query;
       }
       params.location = _args.location;
+      script = '/nearby.json';
+      if (_args.external) {
+      	script = '/external.json';
+      }
       Yumit.model.request({
         method:'GET',
-        action:Yumit.api_path+'/api/v0/places/nearby.json',
+        action:Yumit.api_path+'/api/v0/places'+script,
         parameters: 'latlon='+params.location+'&query='+params.query,
         error: function(e,xhr) {
           if (_args.onfinish) { _args.onfinish(); };

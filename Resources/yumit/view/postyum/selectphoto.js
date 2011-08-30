@@ -14,8 +14,8 @@
 	        case 1:
 	          chooseFromGallery();
 	          break;
-	        case event.destructive:
-	          alert("cancel");
+	        case event.cancel:
+	          //alert("cancel");
 	          break;
 	      };
 	    };

@@ -85,28 +85,45 @@ tab1.window.addEventListener('focus', function() {
 		title : 'Post',
 		backgroundColor : '#FFF'
 	});
-//win.add(Ti.UI.createLabel({}))
+
 	var post = function() {
-		Yumit.ui.selectPhoto(tab3, function() {
-			var nextWin = Yumit.ui.selectPlaceForm(tab3, photo);
-			tab3.open(nextWin, {
+		Yumit.ui.selectPhoto(Yumit.ui.lastActiveTab, function(photo) {
+			var nextWin = Yumit.ui.selectPlaceForm(Yumit.ui.lastActiveTab, photo);
+			Yumit.ui.lastActiveTab.open(nextWin, {
 				animated : true
 			});
 		})
-	}
-	
-	// Yumit.ui.addNavButtons({
-		// win : win,
-		// refresh : function() {post();}
-	// });
-	//Ti.UI.createWindow();
+	};
+
+	var leftNavButton = Titanium.UI.createButton({
+
+		title : 'Activity',
+		image : 'images/activity.png',
+	});
+	leftNavButton.addEventListener('click', function(e) {
+		tabGroup.setActiveTab(tab0);
+	});
+
+	win.leftNavButton = leftNavButton;
+
+	var rightNavButton = Titanium.UI.createButton({
+		title : 'Places',
+		icon : 'images/places.png',
+	});
+
+	rightNavButton.addEventListener('click', function() {
+		tabGroup.setActiveTab(tab3);
+	});
+	win.rightNavButton = rightNavButton;
+
 	var tab3 = Titanium.UI.createTab({
 		//    title:'Post',
 		icon : 'images/photo.png',
 		window : win
 	});
 
-	tab3.icon = 'images/photo.png';
+	//win.hide();
+	//tab3.icon = 'images/photo.png';
 	win.addEventListener('focus', function() {
 		post();
 		tabGroup.setActiveTab(Yumit.ui.lastActiveTab||tab0);

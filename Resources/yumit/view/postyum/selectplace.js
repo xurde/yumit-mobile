@@ -43,7 +43,8 @@
 	    	Yumit.model.Place.getPlacesNearby({
 				success: onSuccessSearch,
 				location: Yumit.current.latitude + ',' + Yumit.current.longitude,
-				query: search.value
+				query: search.value,
+				external: true
 			});
 	    }
 		
