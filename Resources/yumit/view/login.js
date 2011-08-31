@@ -45,6 +45,7 @@
     });
     usernameField.addEventListener('return', function() {
       usernameField.blur();
+      passwordField.focus();
     });
     usernameField.addEventListener('change', function(e) {
       usernameValue = e.value;
@@ -65,6 +66,7 @@
     });
     passwordField.addEventListener('return', function() {
       passwordField.blur();
+      loginButton.fireEvent('click');
     });
     passwordField.addEventListener('change', function(e) {
       passwordValue = e.value;
@@ -132,14 +134,16 @@
           Titanium.App.Properties.setString("token",token);
           Titanium.App.fireEvent("Yumit:ui:hideLoading");
           Titanium.App.fireEvent('Yumit:yums:getYumsFriends');
-          setTimeout(function(){
+          setTimeout(function() {
+            tabGroup.setActiveTab({indexOrObject: 0});
+            Titanium.App.fireEvent('Yumit:login');
             login_win.close({opacity:0,duration:500});
             tabGroup.open();
           }, 500);
         },
         error: function(){
           Titanium.App.fireEvent("Yumit:ui:hideLoading");
-          alert("nooooooo");
+          alert("Wrong user name and/or password");
         }
       });
     });

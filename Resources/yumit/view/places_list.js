@@ -52,12 +52,9 @@
     });
     
     var refresh = function() {
-    	
 		Yumit.global.placesNearbyLoaded = false;
-		appFilmStrip.fireEvent('changeIndex',{idx: 0});
+		tabView.children[0].fireEvent('changeToIt');
 		win.fireEvent('open');
-			
-//		tabView.selsectIndex(0,function() {tabViewCallback(0);});
     };
     
     Yumit.ui.addNavButtons({win:win, refresh:refresh, tab:_tab});
