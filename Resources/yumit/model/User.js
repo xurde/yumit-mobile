@@ -56,12 +56,10 @@
             + ', email: ' + _args.email);
         xhr.open('POST',Yumit.api_path+'/api/v0/user/create.json');
         xhr.send({
-            user: {
-            	login: _args.userName,
-            	password: _args.password,
-            	password_confirmation: _args.confirmPassword,
-            	email: _args.email
-            }
+            login: _args.userName,
+            password: _args.password,
+            password_confirmation: _args.confirmPassword,
+            email: _args.email
         });
     }
 

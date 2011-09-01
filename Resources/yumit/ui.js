@@ -156,8 +156,15 @@ Yumit.ui ={};
 			  systemButton : Titanium.UI.iPhone.SystemButton.REFRESH
 			});
 
-			refresh_button.addEventListener('click', function(){_arg.refresh();});
+			refresh_button.addEventListener('click', function(){
+				refresh_button.enabled = false;				
+				_arg.refresh();
+			});
 			_arg.win.rightNavButton = refresh_button;
+			
+			Ti.App.addEventListener("Yumit:ui:hideLoading", function() {
+			    refresh_button.enabled = true;
+			});
 		};
 
 	}
