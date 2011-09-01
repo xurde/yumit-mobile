@@ -87,10 +87,11 @@
       spacing = 6,
       imgDimensions = 45,
       nameHeight = 18,
-      metaHeight = 14;
+      metaHeight = 14,
+      imagePath = _yum.user_photo_url || 'images/user-avatar-thumb.png';
       var icon = new ImageView({
        id:'defaultImageView',
-       image: _yum.user_photo_url
+       image: imagePath
       });
       row.add(icon);
 
