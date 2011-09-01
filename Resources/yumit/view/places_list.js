@@ -151,7 +151,7 @@
       Yumit.model.Place.getPlacesNearby({
         location: Yumit.current.latitude + "," + Yumit.current.longitude,
         success: refresh_places,
-        onfinish: Titanium.App.fireEvent("Yumit:ui:hideLoading")
+        onfinish: function(){ Titanium.App.fireEvent("Yumit:ui:hideLoading"); }
 
       });
     });
