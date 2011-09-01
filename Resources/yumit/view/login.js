@@ -116,6 +116,18 @@
     container.add(createLabel);
     container.add(createAccountButton);
 
+ 	var onSuccessLogin = function(token){
+    	Titanium.App.Properties.setString("token",token);
+          Titanium.App.fireEvent("Yumit:ui:hideLoading");
+          Titanium.App.fireEvent('Yumit:yums:getYumsFriends');
+          setTimeout(function() {
+            tabGroup.setActiveTab({indexOrObject: 0});
+            Titanium.App.fireEvent('Yumit:login');
+            login_win.close({opacity:0,duration:500});
+            tabGroup.open();
+          }, 500);
+    }
+
     loginButton.addEventListener("click", function(e) {
       passwordField.blur();
       Titanium.App.fireEvent("Yumit:ui:showLoading",{title:"Connecting"});
@@ -131,23 +143,16 @@
       Yumit.model.User.login({
         username: usernameValue,
         password: passwordValue,
-        success: function(token){
-          Titanium.App.Properties.setString("token",token);
-          Titanium.App.fireEvent("Yumit:ui:hideLoading");
-          Titanium.App.fireEvent('Yumit:yums:getYumsFriends');
-          setTimeout(function() {
-            tabGroup.setActiveTab({indexOrObject: 0});
-            Titanium.App.fireEvent('Yumit:login');
-            login_win.close({opacity:0,duration:500});
-            tabGroup.open();
-          }, 500);
-        },
+        success: onSuccessLogin,
         error: function(){
           Titanium.App.fireEvent("Yumit:ui:hideLoading");
           alert("Wrong user name and/or password");
         }
       });
     });
+    
+   
+    
 
     // addButton.addEventListener('click', function() {
     //   Titanium.App.fireEvent("Yumit:ui:showLoading",{title:"Connecting"});

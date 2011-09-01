@@ -90,7 +90,7 @@
                 Ti.API.info("get yums nearby triggered!");
                 Yumit.model.Yum.getYumsFriends({
                     success: refresh_yums,
-			        onfinish: Titanium.App.fireEvent("Yumit:ui:hideLoading")
+			        onfinish: function(){ Titanium.App.fireEvent("Yumit:ui:hideLoading"); }
                 });
             });
             
@@ -144,7 +144,7 @@
 				Yumit.model.Yum.getYumsNearby({
 					location : Yumit.current.latitude + "," + Yumit.current.longitude,
 					success : refresh_yums,
-					onfinish: Titanium.App.fireEvent("Yumit:ui:hideLoading")
+					onfinish: function(){ Titanium.App.fireEvent("Yumit:ui:hideLoading"); }
 				});          
 			});
 
