@@ -132,14 +132,24 @@
         });
         
         twitterIcon.addEventListener('click',function(e){
-            if (Ti.App.Properties.BH.authorized()){
-                Ti.App.Properties.BH.send_tweet("status="+escape('lahore,dish'),function(e){
-                    alert("Yum shared successfuly.");
+        	var makeTweet = function(){
+        		var message = description.value + ' (' + _dish.name + ' in ' + _place.name + ')';        		
+        		Ti.App.Properties.BH.tweet(message, function(e){
+                    alert("success: " + e);
                 });
+        	}   
+        	
+            if (Ti.App.Properties.BH.authorized()){
+            	makeTweet();
             } else {
-                Ti.App.Properties.BH.authorize();
+                Ti.App.Properties.BH.authorize(function(e){                	
+                	if(e != false){
+                		makeTweet();
+                	} else {
+                		alert("authorization failed");
+                	}   
+                });                
             }
-        
         });
         
         
