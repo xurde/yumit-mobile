@@ -16,7 +16,8 @@ Yumit.model = {};
 
     xhr.onload = function(){
       try {
-        if(this.responseText.match(/html xmlns/)){
+      	//alert(this.responseText);
+        if(this.responseText.match(/(html|xmlns)/)){
           Yumit.ui.alert('Yumit Error', 'Error while parsing response from API Server');
           Ti.API.error('Yumit Error: '+this.responseText);
           return;

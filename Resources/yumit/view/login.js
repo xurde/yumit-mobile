@@ -103,9 +103,10 @@
       width:250,
       height:47
     });
-    createAccountButton.addEventListener("click", function() {
-      login_win.close({opacity:0,duration:500});
-      tabGroup.open();
+    createAccountButton.addEventListener('click', function() {
+        login_win.close({opacity:0,duration:500});
+        var registrationWindow = Yumit.ui.register();
+        registrationWindow.open();
     });
 
     container.add(loginLabel);
