@@ -22,6 +22,7 @@ Ti.include(
   '/yumit/view/yum_form.js',
   '/yumit/view/yums_activity.js',
   '/yumit/view/settings.js',
+  '/yumit/view/register.js',
   '/yumit/view/login.js',
   '/yumit/view/missing.js',
   '/yumit/view/postyum/selectphoto.js',
@@ -151,7 +152,7 @@ tabGroup.addTab(tab1);
 /////////////////////////////////////////////////////////
 if (Titanium.App.Properties.hasProperty("token")==0) {
   var login_window = Yumit.ui.login();
-  login_window.open({modal:true});
+  login_window.open();//{modal:true});
 } else {
   Titanium.App.fireEvent('Yumit:yums:getYumsFriends');
   //tabGroup.open();
@@ -160,7 +161,7 @@ if (Titanium.App.Properties.hasProperty("token")==0) {
   }, 500);
 };
 Titanium.Facebook.appid = "336361767890";
-Titanium.Facebook.permissions = ['publish_stream', 'read_stream'];
+Titanium.Facebook.permissions = ['publish_stream'];
 
 Ti.App.Properties.searchType = 0;
 

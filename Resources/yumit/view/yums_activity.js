@@ -68,6 +68,7 @@
             });
 
             var refresh_yums = function(yums) {
+            	// alert(yums);
                 var tvData = [];
                 for (var i=0,l=yums.length;i<l;i++) {
                     tvData.push(Yumit.model.Yum.createYumRow(yums[i]));
@@ -75,12 +76,8 @@
                 tableView.setData(tvData);
             };
 
-            tableView.addEventListener('click',function(e) {
-            //alert("CLICK");
-            // var _yum = e.rowData;
-            // var win = Yumit.ui.yum(_yum);
-            // tabGroup.activeTab.open(win,{animated:true});
-            });
+            tableView.allowsSelection = false;
+
 
           ///////////////////////
           // PSEUDO API
@@ -127,12 +124,7 @@
                 tableView.setData(tvData);
             };
 
-            tableView.addEventListener('click',function(e) {
-              //alert("CLICK");
-              // var _yum = e.rowData;
-              // var win = Yumit.ui.yum(_yum);
-              // tabGroup.activeTab.open(win,{animated:true});
-            });
+			tableView.allowsSelection = false;
 
             ///////////////////////
             // PSEUDO API

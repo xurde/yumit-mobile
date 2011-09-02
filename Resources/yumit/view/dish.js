@@ -18,7 +18,8 @@
       height:imgDimensions,
       width:imgDimensions,
       borderRadius:5,
-      image: _dish.dish_photo
+      defaultImage:'images/place-default-thumb.png',
+      image: _place.icon || 'images/place-default-thumb.png'//_dish.dish_photo
     });
     winview.add(avatar);
 
@@ -208,7 +209,8 @@
      		
      		var userIcon = new ImageView({
 		       id:'defaultImageView',
-		       image: yum.user_photo_url
+		       defaultImage: 'images/user-avatar-thumb.png',
+		       image: yum.user_photo_url || 'images/user-avatar-thumb.png'
 		    });
 		    row.add(userIcon);
 		    
@@ -244,7 +246,8 @@
       		
       		var yumImage = new ImageView({
        			id:'yumImageView',
-       			image: yum.photo_url_big
+       			defaultImage:'images/dish-default-big.png',
+       			image: yum.photo_url_big || 'images/dish-default-big.png'
       		});
       		row.add(yumImage);
       		

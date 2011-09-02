@@ -120,14 +120,49 @@
             image:'images/flickr.png'
         });
         
-        
         facebookIcon.addEventListener('click',function(e){
             //alert("Login to Facebook first");
-            if(Titanium.Facebook.loggedIn){
-                alert("Posting functionality is under progress!!");
+            var makePost = function() {
+            	// alert("Posting functionality is under progress!!");
+            	var data = {
+            		link: "https://developer.mozilla.org/en/JavaScript",
+	                name: "Best online Javascript reference",
+	                message: "Use Mozilla's online Javascript reference",
+	                caption: "MDN Javascript Reference",
+	                picture: "https://developer.mozilla.org/media/img/mdn-logo.png",
+	                description: "This section is dedicated to JavaScript..."
+                    // picture: "http://yumit.com/system/photos/15442/full/photo.jpg?1314715661"//_photo
+                };
+            	Titanium.Facebook.requestWithGraphPath('me/feed', data, 'POST', function(e) {
+            	//Titanium.Facebook.dialog('feed', function(e) {           
+            	    if (e.success) {
+                        alert("Success!  From FB: " + e.result);
+                    } else {
+                        if (e.error) {
+                            alert(e.error);
+                        } else if (e.cancelled) {
+                            alert('Cancelled');
+                        } else {
+                            alert("Unkown result");
+                        }
+                    }
+            	});
+            }
+            
+            Titanium.Facebook.addEventListener('login', function(e) {
+        	    if (e.cancelled) {
+        	        alert('Login cancelled');
+        	    } else if (e.success) {
+                	makePost();
+                } else {
+           	        alert(e.error);
+                }
+            });
+            
+            if(Titanium.Facebook.loggedIn == true){                
+                makePost();
             }else{
-                Titanium.Facebook.authorize();
-                    
+                Titanium.Facebook.authorize();   
             }
         });
         
@@ -152,7 +187,17 @@
             }
         });
         
-        
+        foursquareIcon.addEventListener('click',function(e){
+        	alert('logout');
+        	// Titanium.Facebook.addEventListener('logout', function(e) {
+        	    // if (e.success) {
+        	    	// alert("FB logout secceed");
+        	    // } else {
+        	    	// alert("FB logout error");
+        	    // }
+        	// });
+            Titanium.Facebook.logout();
+        });
         
 
         ////////////////////////////////////////////////////////////////////////////////////////

@@ -18,7 +18,8 @@
       height:imgDimensions,
       width:imgDimensions,
       borderRadius:5,
-      image: 'http://foursquare.com/img/categories/food/default.png'
+      defaultImage:'images/place-default-thumb.png',
+      image: _place.icon || 'images/place-default-thumb.png'//'http://foursquare.com/img/categories/food/default.png'
     });
     winview.add(avatar);
 

@@ -29,6 +29,7 @@
    left:Yumit.constants.spacing,
    height:305,
    width:305,
+   defaultImage:'/images/dish-default-big.png',
    borderRadius:0
 }
 #yumLabelTags {

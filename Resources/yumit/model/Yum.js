@@ -88,11 +88,11 @@
       imgDimensions = 45,
       nameHeight = 18,
       metaHeight = 14;
-      imagePath = _yum.user_avatar_url || 'images/user-avatar-thumb.png';
       
       var icon = new ImageView({
        id:'defaultImageView',
-       image: imagePath
+       defaultImage:'/images/user-avatar-thumb.png',
+       image: _yum.user_avatar_url || 'images/user-avatar-thumb.png'
       });
       row.add(icon);
 

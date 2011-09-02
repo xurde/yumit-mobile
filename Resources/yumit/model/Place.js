@@ -98,7 +98,8 @@
 
       var icon = new ImageView({
         id:'defaultImageView',
-        image: _place.icon
+        defaultImage:'images/place-default-thumb.png',
+        image: _place.icon || 'images/place-default-thumb.png'
       });
       row.add(icon);
 
@@ -136,7 +137,11 @@
         dish_yums_count:_dish.count
       });
 
-      var icon = new ImageView({id:'defaultImageView', image:_dish.photo });
+      var icon = new ImageView({
+      	  id:'defaultImageView',
+      	  defaultImage:'/images/dish-default-thumb.png', 
+      	  image:_dish.photo 
+      });
       row.add(icon);
 
       var name = new Label({
