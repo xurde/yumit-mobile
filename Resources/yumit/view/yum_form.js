@@ -130,20 +130,20 @@
 	                message: "Use Mozilla's online Javascript reference",
 	                caption: "MDN Javascript Reference",
 	                picture: "https://developer.mozilla.org/media/img/mdn-logo.png",
-	                description: "This section is dedicated to JavaScript..."
-                    // picture: "http://yumit.com/system/photos/15442/full/photo.jpg?1314715661"//_photo
+	                description: "This section is dedicated to JavaScript..."      
                 };
-            	Titanium.Facebook.requestWithGraphPath('me/feed', data, 'POST', function(e) {
-            	//Titanium.Facebook.dialog('feed', function(e) {           
+            	//Titanium.Facebook.requestWithGraphPath('me/feed', data, "POST", function(e) {
+            	Titanium.Facebook.dialog('feed', data, function(e) {           
             	    if (e.success) {
-                        alert("Success!  From FB: " + e.result);
+                        // alert("Success!  From FB: " + e.result);
+                        alert('Posting succeed.');
                     } else {
                         if (e.error) {
-                            alert(e.error);
+                            alert("Posting failed: " + e.error);
                         } else if (e.cancelled) {
-                            alert('Cancelled');
+                            // alert('Cancelled');
                         } else {
-                            alert("Unkown result");
+                            // alert("Unkown result");
                         }
                     }
             	});
@@ -151,11 +151,11 @@
             
             Titanium.Facebook.addEventListener('login', function(e) {
         	    if (e.cancelled) {
-        	        alert('Login cancelled');
+        	        //TODO handle cancellation
         	    } else if (e.success) {
                 	makePost();
                 } else {
-           	        alert(e.error);
+           	        alert("Authorization failed: " + e.error);
                 }
             });
             
