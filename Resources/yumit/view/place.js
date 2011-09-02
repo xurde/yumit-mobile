@@ -94,6 +94,7 @@
 
     var refresh_dishes = function(dishes) {
       var dishData = [];
+      tabView.children[0].children[0].text = "Dishes ("+dishes.length+")";
       for (var i=0,l=dishes.length;i<l;i++) {
         dishData.push(Yumit.model.Place.createDishRow(dishes[i]));
       }
@@ -314,6 +315,7 @@ function users(){
 
     var refresh_users = function(users) {
       var userData = [];
+      tabView.children[1].children[0].text = "Users ("+users.length+")";
       for (var i=0,l=users.length;i<l;i++) {
         userData.push(Yumit.model.Place.createUserRow(users[i]));
       }

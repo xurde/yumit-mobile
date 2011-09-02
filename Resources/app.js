@@ -161,7 +161,7 @@ if (Titanium.App.Properties.hasProperty("token")==0) {
   }, 500);
 };
 Titanium.Facebook.appid = "336361767890";
-Titanium.Facebook.permissions = ['publish_stream'];
+Titanium.Facebook.permissions = ['publish_stream', 'read_stream', 'offline_access'];
 
 Ti.App.Properties.searchType = 0;
 
