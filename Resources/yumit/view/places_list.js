@@ -1,11 +1,11 @@
 (function(){
   Yumit.ui.mapview = Titanium.Map.createView({
-    mapType: Titanium.Map.STANDARD_TYPE,
-    //TODO change region for the region around a guessed user location instead
-    //region: {latitude:-33.441779525,longitude:-70.6503987,latitudeDelta:0.0025, longitudeDelta:0.0045},
-    animate:true,
-    regionFit:true,
-  userLocation:true
+      mapType: Titanium.Map.STANDARD_TYPE,
+      //TODO change region for the region around a guessed user location instead
+      //region: {latitude:-33.441779525,longitude:-70.6503987,latitudeDelta:0.0025, longitudeDelta:0.0045},
+      animate:true,
+      regionFit:true,
+      userLocation:true
   });
 
   Yumit.ui.places_list = function(_tab){
@@ -146,6 +146,8 @@
       var zoomregion = { latitude: Yumit.current.latitude, longitude:Yumit.current.longitude,
                          latitudeDelta:0.0022, longitudeDelta:0.0012 };
       Yumit.ui.mapview.region = zoomregion;
+      // var santiago = {latitude:-33.439028,longitude:-70.648059,latitudeDelta:0.010, longitudeDelta:0.018};
+      // Yumit.ui.mapview.region = santiago;
       Yumit.ui.mapview.top = 10;
 
       Yumit.model.Place.getPlacesNearby({
