@@ -29,17 +29,18 @@
 		});
 		win.add(table);
 		
-		
+		var isPreviewSearchFinished = true;
 		var onSuccessSearch = function(places){
 			var data = [];
 			for (var i=0; i < places.length; i++) {
-				data[i] = {title: places[i].name,
-						   placeData: places[i]};
+				//data[i] = {title: places[i].name, placeData: places[i]};
+				data.push(Yumit.model.Place.createPostPlaceRow(places[i]));
 			}
 			table.setData(data);
+			isPreviewSearchFinished = true;
 		}
 	    
-	    function makeRequest() {
+	    function makeRequest(_query) {
 	    	Yumit.model.Place.getPlacesNearby({
 				success: onSuccessSearch,
 				location: Yumit.current.latitude + ',' + Yumit.current.longitude,
@@ -55,9 +56,14 @@
 		search.addEventListener('cancel', function(e){
 			search.blur();
 		});
-		
+	
 		search.addEventListener('change', function(e){
-			makeRequest();
+			if (isPreviewSearchFinished) {
+			    isPreviewSearchFinished = false;
+			    setTimeout(function() {
+			        makeRequest();
+			    }, 500);
+			}
 		});
 		
 		var closeFunction = function() {

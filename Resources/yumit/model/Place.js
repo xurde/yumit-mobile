@@ -123,6 +123,33 @@
 
       return row;
     },
+    
+    createPostPlaceRow: function(_place) {
+        var row = Ti.UI.createTableViewRow({
+            backgroundColor: "#FFF",
+            backgroundSelectedColor: Yumit.constants.grayColor,
+            height: 50,
+            placeData: _place
+        });
+        
+        var name = new Label({
+            id: 'labelBold',
+            left: 15,
+            font: {fontSize: 16},
+            text: _place.name
+        });
+        
+        var address = new Label({
+            id: 'labelNormal',
+            left: 15,
+            text: _place.location.json.address || ""
+        });
+        
+        row.add(name);
+        row.add(address);
+        
+        return row;
+    },
 
     //create a place row from the given data from yumit
     createDishRow: function(_dish) {
@@ -136,11 +163,11 @@
         dish_category_name:_dish.category_name,
         dish_yums_count:_dish.count
       });
-
+      
       var icon = new ImageView({
       	  id:'defaultImageView',
       	  defaultImage:'/images/dish-default-thumb.png', 
-      	  image:_dish.photo 
+      	  image:_dish.top_photo_url||'/images/dish-default-thumb.png'//photo 
       });
       row.add(icon);
 
@@ -174,12 +201,16 @@
         //height:Yumit.constants.spacing*2+Yumit.constants.imgDimensions+5,
         user_id: _user.id,
         user_login: _user.login,
-        user_photo:_user.photo_url_thumb,
+        user_photo:_user.avatar_url_thumb||'images/user-avatar-thumb.png',//photo_url_thumb,
         user_name:_user.name,
         user_yums_count:_user.yums_count
       });
 
-      var icon = new ImageView({id:'defaultImageView', image:_user.photo_url_thumb });
+      var icon = new ImageView({
+      	  id:'defaultImageView', 
+      	  defaultImage:'images/user-avatar-thumb.png',
+      	  image:_user.avatar_url_thumb||'images/user-avatar-thumb.png'//photo_url_thumb 
+      });
       row.add(icon);
 
       var login = new Label({

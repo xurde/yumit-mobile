@@ -86,35 +86,26 @@
       Yumit.current.places_annotations = mapData;
       table_list.scrollToIndex(0,{animated:true});
     };
-
-    search.addEventListener('change', function(e) {
-      // return e.value;
-      // Titanium.API.info('search bar: you type ' + e.value + ' act val ' + search.value);
-    });
-
-    search.addEventListener('blur', function(e) {
-      Titanium.API.info('BLUR');
-      return e.value;
-    });
+    
+    var makeRequest = function(e) {
+        Yumit.model.Place.getPlacesNearby({
+      	    location: Yumit.current.latitude + ',' + Yumit.current.longitude,
+            query: search.value,
+            success: function(places){
+                refresh_places(places);
+            }
+        });
+    };
 
     search.addEventListener('return', function(e) {
-      Titanium.API.info('RETURN');
+      //Titanium.API.info('RETURN');
       search.blur();
-      Yumit.model.Place.getPlacesNearby({
-        query:e.value,
-        success:function(places){
-          refresh_places(places);
-        }
-      });
-      return e.value;
+      makeRequest();
     });
 
     search.addEventListener('cancel', function(e) {
-      Titanium.API.info('CANCEL');
-    });
-
-    search.addEventListener('focus', function(e) {
-       Titanium.API.info('FOCUS');
+      //Titanium.API.info('CANCEL');
+      search.blur();
     });
 
 
