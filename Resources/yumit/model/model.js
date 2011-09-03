@@ -23,18 +23,21 @@ Yumit.model = {};
           return;
         }
         var jsonReply = JSON.parse(this.responseText);
+        if (jsonReply.success === "false") {
+        	if (jsonReply.message.match("token")) {
+            	alert(jsonReply.message);
+            	Titanium.App.Properties.removeProperty("token");
+                var login_window = Yumit.ui.login();
+                login_window.open();
+                return;
+            }
+        }
 
         //w00t!
         if (_params.success) {
             _params.success(jsonReply,xhr);
-        } else {
-            if (_params.message.match("token")) {
-            	alert(_params.message);
-            	Titanium.App.Properties.removeProperty("token");
-                var login_window = Yumit.ui.login();
-                login_window.open();
-            }
         }
+        
       } catch(exception) {
         Ti.API.error('Yumit Error: '+this.responseText);
         Ti.API.error('Exception: '+exception);
