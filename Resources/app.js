@@ -24,6 +24,7 @@ Ti.include(
   '/yumit/view/settings.js',
   '/yumit/view/register.js',
   '/yumit/view/login.js',
+  '/yumit/view/post.js',
   '/yumit/view/missing.js',
   '/yumit/view/postyum/selectphoto.js',
   '/yumit/view/postyum/selectplace.js',
@@ -81,64 +82,15 @@ tab1.window.addEventListener('focus', function() {
 // // POSTING
 // //
 
-	var win = new Window({
-		id : 'defaultWindow',
-		title : 'Post',
-		backgroundColor : '#FFF'
-	});
+var tab3 = Titanium.UI.createTab({
+    title:'Post',
+	icon : 'images/photo.png',
+	//icon: 'images/default.png',
+	//backgroundImage: 'images/default.png',
+	//window : win
+});
 
-	var post = function() {
-		Yumit.ui.selectPhoto(Yumit.ui.lastActiveTab, function(photo) {
-			var nextWin = Yumit.ui.selectPlaceForm(Yumit.ui.lastActiveTab, photo);
-			Yumit.ui.lastActiveTab.open(nextWin, {
-				animated : true
-			});
-		})
-	};
-
-	var leftNavButton = Titanium.UI.createButton({
-
-		title : 'Activity',
-		image : 'images/activity.png',
-	});
-	leftNavButton.addEventListener('click', function(e) {
-		tabGroup.setActiveTab(tab0);
-	});
-
-	win.leftNavButton = leftNavButton;
-
-	var rightNavButton = Titanium.UI.createButton({
-		title : 'Places',
-		icon : 'images/places.png',
-	});
-
-	rightNavButton.addEventListener('click', function() {
-		tabGroup.setActiveTab(tab3);
-	});
-	win.rightNavButton = rightNavButton;
-
-	var tab3 = Titanium.UI.createTab({
-		title:'Post',
-		icon : 'images/photo.png',
-		//icon: 'images/default.png',
-		//backgroundImage: 'images/default.png',
-		window : win
-	});
-
-	//win.hide();
-	//tab3.icon = 'images/photo.png';
-	win.addEventListener('focus', function() {
-		post();
-		tabGroup.setActiveTab(Yumit.ui.lastActiveTab||tab0);
-		
-		// Yumit.ui.selectPhoto(tab3, function() {
-			// var nextWin = Yumit.ui.selectPlaceForm(tab3, photo);
-			// tab3.open(nextWin, {
-				// animated : true
-			// });
-		// })
-	});
-
+tab3.window = Yumit.ui.createPostWindow();
 
 //
 //  add tabs
@@ -151,14 +103,14 @@ tabGroup.addTab(tab1);
 
 /////////////////////////////////////////////////////////
 if (Titanium.App.Properties.hasProperty("token")==0) {
-  var login_window = Yumit.ui.login();
-  login_window.open();//{modal:true});
+    var login_window = Yumit.ui.login();
+    login_window.open();//{modal:true});
 } else {
-  Titanium.App.fireEvent('Yumit:yums:getYumsFriends');
-  //tabGroup.open();
-  setTimeout(function(){
-    tabGroup.open();
-  }, 500);
+    Titanium.App.fireEvent("Yumit:ui:showLoading",{title:"Connecting"});
+    Titanium.App.fireEvent('Yumit:yums:getYumsFriends');
+    setTimeout(function(){
+        tabGroup.open();
+    }, 500);
 };
 Titanium.Facebook.appid = "336361767890";
 Titanium.Facebook.permissions = ['publish_stream', 'read_stream', 'offline_access'];
