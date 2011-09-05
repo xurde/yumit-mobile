@@ -2,68 +2,94 @@
   Yumit.ui.dish = function(_place, _dish){
     var win = new Window({
       id: 'defaultWindow',
-      title:'Dish'
+      title:'Yums'
     });
 
-    var winview = Ti.UI.createView({top:0, backgroundColor:'#fff'});
+    var winview = Ti.UI.createView({top:0, backgroundColor:'#dddddd'});
 
     var spacing = 6,
         imgDimensions = 45,
         nameHeight = 16,
         metaHeight = 14;
 
-    var avatar = Ti.UI.createImageView({
-      top:spacing,
-      left:spacing,
-      height:imgDimensions,
-      width:imgDimensions,
-      borderRadius:5,
-      defaultImage:'images/place-default-thumb.png',
-      image: _place.icon || 'images/place-default-thumb.png'//_dish.dish_photo
-    });
+    // var avatar = Ti.UI.createImageView({
+      // top:spacing,
+      // left:spacing,
+      // height:imgDimensions,
+      // width:imgDimensions,
+      // borderRadius:5,
+      // defaultImage:'images/place-default-thumb.png',
+      // image: _place.icon || 'images/place-default-thumb.png'//_dish.dish_photo
+    // });
+    var avatar = new ImageView({
+    	id:'defaultImageView',
+    	defaultImage:'images/place-default-thumb.png',
+        image: _place.icon || 'images/place-default-thumb.png'
+    })
     winview.add(avatar);
 
     var avatarOffset = spacing*2+imgDimensions;
 
-    var placeName = Ti.UI.createLabel({
-      color:'#000000',
-      font: {
-        fontFamily:Yumit.constants.fontFamily,
-        fontSize:12,
-        fontWeight:'bold'
-      },
-      text: _place.place_name,
-      top:spacing,
-      left:avatarOffset,
-      height:nameHeight
+    var placeName = new Label({
+    	id:'labelBold',
+    	text:_place.place_name
     });
     winview.add(placeName);
     
-    var dish_name = Ti.UI.createLabel({
-      color: '#990000',
-      font: {
-        fontFamily: Yumit.constants.fontFamily,
-        fontSize: 12,
-        fontWeight: 'bold'
-      },
-      text: (_dish.dish_name.length > 25) ? _dish.dish_name.substr(_dish.dish_name, 23)+"..." : _dish.dish_name,
-      top: spacing + nameHeight,
-      left: avatarOffset,
-      height: nameHeight
+    var dishName = new Label({
+    	id:'labelNormal',
+    	color: '#990000',
+    	font: {
+            fontFamily: Yumit.constants.fontFamily,
+            fontSize: 12,
+            fontWeight: 'bold'
+        },
+    	text:(_dish.dish_name.length > 25) ? _dish.dish_name.substr(_dish.dish_name, 23)+"..." : _dish.dish_name,
     });
-    winview.add(dish_name);
+    winview.add(dishName);
+    // var placeName = Ti.UI.createLabel({
+      // color:'#000000',
+      // font: {
+        // fontFamily:Yumit.constants.fontFamily,
+        // fontSize:12,
+        // fontWeight:'bold'
+      // },
+      // text: _place.place_name,
+      // top:spacing,
+      // left:avatarOffset,
+      // height:nameHeight
+    // });
+    // winview.add(placeName);
+//     
+    // var dish_name = Ti.UI.createLabel({
+      // color: '#990000',
+      // font: {
+        // fontFamily: Yumit.constants.fontFamily,
+        // fontSize: 12,
+        // fontWeight: 'bold'
+      // },
+      // text: (_dish.dish_name.length > 25) ? _dish.dish_name.substr(_dish.dish_name, 23)+"..." : _dish.dish_name,
+      // top: spacing + nameHeight,
+      // left: avatarOffset,
+      // height: nameHeight
+    // });
+    // winview.add(dish_name);
     
-    var dish_yumscount = Ti.UI.createLabel({
-      color: Yumit.constants.grayTextColor,
-      font: {
-        fontFamily: Yumit.constants.fontFamily,
-        fontSize: 10
-      },
-      height: 'auto',
-      text: "("+_dish.dish_yums_count+" yums)",
-      width: 'auto',
-      top: spacing + nameHeight*2,
-      left: avatarOffset
+    var dish_yumscount = new Label({
+      // color: Yumit.constants.grayTextColor,
+      // font: {
+        // fontFamily: Yumit.constants.fontFamily,
+        // fontSize: 10
+      // },
+      id:'labelLight',
+      //color:'#000',
+      //right: 5,
+      //height: 'auto',
+      // text: "("+_dish.dish_yums_count+" yums)",
+      //width: 'auto',
+      //top: spacing + nameHeight*2,
+      // left: avatarOffset
+      text: "("+_dish.dish_yums_count+" yums)"
     });
     winview.add(dish_yumscount);
 
@@ -215,29 +241,34 @@
 		    row.add(userIcon);
 		    
      		var userLabel = new Label({
-        		color:'#00E',
-				font: {
-				   fontFamily:Yumit.constants.fontFamily,
-				   fontSize:14,
-				   fontWeight:'bold'
-				},
-				top:Yumit.constants.spacing + 10,
-				height:Yumit.constants.nameHeight,
-				left:Yumit.constants.avatarOffset,
+        		// color:'#00E',
+				// font: {
+				   // fontFamily:Yumit.constants.fontFamily,
+				   // fontSize:14,
+				   // fontWeight:'bold'
+				// },
+				// top:Yumit.constants.spacing + 10,
+				// height:Yumit.constants.nameHeight,
+				// left:Yumit.constants.avatarOffset,
+        		// text: yum.user_login
+        		id: 'labelBold',
+        		top:Yumit.constants.spacing,
         		text: yum.user_login
       		});
       		row.add(userLabel);
       		
       		var createdLabel = new Label({
-        		color: '#111',
-				font: {
-				   fontFamily:Yumit.constants.fontFamily,
-				   fontSize:14,
-				   fontWeight:'bold'
-				},
-				top: Yumit.constants.spacing + 25,
-				height: Yumit.constants.nameHeight,
-				left: Yumit.constants.avatarOffset,
+        		// color: '#111',
+				// font: {
+				   // fontFamily:Yumit.constants.fontFamily,
+				   // fontSize:14,
+				   // fontWeight:'bold'
+				// },
+				// top: Yumit.constants.spacing + 25,
+				// height: Yumit.constants.nameHeight,
+				// left: Yumit.constants.avatarOffset,
+				id: 'labelLight',
+				top: Yumit.constants.spacing + 2*Yumit.constants.nameHeight,
         		text: yum.created_at_in_words + " ago | " 
         			 + yum.likes_count + " likes | "
         			 + yum.shouts_count + " views" //TODO: ??
