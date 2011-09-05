@@ -98,7 +98,7 @@
 
       var user_and_place = new Label({
         id:'labelBold',
-        text: _yum.user_login + " @ " + _yum.place_name
+        text: _yum.user_login + ((_yum.place_name) ? " @ " + _yum.place_name : "")
       });
       row.add(user_and_place);
 
@@ -106,17 +106,27 @@
         id:'labelBold',
         top: 25,
         color: Yumit.constants.darkRed,
-        text: _yum.dish_name
+        text: _yum.dish_name || ''
       });
       row.add(dish_name);
 
 
-      var distance = new Label({
+      var timePassed = new Label({
         id:'labelLight',
         top: 45,
         text:_yum.created_at_in_words +" ago"
       });
-      row.add(distance);
+      row.add(timePassed);
+      
+      var likesAndViews = new Label({
+      	id:'labelLight',
+      	top: 45,
+      	left: Yumit.constants.avatarOffset,
+      	right: 'auto',
+      	text: _yum.likes_count + " likes | " 
+      	    + _yum.shouts_count + " views" 
+      })
+      row.add(likesAndViews);
 
       var full_yum = new ImageView({
        id:'yumImageView',

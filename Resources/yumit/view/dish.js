@@ -218,12 +218,15 @@
 		var refresh_yums = function(yums) {
 			var tvData = [];
 			for (var i=0,l=yums.length;i<l;i++) {
-				tvData.push(createYumRow(yums[i].yum));
+				//tvData.push(createYumRow(yums[i].yum));
+				yums[i].yum.dish_name = null;
+				yums[i].yum.place_name = null;
+				tvData.push(Yumit.model.Yum.createYumRow(yums[i].yum));
 			}
 			tableView.setData(tvData);
 		};
 		
-		function createYumRow(yum){
+		/*function createYumRow(yum){
 			var row = Ti.UI.createTableViewRow({
 		        backgroundSelectedColor: Yumit.constants.grayColor,
 		        height:'auto',
@@ -313,7 +316,7 @@
           	row.add(tagsLabel);
       		
 			return row;
-		}
+		}*/
 		
 		Yumit.model.Yum.getYumsForDishAndPlace({
 			dishId: _dish.dish_id,
