@@ -226,98 +226,6 @@
 			tableView.setData(tvData);
 		};
 		
-		/*function createYumRow(yum){
-			var row = Ti.UI.createTableViewRow({
-		        backgroundSelectedColor: Yumit.constants.grayColor,
-		        height:'auto',
-		        yum_id: yum.id,
-		        yum_text: yum.text,
-		        yum_dish_name: yum.dish_name,
-		        yum_place_name: yum.place_name
-     		});
-     		
-     		var userIcon = new ImageView({
-		       id:'defaultImageView',
-		       defaultImage: 'images/user-avatar-thumb.png',
-		       image: yum.user_photo_url || 'images/user-avatar-thumb.png'
-		    });
-		    row.add(userIcon);
-		    
-     		var userLabel = new Label({
-        		// color:'#00E',
-				// font: {
-				   // fontFamily:Yumit.constants.fontFamily,
-				   // fontSize:14,
-				   // fontWeight:'bold'
-				// },
-				// top:Yumit.constants.spacing + 10,
-				// height:Yumit.constants.nameHeight,
-				// left:Yumit.constants.avatarOffset,
-        		// text: yum.user_login
-        		id: 'labelBold',
-        		top:Yumit.constants.spacing,
-        		text: yum.user_login
-      		});
-      		row.add(userLabel);
-      		
-      		var createdLabel = new Label({
-        		// color: '#111',
-				// font: {
-				   // fontFamily:Yumit.constants.fontFamily,
-				   // fontSize:14,
-				   // fontWeight:'bold'
-				// },
-				// top: Yumit.constants.spacing + 25,
-				// height: Yumit.constants.nameHeight,
-				// left: Yumit.constants.avatarOffset,
-				id: 'labelLight',
-				top: Yumit.constants.spacing + 2*Yumit.constants.nameHeight,
-        		text: yum.created_at_in_words + " ago | " 
-        			 + yum.likes_count + " likes | "
-        			 + yum.shouts_count + " views" //TODO: ??
-      		});
-      		row.add(createdLabel);
-      		
-      		var yumImage = new ImageView({
-       			id:'yumImageView',
-       			defaultImage:'images/dish-default-big.png',
-       			image: yum.photo_url_big || 'images/dish-default-big.png'
-      		});
-      		row.add(yumImage);
-      		
-      		var textLabel = new Label({
-        		top: 370,
-        		font: {
-				   fontFamily: Yumit.constants.fontFamily,
-				   fontSize: 14
-				},
-				height: 20, 
-        		left: spacing,
-        		text: yum.text
-      		});
-      		row.add(textLabel);
-      		
-      		var tagStr = yum.tags_as_string[0];
-      		for (var i=1; i < yum.tags_as_string.length; i++) {
-				tagStr += ', ' + yum.tags_as_string[i];
-			}
-      		var tagsLabel = new Label({
-      			top: 390,
-            	font: {
-				   fontFamily: Yumit.constants.fontFamily,
-				   fontSize: 14,
-				   fontWeight: 'bold'
-				},
-				color: '#777',
-				left: spacing + 5,
-            	height: 20,
-            	text: tagStr
-          	});         	
-          	row.add(tagsLabel);
-      		
-			return row;
-		}*/
-		
 		Yumit.model.Yum.getYumsForDishAndPlace({
 			dishId: _dish.dish_id,
 			placeId: _place.place_id,
@@ -329,5 +237,26 @@
   /////////////////////////////////////////////
 
     return win;
+  };
+  
+  Yumit.ui.dishRow = function(args, dishData) {
+      var row = Titanium.UI.createTableViewRow({
+          height: 50,
+          dishData: dishData
+      });
+      
+      var dishName = Titanium.UI.createLabel({
+      	text: args.dishName || '',
+      	font: {
+            fontFamily:Yumit.constants.fontFamily,
+            fontSize:14,
+            fontWeight:'bold'
+        },
+      	left: 15
+      });
+      
+      row.add(dishName);
+      
+      return row;
   };
 })();

@@ -17,7 +17,7 @@
         });
         
 		var search = Titanium.UI.createSearchBar({
-		    barColor: '#000',
+		    barColor: Yumit.constants.darkRed,
 		    height: 40,
 		    showCancel: true,
 		    top: 0

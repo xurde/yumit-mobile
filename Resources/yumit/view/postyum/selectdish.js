@@ -17,9 +17,8 @@
             win.close();
         });
         
-        
         var search = Titanium.UI.createSearchBar({
-		    barColor: '#000',
+		    barColor: Yumit.constants.darkRed,
 		    height: 40,
 		    showCancel: true,
 		    top: 0
@@ -31,22 +30,35 @@
 		});
 		win.add(table);
 		
-		
-		var onSuccessSearch = function(dishes) {
+		var isPreviewSearchFinished = true;
+		var onSuccessSearch = function(dishes) {			
 			var data = [];
+			if (dishes.noDishes && isPreviewSearchFinished) {				
+				search.focus();
+				return;
+			} 
 			for (var i=0; i < dishes.length; i++) {
 				var dish = dishes[i].dish;
-				data[i] = {title: dish.name,
-						   dishData: dish};
+				//data[i] = {title: dish.name,
+				//		   dishData: dish};
+				data.push(Yumit.ui.dishRow({
+					dishName: dish.name
+				}, dish));
+			}
+			if (JSON.stringify(data) == '[]') {
+				data.push(Yumit.ui.dishRow({
+					dishName: 'Add new dish: ' + search.value,
+				}, { addNewDish: true }));
 			}
 			table.setData(data);
+			isPreviewSearchFinished = true;
 		}
-	    
-	    function makeRequest() {
+		
+	    function makeRequest(action) {
 	    	Yumit.model.Dish.searchDishes({
 				success: onSuccessSearch,
 				queryString: (search.value != null) ? search.value : '' 
-			});
+			}, action);
 	    }
 		
 		search.addEventListener('return', function(e){
@@ -58,7 +70,12 @@
 		});
 		
 		search.addEventListener('change', function(e){
-			makeRequest();
+			if (isPreviewSearchFinished) {
+			    isPreviewSearchFinished = false;
+			    setTimeout(function() {
+			        makeRequest();
+			    }, 500);
+			}
 		});
 		
 		var closeFunction = function() {
@@ -68,11 +85,15 @@
 		}
 		
 		table.addEventListener('click', function(e){
-			var nextWin = Yumit.ui.yum_form(closeFunction, _place, e.rowData.dishData, _photo);
-			_tab.open(nextWin, {animated:true});
+			if (e.rowData.dishData.addNewDish) {
+				alert('Adding new dish');
+			} else {
+				var nextWin = Yumit.ui.yum_form(closeFunction, _place, e.rowData.dishData, _photo);
+				_tab.open(nextWin, {animated:true});
+			}
 		});
         
-        makeRequest();
+        makeRequest(Yumit.api_path+'/api/v0/places/'+ _place.id +'/dishes.json');
 		
 		return win;
 	}

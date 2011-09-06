@@ -135,7 +135,7 @@
         var name = new Label({
             id: 'labelBold',
             left: 15,
-            font: {fontSize: 16},
+            //font: {fontSize: 16},
             text: _place.name
         });
         

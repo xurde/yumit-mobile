@@ -23,9 +23,14 @@ Yumit.model = {};
           return;
         }
         var jsonReply = JSON.parse(this.responseText);
+        //alert(jsonReply);
+        if (jsonReply.success === false) {
+            jsonReply.noDishes = true;
+        }
+        
         if (jsonReply.success === "false") {
-        	if (jsonReply.message.match("token")) {
-            	alert(jsonReply.message);
+        	//alert('success - false');
+        	if (jsonReply.message && jsonReply.message.match("token")) {
             	Titanium.App.Properties.removeProperty("token");
                 var login_window = Yumit.ui.login();
                 login_window.open();
