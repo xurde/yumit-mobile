@@ -147,12 +147,12 @@
             	success: function(token) {
                     Titanium.App.Properties.setString("token",token);
                     Titanium.App.fireEvent("Yumit:ui:hideLoading");
+                    Titanium.App.fireEvent('Yumit:register');
                     Titanium.App.fireEvent('Yumit:yums:getYumsFriends');
                     setTimeout(function() {
                         tabGroup.setActiveTab({indexOrObject: 0});
-                        Titanium.App.fireEvent('Yumit:login');
-                        registerWindow.close({opacity:0,duration:500});
                         tabGroup.open();
+                        registerWindow.close({opacity:0,duration:500});
                     }, 500);
             	}, 
             	error: function(error) {
@@ -160,6 +160,8 @@
             		alert("Wrong params: " + error);
             	}
             });
+           // tabGroup.open();
+           // registerWindow.close();
         });
         
         cancelButton.addEventListener('click', function() {

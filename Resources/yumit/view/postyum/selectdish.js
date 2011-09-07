@@ -9,13 +9,13 @@
             title: 'Back',
             style: Titanium.UI.iPhone.SystemButtonStyle.PLAIN
         });
-        setTimeout(function(){
-        	win.leftNavButton = backButton;
-        }, 500);
+        // setTimeout(function(){
+        	// win.leftNavButton = backButton;
+        // }, 500);
         
-        backButton.addEventListener('click', function(){
-            win.close();
-        });
+        // win.leftNavButton.addEventListener('click', function(){
+            // win.close();
+        // });
         
         var search = Titanium.UI.createSearchBar({
 		    barColor: Yumit.constants.darkRed,
@@ -33,14 +33,14 @@
 		var isPreviewSearchFinished = true;
 		var onSuccessSearch = function(dishes) {			
 			var data = [];
-			if (dishes.noDishes && isPreviewSearchFinished) {				
+			if ((JSON.stringify(dishes) == '[]' || dishes.noDishes) 
+			        && isPreviewSearchFinished) {				
 				search.focus();
 				return;
 			} 
 			for (var i=0; i < dishes.length; i++) {
 				var dish = dishes[i].dish;
-				//data[i] = {title: dish.name,
-				//		   dishData: dish};
+				//alert(dish);
 				data.push(Yumit.ui.dishRow({
 					dishName: dish.name
 				}, dish));
@@ -85,12 +85,15 @@
 		}
 		
 		table.addEventListener('click', function(e){
+			var dishData;
 			if (e.rowData.dishData.addNewDish) {
-				alert('Adding new dish');
+				//alert('Adding new dish');
+				dishData = {name: search.value};
 			} else {
-				var nextWin = Yumit.ui.yum_form(closeFunction, _place, e.rowData.dishData, _photo);
-				_tab.open(nextWin, {animated:true});
+				dishData = e.rowData.dishData;
 			}
+			var nextWin = Yumit.ui.yum_form(closeFunction, _place, dishData, _photo);
+			_tab.open(nextWin, {animated:true});
 		});
         
         makeRequest(Yumit.api_path+'/api/v0/places/'+ _place.id +'/dishes.json');

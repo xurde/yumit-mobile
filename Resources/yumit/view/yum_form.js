@@ -349,13 +349,18 @@
             xhr.setRequestHeader('token', authorization);
             xhr.setRequestHeader('Content-Type','multipart/form-data');
             
-            xhr.send({
-                place_id: _place.id,
-                dish_id: _dish.id,
+            var dataToSend = {
+            	place_id: _place.id,
                 photo: _photo,
                 text: description.value,
                 tags: tags.value
-            });
+            };
+            if (_dish.id) {
+            	dataToSend.dish_id = _dish.id;
+            } else {
+            	dataToSend.dish_name = _dish.name;
+            }
+            xhr.send(dataToSend);
         //yay.play();
         });
 

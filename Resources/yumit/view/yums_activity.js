@@ -140,8 +140,6 @@
 				});          
 			});
 
-
-
             return tableView;
         }
     //////////////////////////////////////////////////////////
@@ -149,6 +147,12 @@
         Ti.App.addEventListener('Yumit:login', function(e) {
             tabView.children[0].fireEvent('click');
             appFilmStrip.children[0].children[0].children[0].scrollToTop();
+        });
+        
+        Ti.App.addEventListener('Yumit:register', function(e) {
+            tabView.children[0].fireEvent('click');
+            appFilmStrip.children[0].children[0].children[0].setData([]);
+            appFilmStrip.children[1].children[0].children[0].setData([]);
         });
 
         var appFilmStrip = Yumit.ui.createFilmStripView({	
