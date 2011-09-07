@@ -45,7 +45,7 @@
             text:_place.name,
             width:'auto',
             top:15,
-            left: 120
+            left: 110
             //right:spacing
         });
         winview.add(place_name);
@@ -62,7 +62,7 @@
             width:'auto',
             top:35,
             //right:spacing
-            left: 120
+            left: 110
         });
         winview.add(dish_name);
 
@@ -92,8 +92,8 @@
         var avatar = Ti.UI.createImageView({
             top:15,
             left:10,
-            height: 100,
-            width: 100,
+            height: 90,
+            width: 90,
             borderRadius:5,
             image: cropImage(_photo)
         });
@@ -232,10 +232,10 @@
             width:300,
             top:120,
             font:{
-                fontFamily:'courier',
+                fontFamily:Yumit.constants.fontFamily,
                 fontSize:14
             },
-            color:'#888',
+            color:Yumit.constants.textColor,
             textAlign:'left',
             keyboardType:Titanium.UI.KEYBOARD_DEFAULT,
             returnKeyType:Titanium.UI.RETURNKEY_NEXT,
@@ -254,15 +254,18 @@
         winview.add(description);
 
         var tags = Titanium.UI.createTextField({
-            hintText:'Tags',
-            color:'#888',
+            value:'Tags',
+            color:Yumit.constants.textColor,
             height:35,
             top:190,
             width:300,
             font:{
-                fontFamily:'courier',
+                fontFamily:Yumit.constants.fontFamily,
                 fontSize:14
             },
+            borderWidth:2,
+            borderColor:'#bbb',
+            borderRadius:7,
             borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
             keyboardType:Titanium.UI.KEYBOARD_DEFAULT,
             returnKeyType:Titanium.UI.RETURNKEY_DEFAULT
