@@ -35,7 +35,9 @@
 			var data = [];
 			if ((JSON.stringify(dishes) == '[]' || dishes.noDishes) 
 			        && isPreviewSearchFinished) {				
-				search.focus();
+				setTimeout(function() {
+					search.focus();
+				}, 500);
 				return;
 			} 
 			for (var i=0; i < dishes.length; i++) {

@@ -44,13 +44,14 @@
             height:'auto',
             text:_place.name,
             width:'auto',
-            top:10,
-            right:spacing
+            top:15,
+            left: 120
+            //right:spacing
         });
         winview.add(place_name);
 
         var dish_name = Ti.UI.createLabel({
-            color:Yumit.constants.textColor,
+            color:Yumit.constants.darkRed,
             font: {
                 fontFamily:Yumit.constants.fontFamily,
                 fontSize:14,
@@ -59,8 +60,9 @@
             height:'auto',
             text:_dish.name,
             width:'auto',
-            top:25,
-            right:spacing
+            top:35,
+            //right:spacing
+            left: 120
         });
         winview.add(dish_name);
 
@@ -68,14 +70,35 @@
             return (media.height <  media.width);
         };
         
+        function cropImage(photo) {
+	    	var baseSize = (horizontal(photo) ? photo.height : photo.width);
+	    	var difference = Math.abs(photo.height - photo.width);
+	    	var xOffset = 0;
+	    	var yOffset = 0; 
+	    	if (horizontal(photo)) {
+	    		xOffset = difference / 2;
+	    	} else {
+	    		yOffset = difference / 2;
+	    	}
+	    	
+	    	return photo.imageAsCropped({
+	    		x: xOffset,
+	    		y: yOffset,
+	    		width: baseSize,
+	    		height: baseSize 
+	    	});
+	    };
+        
         var avatar = Ti.UI.createImageView({
-            top:7,
-            left:7,
-            height: 105,
-            width:horizontal(_photo) ? 140 : 79,
+            top:15,
+            left:10,
+            height: 100,
+            width: 100,
             borderRadius:5,
-            image: _photo
+            image: cropImage(_photo)
         });
+        //avatarContainer.add(avatar);
+        //winview.add(avatarContainer);
         winview.add(avatar);
 
         var share = Ti.UI.createLabel({
@@ -122,7 +145,7 @@
         
         facebookIcon.addEventListener('click',function(e){
             //alert("Login to Facebook first");
-            var makePost = function() {
+            /*var makePost = function() {
             	// alert("Posting functionality is under progress!!");
             	var data = {
             		link: "https://developer.mozilla.org/en/JavaScript",
@@ -147,41 +170,42 @@
                         }
                     }
             	});
-            }
+            }*/
             
             Titanium.Facebook.addEventListener('login', function(e) {
         	    if (e.cancelled) {
         	        //TODO handle cancellation
         	    } else if (e.success) {
-                	makePost();
+                	//makePost();
                 } else {
            	        alert("Authorization failed: " + e.error);
                 }
             });
             
-            if(Titanium.Facebook.loggedIn == true){                
-                makePost();
+            if(Titanium.Facebook.loggedIn){                
+                //makePost();
             }else{
                 Titanium.Facebook.authorize();   
             }
         });
         
         twitterIcon.addEventListener('click',function(e){
-        	var makeTweet = function(){
+        	/*var makeTweet = function(){
         		var message = description.value + ' (' + _dish.name + ' in ' + _place.name + ')';        		
         		Ti.App.Properties.BH.tweet(message, function(e){
                     alert("success: " + e);
                 });
-        	}   
+        	}*/
         	
             if (Ti.App.Properties.BH.authorized()){
-            	makeTweet();
+            	//makeTweet();
             } else {
                 Ti.App.Properties.BH.authorize(function(e){                	
                 	if(e != false){
-                		makeTweet();
+                		alert('Twitter autorization is ok');
+                		//makeTweet();
                 	} else {
-                		alert("authorization failed");
+                		alert("Authorization failed: " + e.error);
                 	}   
                 });                
             }
@@ -329,9 +353,12 @@
                 else {
                     uploadLabel.visible = true;
                     setTimeout(function(){
-                        win.close();
-                        _closeCallBack();
-                    }, 1000);
+                    	tabGroup.setActiveTab({indexOrObject: 0});
+                    	Titanium.App.fireEvent('Yumit:login');
+                        Titanium.App.fireEvent('Yumit:yums:getYumsFriends');
+                    	_closeCallBack();
+                        win.close({opacity:0,duration:500});
+                    }, 500);
                 //play sound with
                 //var yay = Titanium.Media.createSound({url:'yay.caf'});
                 //yay.play();
