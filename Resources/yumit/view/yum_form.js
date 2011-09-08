@@ -227,7 +227,7 @@
         ////////////////////////////////////////////////////////////////////////////////////////
 
         var description = Titanium.UI.createTextArea({
-            value:'Description',
+            value:'Comment',
             height:60,
             width:300,
             top:120,
@@ -243,7 +243,14 @@
             borderColor:'#bbb',
             borderRadius:7,
             borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
+            maximumLength: 255,
+            autocorrect: false,
             firstFocus: true
+        });
+        
+        description.addEventListener('change', function(e) {
+            e.source.value = (e.value.length > description.maximumLength) 
+                ? e.value.slice(0, description.maximumLength) : e.value;
         });
         description.addEventListener("focus", function(){
         	if (description.firstFocus) {

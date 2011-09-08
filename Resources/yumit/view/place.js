@@ -4,6 +4,10 @@
       id: 'defaultWindow',
       title:'Place'
     });
+    
+    win.addEventListener('close', function() {
+        Yumit.global.placesNearbyLoaded = false;
+    });
 
     var winview = Ti.UI.createView({top:0, backgroundColor:'#dddddd'});
 

@@ -7,12 +7,13 @@
       regionFit:true,
       userLocation:true
   });
-
+  
   Yumit.ui.places_list = function(_tab){
     var win = new Window({
       id: 'defaultWindow',
       title:'Places'
     });
+    
     win.addEventListener('open', function(){
     	if (Yumit.global.placesNearbyLoaded) {
     		return;
@@ -22,7 +23,17 @@
 		Titanium.App.fireEvent('Yumit:places:getPlacesNearby');
     });
     
+    var currentTabInTabView = 0;
+    win.addEventListener('focus', function(){
+    	if (currentTabInTabView == 1) {
+    		setTimeout(function() {
+    		    win.fireEvent('open');
+    		}, 500);
+    	}
+    }); 
+    
     var tabViewCallback = function(i){
+    	currentTabInTabView = i;
         appFilmStrip.fireEvent('changeIndex',{idx: i});
         if (i == 1) {
           if (Yumit.current.places_annotations && table_map.annotations.length < 2) {
@@ -40,20 +51,12 @@
               {title:'Map', enabled:false}],
       callback: function(i) {
       	tabViewCallback(i);
-        // appFilmStrip.fireEvent('changeIndex',{idx: i});
-        // if (i == 1) {
-          // if (Yumit.current.places_annotations && table_map.annotations.length < 2) {
-            // Yumit.ui.mapview.top = 10;
-            // Yumit.ui.mapview.removeAllAnnotations();
-            // Yumit.ui.mapview.annotations = Yumit.current.places_annotations;
-          // }
-        // }
       }
     });
     
     var refresh = function() {
 		Yumit.global.placesNearbyLoaded = false;
-		tabView.children[0].fireEvent('changeToIt');
+		tabView.children[0].fireEvent('click');
 		win.fireEvent('open');
     };
     
@@ -125,6 +128,7 @@
     }
 
 ////////////////////////////////////////////////////
+    
     function show_map() {
       return Yumit.ui.mapview;
     }

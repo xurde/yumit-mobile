@@ -86,7 +86,6 @@ Yumit.ui ={};
             //assemble view
             view.add(label);
             view.addEventListener('click', _cb);
-            view.addEventListener('changeToIt', _cb);
 
             //'instance' method
             view.toggle = function() {
