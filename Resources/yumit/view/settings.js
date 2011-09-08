@@ -33,8 +33,8 @@
       if (index == 2) {
         Titanium.App.Properties.removeProperty("token");
         var login_window = Yumit.ui.login();
-        login_window.open();//{modal:true});
-        settings_window.close();
+        login_window.open();
+        settings_window.close({opacity:0, duration:500});
       };
      
       // if (index == 3) {

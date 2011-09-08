@@ -241,7 +241,7 @@
   
   Yumit.ui.dishRow = function(args, dishData) {
       var row = Titanium.UI.createTableViewRow({
-          height: 50,
+          height: 40,
           dishData: dishData
       });
       

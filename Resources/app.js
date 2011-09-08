@@ -100,11 +100,10 @@ tabGroup.addTab(tab3);
 //tabGroup.addTab(tab2);
 tabGroup.addTab(tab1);
 
-
 /////////////////////////////////////////////////////////
 if (Titanium.App.Properties.hasProperty("token")==0) {
-    var login_window = Yumit.ui.login();
-    login_window.open();//{modal:true});
+    var login_window = Yumit.ui.login();  
+    login_window.open();
 } else {
     Titanium.App.fireEvent("Yumit:ui:showLoading",{title:"Connecting"});
     Titanium.App.fireEvent('Yumit:yums:getYumsFriends');

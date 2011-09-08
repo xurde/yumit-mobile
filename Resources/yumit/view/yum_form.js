@@ -4,14 +4,14 @@
             id: 'defaultWindow',
             title:'Post a Yum'
         });
-        var cancel_button = Titanium.UI.createButton({
-            title:'Cancel',
-            style:Titanium.UI.iPhone.SystemButtonStyle.PLAIN
-        });
-        win.setLeftNavButton(cancel_button);
-        cancel_button.addEventListener('click',function(){
-            win.close();
-        });
+        // var cancel_button = Titanium.UI.createButton({
+            // title:'Cancel',
+            // style:Titanium.UI.iPhone.SystemButtonStyle.PLAIN
+        // });
+        // win.setLeftNavButton(cancel_button);
+        // cancel_button.addEventListener('click',function(){
+            // win.close();
+        // });
 
         var scrollView = Ti.UI.createScrollView({
             backgroundColor:'#fff',
@@ -242,10 +242,14 @@
             borderWidth:2,
             borderColor:'#bbb',
             borderRadius:7,
-            borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED
+            borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
+            firstFocus: true
         });
         description.addEventListener("focus", function(){
-            description.value='';
+        	if (description.firstFocus) {
+                description.value = '';
+                description.firstFocus = false;
+            }
         });
         description.addEventListener('return', function() {
             scrollView.scrollTo(0,50);
@@ -268,9 +272,15 @@
             borderRadius:7,
             borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
             keyboardType:Titanium.UI.KEYBOARD_DEFAULT,
-            returnKeyType:Titanium.UI.RETURNKEY_DEFAULT
+            returnKeyType:Titanium.UI.RETURNKEY_DEFAULT,
+            autocorrect: false,
+            firstFocus:true
         });
         tags.addEventListener("focus", function(){
+        	if (tags.firstFocus) {
+        	    tags.value = '';
+        	    tags.firstFocus = false;
+        	}
             scrollView.scrollTo(0,50);
         });
         tags.addEventListener('return', function() {
@@ -317,12 +327,13 @@
         });
         winview.add(ind);
 
-        var yumit = Titanium.UI.createButton({
+        var yumit = new Button({//Titanium.UI.createButton({
+        	id: 'defaultYumitButton',
             title:'Yumit!',
-            color:Yumit.constants.darkRed,
-            highlightedColor:'#0f0',
-            width:200,
-            height:40,
+            //color:Yumit.constants.darkRed,
+            //highlightedColor:'#0f0',
+            //width:200,
+            //height:40,
             top:350
         });
         winview.add(yumit);

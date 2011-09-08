@@ -2,40 +2,58 @@
   Yumit.ui.login = function() {
     var login_win = new Window({
       id: 'defaultWindow',
-      backgroundColor: '#FFF'
+      backgroundColor: '#FFF',
+      title: 'Login',
+      //barImage: 'images/navbar-background.png'
     });
 
     var usernameValue; //= Titanium.App.Properties.getString("username");
     var passwordValue; //= Titanium.App.Properties.getString("password");
 
+	var scrollView = Ti.UI.createScrollView({
+        top: 0,
+        showVerticalScrollIndicator:true,
+        showHorizontalScrollIndicator:false,
+        verticalBounce:true
+    });
+        
+    login_win.add(scrollView);
+
     var container = Titanium.UI.createView({
       top:0,
-      backgroundColor: Yumit.constants.darkRed,
       visiblelogin:false,
       layout:'vertical'
     });
-
-    var loginLabel = Ti.UI.createLabel({
-      text: 'Login:',
-      textAlign:'left',
-      font:{
-        fontSize:18,
-        fontFamily:'Trebuchet MS',
-        fontWeight:'bold',
-        fontStyle:'italic'
-      },
-      height:'auto',
-      width:'auto',
-      color:'#fff',
-      top:10,
-      left:35
+    scrollView.add(container);
+    
+    var logo = Ti.UI.createImageView({
+    	image: '/images/logo.png',
+    	top: 20,
+    	height: 50,
+    	width: 'auto'
     });
+// //     
+
+    // var loginLabel = Ti.UI.createLabel({
+      // text: 'Login:',
+      // textAlign:'left',
+      // font:{
+        // fontSize:18,
+        // fontFamily:'Trebuchet MS',
+        // fontWeight:'bold',
+      // },
+      // height:'auto',
+      // width:'auto',
+      // color:'#000',
+      // top:10,
+      // left:35
+    // });
 
     var usernameField = Titanium.UI.createTextField({
       color:'#787878',
       value:usernameValue,
       height:35,
-      top:10,
+      top:25,
       width:250,
       hintText:'Yumit Username',
       keyboardType:Titanium.UI.KEYBOARD_DEFAULT,
@@ -44,7 +62,7 @@
       autocorrect:false
     });
     usernameField.addEventListener('return', function() {
-      usernameField.blur();
+      scrollView.scrollTo(0, 50);
       passwordField.focus();
     });
     usernameField.addEventListener('change', function(e) {
@@ -71,13 +89,19 @@
     passwordField.addEventListener('change', function(e) {
       passwordValue = e.value;
     });
+    
+    passwordField.addEventListener('focus', function() {
+        scrollView.scrollTo(0, 50);
+    });
 
-    var loginButton = Titanium.UI.createButton({
-      top:10,
-      backgroundImage:'images/button-large-noarrow.png',
-      image:'images/label-connect.png',
-      width:250,
-      height:47
+    var loginButton = new Button({//Titanium.UI.createButton({
+        id: 'defaultYumitButton',
+        top:20,
+      //backgroundImage:'/images/button-yumit.png', //'images/button-large-noarrow.png',
+      //image:'images/label-connect.png',
+        title:'Login',
+      //width:220,
+      //height:50
     });
 
     var createLabel = Ti.UI.createLabel({
@@ -91,30 +115,33 @@
       },
       height:'auto',
       width:'auto',
-      color:'#fff',
-      top:20,
+      color:'#000',
+      top:10,
       left:35
     });
 
-    var createAccountButton = Titanium.UI.createButton({
+    var createAccountButton = new Button({//Titanium.UI.createButton({
+    	id: 'defaultYumitButton',
       top:10,
-      backgroundImage:'images/button-large-noarrow.png',
-      image:'images/label-createaccount.png',
-      width:250,
-      height:47
+      //backgroundImage:'/images/button-yumit.png',//'images/button-large-noarrow.png',
+      //image:'images/label-createaccount.png',
+      title: 'Create account',
+      //width:220,
+      //height:50
     });
     createAccountButton.addEventListener('click', function() {
-        login_win.close({opacity:0,duration:500});
         var registrationWindow = Yumit.ui.register();
-        registrationWindow.open();
+        navGroup.open(registrationWindow);
     });
 
-    container.add(loginLabel);
+    //container.add(loginLabel);
+    container.add(logo);
     container.add(usernameField);
     container.add(passwordField);
     container.add(loginButton);
     container.add(createLabel);
     container.add(createAccountButton);
+    //login_win.add(container);
 
  	var onSuccessLogin = function(token){
     	Titanium.App.Properties.setString("token",token);
@@ -123,7 +150,7 @@
           setTimeout(function() {
             tabGroup.setActiveTab({indexOrObject: 0});
             Titanium.App.fireEvent('Yumit:login');
-            login_win.close({opacity:0,duration:500});
+            win.close({opacity:0,duration:500});//login_win.close({opacity:0,duration:500});
             tabGroup.open();
           }, 500);
     }
@@ -151,48 +178,16 @@
       });
     });
     
-   
+    var win = Ti.UI.createWindow();
+    var navGroup = Ti.UI.iPhone.createNavigationGroup({
+    	window: login_win
+    });
+    win.add(navGroup);
     
-
-    // addButton.addEventListener('click', function() {
-    //   Titanium.App.fireEvent("Yumit:ui:showLoading",{title:"Connecting"});
-    //   setTimeout(function(){alert("yeee");}, 3000);
-    //   //
-    //   // var acct = new tt.model.Account();
-    //   // acct.authorize({
-    //   //  username:unField.value,
-    //   //  password:pwField.value,
-    //   //  success: function(_xhr) {
-    //   //    try {
-    //   //      Ti.API.info('New Account Authorized:');
-    //   //      Ti.API.info(JSON.stringify(acct));
-    //   //      tt.app.currentAccount = acct;
-    //   //      Ti.App.Properties.setString('currentAccountID',String(acct.id));
-    //   //
-    //   //      //on new account, let the rest of the app know a new account is being used
-    //   //      Ti.App.fireEvent('app:hide.loader');
-    //   //      Ti.App.fireEvent('app:account.selected');
-    //   //      Ti.App.fireEvent('app:change.tab',{tabIndex:0}); //Switch to timeline
-    //   //    }
-    //   //    catch (e) {
-    //   //      Ti.API.info(JSON.stringify(e));
-    //   //      Ti.App.fireEvent('app:hide.loader');
-    //   //    }
-    //   //    Ti.App.fireEvent('app:hide.drawer');
-    //   //  },
-    //   //  error: function(_e, _xhr) {
-    //   //    Ti.UI.createAlertDialog({
-    //   //      title:'Authorization Failed',
-    //   //      message:'Sorry, but we couldn\'t verify your Twitter credentials.  Check your username and password and try again.'
-    //   //    }).show();
-    //   //    Ti.App.fireEvent('app:hide.drawer');
-    //   //    Ti.App.fireEvent('app:hide.loader');
-    //   //  }
-    //   // });
-    // });
-    //
-
-    login_win.add(container);
-    return login_win;
+    Ti.App.addEventListener('Yumit:register', function(){
+        win.close();
+    });
+    //return login_win;
+    return win;
   };
 })();

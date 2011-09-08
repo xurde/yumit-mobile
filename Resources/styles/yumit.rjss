@@ -94,3 +94,14 @@
   height:40,
   top:120
 }
+
+#defaultYumitButton {
+  width:220,
+  height:50,
+  backgroundImage:'/images/button-yumit.png',
+  font: {
+    fontFamily:Yumit.constants.mainFont,
+    fontSize:17,
+    fontWeight:'bold'
+  },
+}
