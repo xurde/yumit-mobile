@@ -58,7 +58,23 @@
 
         win.add(tabView);
 
-
+		function onPlaceLabelClicked(e) {
+			if (e.source.placeLabel) {
+			    //alert('click');
+			    var yumData = e.rowData.yum_data;
+                var place = {
+                	place_id: yumData.place_id,
+                	place_name: yumData.place_name,
+                	place_address: yumData.place_address,
+                	place_lat: yumData.place_lat,
+                	place_lng: yumData.place_lng,
+                	place_origin: 'yumit'
+                };
+                var win = Yumit.ui.place(place);
+                win.tabBarHidden = true;
+                tabGroup.activeTab.open(win,{animated:true});
+			}
+		}
     ////////////////////////////////////////////////////////////////////
     /////////////////////////////  FOLLOWING ACTIVITY
         function activity_following() {
@@ -76,8 +92,10 @@
                 tableView.setData(tvData);
             };
 
-            tableView.allowsSelection = false;
-
+            //tableView.allowsSelection = false;
+			tableView.addEventListener('click', function(e) {
+			    onPlaceLabelClicked(e);
+			});
 
           ///////////////////////
           // PSEUDO API
@@ -124,7 +142,10 @@
                 tableView.setData(tvData);
             };
 
-			tableView.allowsSelection = false;
+			//tableView.allowsSelection = false;
+			tableView.addEventListener('click', function(e) {
+			    onPlaceLabelClicked(e);
+			});
 
             ///////////////////////
             // PSEUDO API

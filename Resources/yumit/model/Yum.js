@@ -77,17 +77,22 @@
     //create a place row from the given data from yumit
     createYumRow: function(_yum) {
       var row = Ti.UI.createTableViewRow({
-        backgroundSelectedColor: Yumit.constants.grayColor,
+      	backgroundColor: '#fff',
+      	selectionStyle: 'none',
+        //backgroundSelectedColor: Yumit.constants.grayColor,
         height:'auto',
         yum_id: _yum.id,
         yum_text: _yum.text,
         yum_dish_name: _yum.dish_name,
-        yum_place_name: _yum.place_name
+        yum_place_name: _yum.place_name,
+        yum_data: _yum
       }),
       spacing = 6,
       imgDimensions = 45,
       nameHeight = 18,
       metaHeight = 14;
+      
+      //row.yum_data = _yum;
       
       var icon = new ImageView({
        id:'defaultImageView',
@@ -96,16 +101,58 @@
       });
       row.add(icon);
 
-      var user_and_place = new Label({
-        id:'labelBold',
-        text: _yum.user_login + ((_yum.place_name) ? " @ " + _yum.place_name : "")
-      });
+	  var user_and_place = Ti.UI.createView({
+	      top: 0,
+	      height: 25,
+	      left: 60,
+	      //backgroundColor:'0f0',
+	      layout: 'horizontal'
+	  });
+	  
+     var user = new Label({
+     	id: 'labelBold',
+     	width: 'auto',
+     	left: 0,
+     	text: _yum.user_login
+     });
+     
+     var devider = new Label({
+     	id: 'labelBold',
+     	width: 'auto',
+     	left: 2,
+     	text: '@'
+     });
+     
+     var place = new Label({
+     	id: 'labelBold',
+     	width: 'auto',
+     	left: 2,
+     	text: _yum.place_name || '',
+     	color: Yumit.constants.darkRed,
+     	placeLabel: true
+     });
+     
+     user_and_place.add(user);
+     user_and_place.add(devider);
+     user_and_place.add(place);
+      // row.add(user_and_place);
       row.add(user_and_place);
+      
+      /*row.addEventListener('click', function() {
+          alert('row click');
+          return false;
+          //user_and_dish.fireEvent('click');
+      });      
+      
+      user_and_dish.addEventListener('click', function(e) {
+          alert('user_and_dish click ' + user_and_dish.size.width);
+          return true;
+      });*/
 
       var dish_name = new Label({
         id:'labelBold',
         top: 25,
-        color: Yumit.constants.darkRed,
+        //color: Yumit.constants.darkRed,
         text: _yum.dish_name || ''
       });
       row.add(dish_name);
