@@ -2,7 +2,8 @@
   Yumit.ui.place = function(_place){
     var win = new Window({
       id: 'defaultWindow',
-      title:'Place'
+      title:'Place',
+      tabBarHidden: true
     });
     
     win.addEventListener('close', function() {

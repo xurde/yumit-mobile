@@ -135,6 +135,9 @@
      user_and_place.add(user);
      user_and_place.add(devider);
      user_and_place.add(place);
+     if (place.text == '') {
+     	devider.text = '';
+     }
       // row.add(user_and_place);
       row.add(user_and_place);
       

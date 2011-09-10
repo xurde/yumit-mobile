@@ -52,7 +52,8 @@
     var settings_window = new Window({
       id: 'defaultWindow',
       title: 'Settings',
-      backgroundColor:'#FFF'
+      backgroundColor:'#FFF',
+      tabBarHidden: true
     });
     settings_window.add(tableview);
     settings_window.leftNavButton = backButton;

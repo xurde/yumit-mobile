@@ -141,7 +141,7 @@
         });
         
         confirmPasswordTextField.addEventListener('return', function() {
-        	//createButton.fireEvent('click');     
+        	createButton.fireEvent('click');     
         });
         
         confirmPasswordTextField.addEventListener('focus', function() {
@@ -166,9 +166,11 @@
             	
             	success: function(token) {
                     Titanium.App.Properties.setString("token",token);
-                    Titanium.App.fireEvent("Yumit:ui:hideLoading");
+                    //Titanium.App.fireEvent("Yumit:ui:hideLoading");
                     Titanium.App.fireEvent('Yumit:register');
+                    //Titanium.App.fireEvent("Yumit:ui:showLoading",{title:"Connecting"});
                     Titanium.App.fireEvent('Yumit:yums:getYumsFriends');
+                    //tabGroup.setActiveTab({indexOrObject: 0});
                     setTimeout(function() {
                         tabGroup.setActiveTab({indexOrObject: 0});
                         tabGroup.open();

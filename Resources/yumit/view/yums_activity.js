@@ -71,7 +71,7 @@
                 	place_origin: 'yumit'
                 };
                 var win = Yumit.ui.place(place);
-                win.tabBarHidden = true;
+                //win.tabBarHidden = true;
                 tabGroup.activeTab.open(win,{animated:true});
 			}
 		}

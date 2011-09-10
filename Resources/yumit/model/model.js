@@ -8,7 +8,7 @@ Yumit.model = {};
     });
     xhr.onerror = function(e) {
       Ti.API.error('There was an error posting request: '+JSON.stringify(e));
-      Yumit.ui.alert('Yumit Error', 'Error while connecting the API Server: ' + postingUrl);
+      Yumit.ui.alert('Yumit Error', 'Error while connecting the Server. Check your internet connection.');
       if (_params.error) {
         _params.error(e,xhr);
       }
@@ -18,7 +18,7 @@ Yumit.model = {};
       try {
       	//alert(this.responseText);
         if(this.responseText.match(/(html|xmlns)/)){
-          Yumit.ui.alert('Yumit Error', 'Error while parsing response from API Server');
+          Yumit.ui.alert('Yumit Error', 'Error while parsing response from Server');
           Ti.API.error('Yumit Error: '+this.responseText);
           return;
         }
