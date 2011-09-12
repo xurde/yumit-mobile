@@ -32,12 +32,6 @@ Ti.include(
 );
 
 var tabGroup = Titanium.UI.createTabGroup();
-tabGroup.addEventListener('click', function(e) {
-	alert(tabGroup.activeTab);
-	if(tabGroup.activeTab == 1) {
-		post();
-	};
-});
 
 //
 // ACTIVITY
@@ -85,9 +79,6 @@ tab1.window.addEventListener('focus', function() {
 var tab3 = Titanium.UI.createTab({
     title:'Post',
 	icon : 'images/photo.png',
-	//icon: 'images/default.png',
-	//backgroundImage: 'images/default.png',
-	//window : win
 });
 
 tab3.window = Yumit.ui.createPostWindow();
@@ -97,7 +88,6 @@ tab3.window = Yumit.ui.createPostWindow();
 //
 tabGroup.addTab(tab0);
 tabGroup.addTab(tab3);
-//tabGroup.addTab(tab2);
 tabGroup.addTab(tab1);
 
 /////////////////////////////////////////////////////////

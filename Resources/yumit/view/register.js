@@ -166,17 +166,11 @@
             	
             	success: function(token) {
                     Titanium.App.Properties.setString("token",token);
-                    //Titanium.App.fireEvent("Yumit:ui:hideLoading");
                     Titanium.App.fireEvent('Yumit:register');
-                    //Titanium.App.fireEvent("Yumit:ui:showLoading",{title:"Connecting"});
-                    Titanium.App.fireEvent('Yumit:yums:getYumsFriends');
-                    //tabGroup.setActiveTab({indexOrObject: 0});
-                    setTimeout(function() {
-                        tabGroup.setActiveTab({indexOrObject: 0});
-                        tabGroup.open();
-                        //login_window.close()
-                        registerWindow.close({opacity:0,duration:500});
-                    }, 500);
+                    Titanium.App.fireEvent('Yumit:yums:getYumsFriends');                    
+                    tabGroup.setActiveTab({indexOrObject: 0});
+                    tabGroup.open();
+                    registerWindow.close({opacity:0,duration:500});
             	}, 
             	error: function(error) {
             		Titanium.App.fireEvent("Yumit:ui:hideLoading");

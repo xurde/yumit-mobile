@@ -30,6 +30,14 @@
 		});
 		win.add(table);
 		
+		function trim(string) {
+			if (string) {
+			    return string.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+			} else {
+				return string;
+			}
+		}
+		
 		var isPreviewSearchFinished = true;
 		var onSuccessSearch = function(dishes) {			
 			var data = [];
@@ -39,18 +47,22 @@
 					search.focus();
 				}, 500);
 				return;
+			}
+			//if (JSON.stringify(data) == '[]') {
+			if (search.value && trim(search.value) != '') {
+				//alert(trim(search.value));
+				data.push(Yumit.ui.dishRow({
+					dishName: 'Add new dish: ' + trim(search.value),
+				}, { addNewDish: true }));
 			} 
 			for (var i=0; i < dishes.length; i++) {
 				var dish = dishes[i].dish;
-				//alert(dish);
+				if (dish.name == trim(search.value)) {
+					data.shift();
+				}
 				data.push(Yumit.ui.dishRow({
 					dishName: dish.name
 				}, dish));
-			}
-			if (JSON.stringify(data) == '[]') {
-				data.push(Yumit.ui.dishRow({
-					dishName: 'Add new dish: ' + search.value,
-				}, { addNewDish: true }));
 			}
 			table.setData(data);
 			isPreviewSearchFinished = true;
@@ -59,11 +71,21 @@
 	    function makeRequest(action) {
 	    	Yumit.model.Dish.searchDishes({
 				success: onSuccessSearch,
-				queryString: (search.value != null) ? search.value : '' 
+				queryString: (search.value != null) ? trim(search.value) : '' 
 			}, action);
+	    }
+	    
+	    function searchRequest() {
+	    	if (isPreviewSearchFinished) {
+			    isPreviewSearchFinished = false;
+			    setTimeout(function() {
+			        makeRequest();
+			    }, 500);
+			}
 	    }
 		
 		search.addEventListener('return', function(e){
+			searchRequest();
 			search.blur();
 		});
 		
@@ -72,12 +94,7 @@
 		});
 		
 		search.addEventListener('change', function(e){
-			if (isPreviewSearchFinished) {
-			    isPreviewSearchFinished = false;
-			    setTimeout(function() {
-			        makeRequest();
-			    }, 500);
-			}
+			searchRequest();
 		});
 		
 		var closeFunction = function() {

@@ -29,6 +29,14 @@
 		});
 		win.add(table);
 		
+		function trim(string) {
+			if (string) {
+			    return string.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+			} else {
+				return string;
+			}
+		}
+		
 		var isPreviewSearchFinished = true;
 		var onSuccessSearch = function(places){
 			var data = [];
@@ -40,16 +48,26 @@
 			isPreviewSearchFinished = true;
 		}
 	    
-	    function makeRequest(_query) {
+	    function makeRequest() {
 	    	Yumit.model.Place.getPlacesNearby({
 				success: onSuccessSearch,
 				location: Yumit.current.latitude + ',' + Yumit.current.longitude,
-				query: search.value,
+				query: trim(search.value),
 				external: true
 			});
 	    }
+	    
+	    function searchRequest() {
+	    	if (isPreviewSearchFinished) {
+			    isPreviewSearchFinished = false;
+			    setTimeout(function() {
+			        makeRequest();
+			    }, 500);
+			}
+	    }
 		
 		search.addEventListener('return', function(e){
+			searchRequest();
 			search.blur();
 		});
 		
@@ -58,12 +76,7 @@
 		});
 	
 		search.addEventListener('change', function(e){
-			if (isPreviewSearchFinished) {
-			    isPreviewSearchFinished = false;
-			    setTimeout(function() {
-			        makeRequest();
-			    }, 500);
-			}
+			searchRequest();
 		});
 		
 		var closeFunction = function() {

@@ -4,14 +4,6 @@
             id: 'defaultWindow',
             title:'Post a Yum'
         });
-        // var cancel_button = Titanium.UI.createButton({
-            // title:'Cancel',
-            // style:Titanium.UI.iPhone.SystemButtonStyle.PLAIN
-        // });
-        // win.setLeftNavButton(cancel_button);
-        // cancel_button.addEventListener('click',function(){
-            // win.close();
-        // });
 
         var scrollView = Ti.UI.createScrollView({
             backgroundColor:'#fff',
@@ -51,7 +43,8 @@
         winview.add(place_name);
 
         var dish_name = Ti.UI.createLabel({
-            color:Yumit.constants.darkRed,
+            //color:Yumit.constants.darkRed,
+            color:Yumit.constants.textColor,
             font: {
                 fontFamily:Yumit.constants.fontFamily,
                 fontSize:14,
@@ -97,8 +90,7 @@
             borderRadius:5,
             image: cropImage(_photo)
         });
-        //avatarContainer.add(avatar);
-        //winview.add(avatarContainer);
+
         winview.add(avatar);
 
         var share = Ti.UI.createLabel({
@@ -142,53 +134,28 @@
             width:imgDimensions,
             image:'images/flickr.png'
         });
-        
+ // =============== Facebook section ===============
         facebookIcon.addEventListener('click',function(e){
-            //alert("Login to Facebook first");
-            /*var makePost = function() {
-            	// alert("Posting functionality is under progress!!");
-            	var data = {
-            		link: "https://developer.mozilla.org/en/JavaScript",
-	                name: "Best online Javascript reference",
-	                message: "Use Mozilla's online Javascript reference",
-	                caption: "MDN Javascript Reference",
-	                picture: "https://developer.mozilla.org/media/img/mdn-logo.png",
-	                description: "This section is dedicated to JavaScript..."      
-                };
-            	//Titanium.Facebook.requestWithGraphPath('me/feed', data, "POST", function(e) {
-            	Titanium.Facebook.dialog('feed', data, function(e) {           
-            	    if (e.success) {
-                        // alert("Success!  From FB: " + e.result);
-                        alert('Posting succeed.');
-                    } else {
-                        if (e.error) {
-                            alert("Posting failed: " + e.error);
-                        } else if (e.cancelled) {
-                            // alert('Cancelled');
-                        } else {
-                            // alert("Unkown result");
-                        }
-                    }
-            	});
-            }*/
-            
+            var notified = false;
             Titanium.Facebook.addEventListener('login', function(e) {
-        	    if (e.cancelled) {
-        	        //TODO handle cancellation
-        	    } else if (e.success) {
-                	//makePost();
-                } else {
-           	        alert("Authorization failed: " + e.error);
-                }
+            	if (!notified) {
+            		notified = true;
+        	        if (e.success) {
+        	    	    alert('Authirization succeed');
+        	        } else {
+        	    	    alert("Authorization failed");//: " + e.error);
+        	        }
+        	    }
             });
             
-            if(Titanium.Facebook.loggedIn){                
-                //makePost();
-            }else{
+            if (Titanium.Facebook.loggedIn) {                
+                alert('You are already logged in');
+            } else {
                 Titanium.Facebook.authorize();   
             }
         });
-        
+// ================================================
+
         twitterIcon.addEventListener('click',function(e){
         	/*var makeTweet = function(){
         		var message = description.value + ' (' + _dish.name + ' in ' + _place.name + ')';        		
@@ -245,7 +212,7 @@
             borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
             maximumLength: 255,
             autocorrect: false,
-            firstFocus: true
+            firstFocus: false
         });
         
         description.addEventListener('change', function(e) {
@@ -253,9 +220,9 @@
                 ? e.value.slice(0, description.maximumLength) : e.value;
         });
         description.addEventListener("focus", function(){
-        	if (description.firstFocus) {
+        	if (!description.firstFocus) {
                 description.value = '';
-                description.firstFocus = false;
+                description.firstFocus = true;
             }
         });
         description.addEventListener('return', function() {
@@ -281,12 +248,12 @@
             keyboardType:Titanium.UI.KEYBOARD_DEFAULT,
             returnKeyType:Titanium.UI.RETURNKEY_DEFAULT,
             autocorrect: false,
-            firstFocus:true
+            firstFocus:false
         });
         tags.addEventListener("focus", function(){
-        	if (tags.firstFocus) {
+        	if (!tags.firstFocus) {
         	    tags.value = '';
-        	    tags.firstFocus = false;
+        	    tags.firstFocus = true;
         	}
             scrollView.scrollTo(0,50);
         });
@@ -368,7 +335,7 @@
                 if (this.responseText.length > 0 && jsonReply.success === "false" ) {
                     Titanium.UI.createAlertDialog({
                         title:'Well, this is awkward...',
-                        message: 'Yumit Error: '+jsonReply.error
+                        message: 'Yumit Error: ' + jsonReply.error
                     }).show();
                 }
                 else {
@@ -400,8 +367,8 @@
             var dataToSend = {
             	place_id: _place.id,
                 photo: _photo,
-                text: description.value,
-                tags: tags.value
+                text: (description.firstFocus) ? description.value : '',
+                tags: (tags.firstFocus) ? tags.value : ''
             };
             if (_dish.id) {
             	dataToSend.dish_id = _dish.id;

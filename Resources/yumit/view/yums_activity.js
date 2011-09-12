@@ -167,7 +167,7 @@
         
         Ti.App.addEventListener('Yumit:login', function(e) {
             tabView.children[0].fireEvent('click');
-            appFilmStrip.children[0].children[0].children[0].scrollToTop();
+            appFilmStrip.children[0].children[0].children[0].scrollToTop(0);
         });
         
         Ti.App.addEventListener('Yumit:register', function(e) {

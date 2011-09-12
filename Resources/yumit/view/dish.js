@@ -38,57 +38,18 @@
     
     var dishName = new Label({
     	id:'labelNormal',
-    	color: '#990000',
+    	//color: '#990000',
     	font: {
             fontFamily: Yumit.constants.fontFamily,
-            fontSize: 12,
+            fontSize: 14,
             fontWeight: 'bold'
         },
     	text:(_dish.dish_name.length > 25) ? _dish.dish_name.substr(_dish.dish_name, 23)+"..." : _dish.dish_name,
     });
     winview.add(dishName);
-    // var placeName = Ti.UI.createLabel({
-      // color:'#000000',
-      // font: {
-        // fontFamily:Yumit.constants.fontFamily,
-        // fontSize:12,
-        // fontWeight:'bold'
-      // },
-      // text: _place.place_name,
-      // top:spacing,
-      // left:avatarOffset,
-      // height:nameHeight
-    // });
-    // winview.add(placeName);
-//     
-    // var dish_name = Ti.UI.createLabel({
-      // color: '#990000',
-      // font: {
-        // fontFamily: Yumit.constants.fontFamily,
-        // fontSize: 12,
-        // fontWeight: 'bold'
-      // },
-      // text: (_dish.dish_name.length > 25) ? _dish.dish_name.substr(_dish.dish_name, 23)+"..." : _dish.dish_name,
-      // top: spacing + nameHeight,
-      // left: avatarOffset,
-      // height: nameHeight
-    // });
-    // winview.add(dish_name);
     
     var dish_yumscount = new Label({
-      // color: Yumit.constants.grayTextColor,
-      // font: {
-        // fontFamily: Yumit.constants.fontFamily,
-        // fontSize: 10
-      // },
       id:'labelLight',
-      //color:'#000',
-      //right: 5,
-      //height: 'auto',
-      // text: "("+_dish.dish_yums_count+" yums)",
-      //width: 'auto',
-      //top: spacing + nameHeight*2,
-      // left: avatarOffset
       text: "("+_dish.dish_yums_count+" yums)"
     });
     winview.add(dish_yumscount);
@@ -241,7 +202,7 @@
   
   Yumit.ui.dishRow = function(args, dishData) {
       var row = Titanium.UI.createTableViewRow({
-          height: 40,
+          height: 32,
           dishData: dishData
       });
       
