@@ -202,12 +202,14 @@
   
   Yumit.ui.dishRow = function(args, dishData) {
       var row = Titanium.UI.createTableViewRow({
-          height: 32,
+          height: 40,
           dishData: dishData
       });
       
       var dishName = Titanium.UI.createLabel({
       	text: args.dishName || '',
+      	color: (dishData.addNewDish) ? Yumit.constants.darkRed 
+      								 : Yumit.constants.textColor,
       	font: {
             fontFamily:Yumit.constants.fontFamily,
             fontSize:14,

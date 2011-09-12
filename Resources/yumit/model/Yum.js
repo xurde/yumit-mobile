@@ -3,32 +3,7 @@
     return (_place.origin == "yumit") ? '/images/yumit-icon.png' : _place.icon ;
   };
   Yumit.model.Yum = {
-
-    //return places nearby
-    // getPlacesNearby: function(/*Object*/ _args) {
-    //   var params={ query:'' };
-    //   if (_args.query) {
-    //     params.query = _args.query;
-    //   }
-    //   Yumit.model.request({
-    //     method:'GET',
-    //     action:'http://dev.yumit.com/api/v0/places/nearby', //'?latlon=-33.441355,-70.650566',
-    //     //parameters: params,
-    //     //parameters: 'latlon=-33.441779525,-70.6503987',
-    //     parameters: 'latlon=-33.441779525,-70.6503987&query='+(params.query || ''),
-    //     error: function(e,xhr) {
-    //       Yumit.ui.alert('Arguments', _args.error);
-    //     },
-    //     success: function(json,xhr) {
-    //       var results = [];
-    //       for (var i=0,l=json.length;i<l;i++) {
-    //         results.push(json[i]);
-    //       }
-    //       if (_args.success) { _args.success(results); }
-    //     }
-    //   });
-    // },
-
+  	
     //return yums from your friends
     getYumsFriends: function(/*Object*/ _args) {
       Yumit.model.request({
@@ -38,7 +13,7 @@
         parameters: '',
         error: function(e,xhr) {
 		  if (_args.onfinish) { _args.onfinish(); }
-          Yumit.ui.alert('Arguments', _args.error);
+          //Yumit.ui.alert('Arguments', _args.error);
         },
         success: function(json,xhr) {
           var results = [];
@@ -62,7 +37,7 @@
         parameters: 'latlon='+params.location,
         error: function(e,xhr) {
 		  if (_args.onfinish) { _args.onfinish(); }
-          Yumit.ui.alert('Arguments', _args.error);
+          //Yumit.ui.alert('Arguments', _args.error);
         },
         success: function(json,xhr) {
           var results = [];
@@ -238,7 +213,7 @@
         token: Titanium.App.Properties.getString("token"),
         parameters: '',
         error: function(e,xhr) {
-          Yumit.ui.alert('Arguments', _args.error);
+          //Yumit.ui.alert('Arguments', _args.error);
         },
         success: function(json,xhr) {
           if (_args.success) { 

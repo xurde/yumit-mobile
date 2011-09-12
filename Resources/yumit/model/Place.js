@@ -26,7 +26,7 @@
         parameters: 'latlon='+params.location+'&query='+params.query,
         error: function(e,xhr) {
           if (_args.onfinish) { _args.onfinish(); };
-          Yumit.ui.alert('Arguments', _args.error);
+          //Yumit.ui.alert('Arguments', _args.error);
         },
         success: function(json,xhr) {
           var results = [];
@@ -47,7 +47,7 @@
         action:Yumit.api_path+'/api/v0/places/'+_args.place_id+'/dishes.json',
         parameters: '',
         error: function(e,xhr) {
-          Yumit.ui.alert('Arguments', _args.error);
+          //Yumit.ui.alert('Arguments', _args.error);
         },
         success: function(json,xhr) {
           var results = [];
@@ -66,7 +66,7 @@
         action:Yumit.api_path+'/api/v0/places/'+_args.place_id+'/users.json',
         parameters: '',
         error: function(e,xhr) {
-          Yumit.ui.alert('Arguments', _args.error);
+          //Yumit.ui.alert('Arguments', _args.error);
         },
         success: function(json,xhr) {
           var results = [];

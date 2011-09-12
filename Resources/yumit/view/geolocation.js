@@ -40,7 +40,7 @@
    if (!e.success || e.error) {
      Ti.API.info("Code translation: "+translateErrorCode(e.code));
      //alert('error ' + JSON.stringify(e.error));
-     alert('Could not fetch your location');
+     //alert('Could not fetch your location');
      return;
    };
 
