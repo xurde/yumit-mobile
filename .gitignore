@@ -1,4 +1,4 @@
-tmp
-build/*
-*.DS_Store
+tmp/
+build/
+.DS_Store
 *.tmproj
