@@ -26,7 +26,7 @@
       };
 
       if (index == 1) {
-        var win = Yumit.ui.webview();
+        var win = Yumit.sharing_settings();//Yumit.ui.webview();
         tabGroup.activeTab.open(win,{animated:true});
       };
 

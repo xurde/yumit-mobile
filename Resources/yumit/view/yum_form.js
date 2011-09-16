@@ -25,45 +25,40 @@
         imgDimensions = 45,
         nameHeight = 18,
         metaHeight = 14;
-
-        var place_name = Ti.UI.createLabel({
-            color:Yumit.constants.textColor,
-            font: {
-                fontFamily:Yumit.constants.fontFamily,
-                fontSize:14,
-                fontWeight:'bold'
-            },
-            height:'auto',
+        
+        var placeAndDish = Ti.UI.createView({
+        	top: 15,
+        	left: 110,
+        	height: 90,
+        	width: 'auto',
+        	layout: 'vertical'
+        });
+        
+        var placeName = new Label({
+            id: 'labelBold',
+            height: 'auto',
+            width: 'auto',
             text:_place.name,
-            width:'auto',
-            top:15,
-            left: 110
-            //right:spacing
+            left: 0
         });
-        winview.add(place_name);
-
-        var dish_name = Ti.UI.createLabel({
-            //color:Yumit.constants.darkRed,
-            color:Yumit.constants.textColor,
-            font: {
-                fontFamily:Yumit.constants.fontFamily,
-                fontSize:14,
-                fontWeight:'bold'
-            },
+        
+        var dishName = new Label({
+        	id: 'labelBold',
             height:'auto',
+            width: 'auto',
             text:_dish.name,
-            width:'auto',
-            top:35,
-            //right:spacing
-            left: 110
+            left: 0
         });
-        winview.add(dish_name);
+        
+        placeAndDish.add(placeName);
+        placeAndDish.add(dishName);
+        winview.add(placeAndDish);
 
         var horizontal = function(media){
             return (media.height <  media.width);
         };
         
-        function cropImage(photo) {
+        var cropImage = function(photo) {
 	    	var baseSize = (horizontal(photo) ? photo.height : photo.width);
 	    	var difference = Math.abs(photo.height - photo.width);
 	    	var xOffset = 0;
@@ -81,119 +76,8 @@
 	    		height: baseSize 
 	    	});
 	    };
-        
-        var avatar = Ti.UI.createImageView({
-            top:15,
-            left:10,
-            height: 90,
-            width: 90,
-            borderRadius:5,
-            image: cropImage(_photo)
-        });
-
-        winview.add(avatar);
-
-        var share = Ti.UI.createLabel({
-            color:Yumit.constants.textColor,
-            font: {
-                fontFamily:Yumit.constants.fontFamily,
-                fontSize:14,
-                fontWeight:'bold'
-            },
-            height:'auto',
-            text:"Share ",
-            width:'auto',
-            top:260,
-            left:10
-        });
-        var twitterIcon = Ti.UI.createImageView({
-            top:245,
-            left:115,
-            height:imgDimensions,
-            width:imgDimensions,
-            image:'images/twitter.png'
-        }),
-        facebookIcon = Ti.UI.createImageView({
-            top:245,
-            left:60,
-            height:imgDimensions,
-            width:imgDimensions,
-            image:'images/facebook.png'
-        }),
-        foursquareIcon = Ti.UI.createImageView({
-            top:245,
-            left:225,
-            height:imgDimensions,
-            width:imgDimensions,
-            image:'images/foursquare.png'
-        }),
-        flickerIcon = Ti.UI.createImageView({
-            top:245,
-            left:170,
-            height:imgDimensions,
-            width:imgDimensions,
-            image:'images/flickr.png'
-        });
- // =============== Facebook section ===============
-        facebookIcon.addEventListener('click',function(e){
-            var notified = false;
-            Titanium.Facebook.addEventListener('login', function(e) {
-            	if (!notified) {
-            		notified = true;
-        	        if (e.success) {
-        	    	    alert('Authirization succeed');
-        	        } else {
-        	    	    alert("Authorization failed");//: " + e.error);
-        	        }
-        	    }
-            });
-            
-            if (Titanium.Facebook.loggedIn) {                
-                alert('You are already logged in');
-            } else {
-                Titanium.Facebook.authorize();   
-            }
-        });
-// ================================================
-
-        twitterIcon.addEventListener('click',function(e){
-        	/*var makeTweet = function(){
-        		var message = description.value + ' (' + _dish.name + ' in ' + _place.name + ')';        		
-        		Ti.App.Properties.BH.tweet(message, function(e){
-                    alert("success: " + e);
-                });
-        	}*/
-        	
-            if (Ti.App.Properties.BH.authorized()){
-            	//makeTweet();
-            } else {
-                Ti.App.Properties.BH.authorize(function(e){                	
-                	if(e != false){
-                		alert('Twitter autorization is ok');
-                		//makeTweet();
-                	} else {
-                		alert("Authorization failed: " + e.error);
-                	}   
-                });                
-            }
-        });
-        
-        foursquareIcon.addEventListener('click',function(e){
-        	alert('logout');
-        	// Titanium.Facebook.addEventListener('logout', function(e) {
-        	    // if (e.success) {
-        	    	// alert("FB logout secceed");
-        	    // } else {
-        	    	// alert("FB logout error");
-        	    // }
-        	// });
-            Titanium.Facebook.logout();
-        });
-        
-
-        ////////////////////////////////////////////////////////////////////////////////////////
-
-        var description = Titanium.UI.createTextArea({
+	    
+	    var description = Titanium.UI.createTextArea({
             value:'Comment',
             height:60,
             width:300,
@@ -260,6 +144,180 @@
         tags.addEventListener('return', function() {
             scrollView.scrollTo(0,0);
         });
+        
+        var avatar = Ti.UI.createImageView({
+            top:15,
+            left:10,
+            height: 90,
+            width: 90,
+            borderRadius:5,
+            image: cropImage(_photo)
+        });
+
+        winview.add(avatar);
+
+        var share = Ti.UI.createLabel({
+            color:Yumit.constants.textColor,
+            font: {
+                fontFamily:Yumit.constants.fontFamily,
+                fontSize:14,
+                fontWeight:'bold'
+            },
+            height:'auto',
+            text:"Share ",
+            width:'auto',
+            top:260,
+            left:10
+        });
+        
+        var getFacebookImage = function() {
+ 			return (Yumit.socialNetworks.facebookDisabled) ? 'images/facebook-deactivated-44.png' 
+                 : (Yumit.socialNetworks.shareOnFacebook)  ? 'images/facebook-on-44.png'
+            						                       : 'images/facebook-off-44.png';
+ 		};
+ 		var updateFacebookUserInfo = function(data) {
+ 			Yumit.model.User.update({
+        	    success: function() {
+        	        facebookIcon.image = getFacebookImage();
+        	    },
+        	    error: function(error) {
+        	        alert('Updating user information failed ' + error);
+        	        Yumit.socialNetworks.shareOnFacebook = !Yumit.socialNetworks.shareOnFacebook;
+        	    }
+        	}, data);
+ 		}
+ 		var getTwitterImage = function() {
+ 			return (Yumit.socialNetworks.twitterDisabled) ? 'images/twitter-deactivated-44.png'
+ 			     : (Yumit.socialNetworks.shareOnTwitter)  ? 'images/twitter-on-44.png'
+ 			                                              : 'images/twitter-off-44.png';
+ 		}
+ 		var updateTwitterUserInfo = function(data) {
+ 			Yumit.model.User.update({
+ 				success: function() {
+ 					twitterIcon.image = getTwitterImage();
+ 				},
+ 				error: function(error) {
+ 					alert('Updating user information failed ' + error)
+ 					Yumit.socialNetworks.shareOnTwitter = !Yumit.socialNetworks.shareOnTwitter;
+ 				}
+ 			}, data);
+ 		}
+        
+        var twitterIcon = Ti.UI.createImageView({
+            top:245,
+            left:115,
+            height:imgDimensions,
+            width:imgDimensions,
+            image: getTwitterImage()
+        }),
+        facebookIcon = Ti.UI.createImageView({
+            top:245,
+            left:60,
+            height:imgDimensions,
+            width:imgDimensions,
+            image: getFacebookImage()
+        }),
+        foursquareIcon = Ti.UI.createImageView({
+            top:245,
+            left:225,
+            height:imgDimensions,
+            width:imgDimensions,
+            image:'images/foursquare-on-44.png'
+        }),
+        flickerIcon = Ti.UI.createImageView({
+            top:245,
+            left:170,
+            height:imgDimensions,
+            width:imgDimensions,
+            image:'images/flickr-on-44.png'
+        });
+        
+ // =============== Facebook section ===============
+        facebookIcon.addEventListener('click',function(e) {
+        	var notified = false;
+        	Titanium.Facebook.addEventListener('login', function(e) {
+        		alert('login');
+        	    if (!notified) {
+        	    	notified = true;
+        	    	if (e.success) {
+        	    		Yumit.socialNetworks.facebookDisabled = !Yumit.socialNetworks.facebookDisabled;
+        	    		updateFacebookUserInfo({
+        	    			user: {
+        	    			    fb_offline_key: Titanium.Facebook.accessToken,
+        	    			    fb_uid: e.data.id,
+        	    			    fb_username: e.data.name,
+        	    		        share_yums_on_facebook: Yumit.socialNetworks.shareOnFacebook
+        	    		    }
+        	    		});
+        	    	} else if (!e.cancelled){
+        	    		alert('FB authorization failed');
+        	    	}
+        	    }
+        	});
+        	
+        	if (Yumit.socialNetworks.facebookDisabled) {
+        	    Titanium.Facebook.authorize();
+        	} else {
+        	    Yumit.socialNetworks.shareOnFacebook = !Yumit.socialNetworks.shareOnFacebook;
+        	    updateFacebookUserInfo({
+        	    	user: {
+        	            share_yums_on_facebook: Yumit.socialNetworks.shareOnFacebook
+        	        }
+        	    });
+        	}
+        });
+
+// =============== Twitter section ================
+        twitterIcon.addEventListener('click',function(e) {
+        	if (Yumit.socialNetworks.twitterDisabled) {
+        	    Ti.App.Properties.BH.authorize(function(e){                	
+                	if (e != false) {
+                		var config = Ti.App.Properties.BH.config();
+                		Yumit.socialNetworks.twitterDisabled = !Yumit.socialNetworks.twitterDisabled;
+        	    		updateTwitterUserInfo({
+        	    			user: {
+        	    			    twitter_id: config.user_id,
+        	    			    twitter_username: config.screen_name,
+        	    			    twitter_token: config.access_token,
+        	    			    twitter_secret: config.access_token_secret,
+        	    			    share_yums_on_twitter: Yumit.socialNetworks.shareOnTwitter
+        	    		    }
+        	    		});
+                	} else {
+                		alert("Authorization failed");// + e.error);
+                	}   
+                });
+        	} else {
+        		Yumit.socialNetworks.shareOnTwitter = !Yumit.socialNetworks.shareOnTwitter;
+                updateTwitterUserInfo({
+                	user: {
+                		share_yums_on_twitter: Yumit.socialNetworks.shareOnTwitter
+                	}
+                });
+        	}
+        });
+// =============== Foursquare section ================
+        
+        foursquareIcon.addEventListener('click', function(e){
+        	alert('logout');
+            Titanium.Facebook.logout();
+        });
+
+// =============== Flickr section ====================
+
+		flickerIcon.addEventListener('click', function(e) {
+			Titanium.App.Properties.BH.deauthorize(function(e) {
+			    if (e != false) {
+			    	alert('Deauthorized');
+			    } else {
+			    	alert('Deauthorization failed');
+			    }
+			});
+		});
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+        
         winview.add(tags);
         winview.add(share);
         winview.add(twitterIcon);
@@ -268,7 +326,7 @@
         winview.add(flickerIcon);
         
         
-        /////////////////////////////////////////////////////////////////////////////BOTON
+/////////////////////////////////////////////////////////////////////////////BOTON
         var uploadLabel = Ti.UI.createLabel({
             text: 'Upload Complete!',
             textAlign:'center',
@@ -301,13 +359,9 @@
         });
         winview.add(ind);
 
-        var yumit = new Button({//Titanium.UI.createButton({
+        var yumit = new Button({
         	id: 'defaultYumitButton',
             title:'Yumit!',
-            //color:Yumit.constants.darkRed,
-            //highlightedColor:'#0f0',
-            //width:200,
-            //height:40,
             top:350
         });
         winview.add(yumit);
@@ -376,10 +430,7 @@
             	dataToSend.dish_name = _dish.name;
             }
             xhr.send(dataToSend);
-        //yay.play();
         });
-
-
 
         return win;
     };

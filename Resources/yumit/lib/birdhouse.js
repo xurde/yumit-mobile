@@ -304,6 +304,7 @@ function BirdHouse(params) {
 				var responseParams = OAuth.getParameterMap(resp);
 				cfg.access_token = responseParams['oauth_token'];
 				cfg.access_token_secret = responseParams['oauth_token_secret'];
+				//cfg.token = responseParams['access']
 				cfg.user_id = responseParams['user_id'];
 				cfg.screen_name = responseParams['screen_name'];
 				accessor.tokenSecret = cfg.access_token_secret;
@@ -1219,12 +1220,13 @@ Ti.API.info('shortlink '+shorturl);
 	this.authorize = authorize;
 	this.deauthorize = deauthorize;
 	this.api = api;
-	this.authorized = function() { return authorized; }
 	this.get_tweets = get_tweets;
 	this.tweet = tweet;
-        this.send_tweet = send_tweet;
+    this.send_tweet = send_tweet;
 	this.short_tweet = short_tweet;
 	this.shorten_url = shorten_url;
+	this.authorized = function() { return authorized; }
+	this.config = function() { return cfg; }
 
 	// --------------------------------------------------------
 	// =================== INITIALIZE =========================

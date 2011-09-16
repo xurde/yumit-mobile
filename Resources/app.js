@@ -1,5 +1,6 @@
 var Yumit={};
 Yumit.global = {};
+Yumit.socialNetworks = {};
 Yumit.current = {};
 Ti.include('/yumit/constants.js');
 Ti.include('/yumit/lib/birdhouse.js');
@@ -21,6 +22,7 @@ Ti.include(
   '/yumit/view/dish.js',
   '/yumit/view/yum_form.js',
   '/yumit/view/yums_activity.js',
+  '/yumit/view/sharing_settings.js',
   '/yumit/view/settings.js',
   '/yumit/view/register.js',
   '/yumit/view/login.js',
@@ -98,9 +100,27 @@ if (Titanium.App.Properties.hasProperty("token")==0) {
     Titanium.App.fireEvent("Yumit:ui:showLoading",{title:"Connecting"});
     Titanium.App.fireEvent('Yumit:yums:getYumsFriends');
     setTimeout(function(){
+    	Titanium.App.fireEvent('Yumit:user:fetchInfo');
         tabGroup.open();
     }, 500);
 };
+
+Titanium.App.addEventListener('Yumit:user:fetchInfo', function() {
+    Yumit.model.User.fetchInfo({
+        success: function(info) {
+            //alert(JSON.stringify(info));
+            // alert(Titanium.Facebook.loggedIn);
+            Yumit.socialNetworks.facebookDisabled = !Titanium.Facebook.loggedIn;
+            Yumit.socialNetworks.shareOnFacebook = info.share_yums_on_facebook;
+            Yumit.socialNetworks.twitterDisabled = !Titanium.App.Properties.BH.authorized();
+            Yumit.socialNetworks.shareOnTwitter = info.share_yums_on_twitter;
+        },
+        error: function(error) {
+            alert('Error occured: ' + error);
+        }
+    });
+});
+
 Titanium.Facebook.appid = "336361767890";
 Titanium.Facebook.permissions = ['publish_stream', 'read_stream', 'offline_access'];
 
@@ -110,6 +130,10 @@ Ti.App.Properties.BH = new BirdHouse({
     consumer_key: "U1L5Rwh08FBeFqfyMgPTKA",
     consumer_secret: "QbWpQAATvDLwABZYjPN0uHcd1LSrWkp4usvBi8xY"
 });
+
+//Ti.App.Properties.Flickr = new FlickrAPI({
+	
+//});
 
 ////////////////////////////////////////////////////////
 Ti.include('/yumit/view/geolocation.js');

@@ -15,6 +15,7 @@
       };
 
       xhr.onload = function() {
+      	//alert(this.responseText);
         var jsonReply = JSON.parse(this.responseText);
         if (this.responseText.length > 0 && jsonReply.success === "false" ) {
           _args.error();
@@ -50,10 +51,6 @@
             }
         };
         Ti.API.info("posting url : "+ Yumit.api_path+'/api/v0/user/create.json');
-        alert("login: " + _args.userName 
-            + ', password: ' + _args.password
-            + ', confirmPassword: ' + _args.confirmPassword
-            + ', email: ' + _args.email);
         xhr.open('POST',Yumit.api_path+'/api/v0/user/create.json');
         xhr.send({
             login: _args.userName,
@@ -61,6 +58,74 @@
             password_confirmation: _args.confirmPassword,
             email: _args.email
         });
+    },
+    
+    update: function(_args, _data) {
+    	var xhr = Titanium.Network.createHTTPClient({
+      	    timeout: Yumit.constants.httpTimeout
+        });
+        
+        xhr.onerror = function(e) {
+            Titanium.UI.createAlertDialog({
+                title:'Error...',
+                message: 'We had a problem communicating with yumit.com'
+            }).show();
+        };
+        
+        xhr.onload = function() {
+        	if(this.responseText.match(/(html|xmlns)/)){
+                Yumit.ui.alert('Yumit Error', 'Error while parsing response from Server');
+                Ti.API.error('Yumit Error: '+this.responseText);
+                return;
+            }
+            var jsonReply = JSON.parse(this.responseText);
+            if (this.responseText.length > 0 && jsonReply.success === "false" ) {
+                _args.error(jsonReply.error);
+            } else {
+                _args.success();
+            }
+        };
+        
+        var token = Titanium.App.Properties.getString('token');
+        Ti.API.info("posting url : "+ Yumit.api_path+'/api/v0/user/update.json');
+        xhr.open('POST', Yumit.api_path+'/api/v0/user/update.json');
+        xhr.setRequestHeader('token', token);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(_data));
+    },
+    
+    fetchInfo: function(_args) {
+    	var xhr = Titanium.Network.createHTTPClient({
+      	    timeout: Yumit.constants.httpTimeout
+        });
+        
+        xhr.onerror = function(e) {
+            Titanium.UI.createAlertDialog({
+                title:'Error...',
+                message: 'We had a problem communicating with yumit.com'
+            }).show();
+        };
+        
+        xhr.onload = function() {
+        	//alert(this.responseText);
+        	if(this.responseText.match(/(html|xmlns)/)){
+                Yumit.ui.alert('Yumit Error', 'Error while parsing response from Server');
+                Ti.API.error('Yumit Error: '+this.responseText);
+                return;
+            }
+            var jsonReply = JSON.parse(this.responseText);
+            if (this.responseText.length > 0 && jsonReply.success === "false" ) {
+                _args.error(jsonReply.error);
+            } else {
+                _args.success(jsonReply.user);
+            }
+        };
+        
+        var token = Titanium.App.Properties.getString('token');
+        Ti.API.info("posting url : "+ Yumit.api_path+'/api/v0/user/fetch.json');
+        xhr.open('GET', Yumit.api_path+'/api/v0/user/fetch.json');
+        xhr.setRequestHeader('token', token);
+        xhr.send();
     }
 
   };

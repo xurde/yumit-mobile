@@ -4,11 +4,10 @@
       id: 'defaultWindow',
       backgroundColor: '#FFF',
       title: 'Login',
-      //barImage: 'images/navbar-background.png'
     });
 
-    var usernameValue; //= Titanium.App.Properties.getString("username");
-    var passwordValue; //= Titanium.App.Properties.getString("password");
+    var usernameValue;
+    var passwordValue;
 
 	var scrollView = Ti.UI.createScrollView({
         top: 0,
@@ -32,22 +31,6 @@
     	height: 50,
     	width: 'auto'
     });
-// //     
-
-    // var loginLabel = Ti.UI.createLabel({
-      // text: 'Login:',
-      // textAlign:'left',
-      // font:{
-        // fontSize:18,
-        // fontFamily:'Trebuchet MS',
-        // fontWeight:'bold',
-      // },
-      // height:'auto',
-      // width:'auto',
-      // color:'#000',
-      // top:10,
-      // left:35
-    // });
 
     var usernameField = Titanium.UI.createTextField({
       color:'#787878',
@@ -82,10 +65,12 @@
       autocorrect:false,
       passwordMask:true
     });
+    
     passwordField.addEventListener('return', function() {
       passwordField.blur();
       loginButton.fireEvent('click');
     });
+
     passwordField.addEventListener('change', function(e) {
       passwordValue = e.value;
     });
@@ -94,14 +79,10 @@
         scrollView.scrollTo(0, 50);
     });
 
-    var loginButton = new Button({//Titanium.UI.createButton({
+    var loginButton = new Button({
         id: 'defaultYumitButton',
         top:20,
-      //backgroundImage:'/images/button-yumit.png', //'images/button-large-noarrow.png',
-      //image:'images/label-connect.png',
-        title:'Login',
-      //width:220,
-      //height:50
+        title:'Login'
     });
 
     var createLabel = Ti.UI.createLabel({
@@ -120,37 +101,39 @@
       left:35
     });
 
-    var createAccountButton = new Button({//Titanium.UI.createButton({
+    var createAccountButton = new Button({
     	id: 'defaultYumitButton',
       top:10,
-      //backgroundImage:'/images/button-yumit.png',//'images/button-large-noarrow.png',
-      //image:'images/label-createaccount.png',
       title: 'Create account',
-      //width:220,
-      //height:50
     });
+    
     createAccountButton.addEventListener('click', function() {
         var registrationWindow = Yumit.ui.register();
         navGroup.open(registrationWindow);
     });
 
-    //container.add(loginLabel);
     container.add(logo);
     container.add(usernameField);
     container.add(passwordField);
     container.add(loginButton);
     container.add(createLabel);
     container.add(createAccountButton);
-    //login_win.add(container);
 
  	var onSuccessLogin = function(token){
     	Titanium.App.Properties.setString("token",token);
-          Titanium.App.fireEvent("Yumit:ui:hideLoading");
-          Titanium.App.fireEvent('Yumit:yums:getYumsFriends');
-          setTimeout(function() {
+    	//Titanium.App.Properties.setBool("facebookShareDisabled", false);
+    	
+        Titanium.App.fireEvent("Yumit:ui:hideLoading");
+        Titanium.App.fireEvent('Yumit:user:fetchInfo');
+        Titanium.App.fireEvent('Yumit:yums:getYumsFriends');
+        setTimeout(function() {
             tabGroup.setActiveTab({indexOrObject: 0});
             Titanium.App.fireEvent('Yumit:login');
-            win.close({opacity:0,duration:500});//login_win.close({opacity:0,duration:500});
+            if (win) {
+                win.close({opacity:0,duration:500});
+            } else {
+            	login_win.close({opacity:0,duration:500});
+            }
             tabGroup.open();
           }, 500);
     }
@@ -158,15 +141,7 @@
     loginButton.addEventListener("click", function(e) {
       passwordField.blur();
       Titanium.App.fireEvent("Yumit:ui:showLoading",{title:"Connecting"});
-      // setTimeout(function(){
-      //   Titanium.App.fireEvent("Yumit:ui:hideLoading");
-      // }, 2000);
-      // setTimeout(function(){
-      //   login_win.close({opacity:0,duration:500});
-      //   tabGroup.open();
-      // }, 2500);
-      // Titanium.App.Properties.setString("username",usernameValue);
-      // Titanium.App.Properties.setString("password",passwordValue);
+      
       Yumit.model.User.login({
         username: usernameValue,
         password: passwordValue,
@@ -178,16 +153,25 @@
       });
     });
     
-    var win = Ti.UI.createWindow();
+    Ti.App.addEventListener('Yumit:register', function(){
+    	if (win) {
+            win.close();
+       } else {
+           login_win.close();
+       }
+    });
+    
     var navGroup = Ti.UI.iPhone.createNavigationGroup({
     	window: login_win
     });
-    win.add(navGroup);
     
-    Ti.App.addEventListener('Yumit:register', function(){
-        win.close();
-    });
-    //return login_win;
-    return win;
+    if (navGroup) {
+    	var win = Ti.UI.createWindow();
+    	win.add(navGroup);
+    	return win;
+    } else {
+    	return login_win;
+    }
+
   };
 })();
