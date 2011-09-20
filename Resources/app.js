@@ -110,10 +110,14 @@ Titanium.App.addEventListener('Yumit:user:fetchInfo', function() {
         success: function(info) {
             //alert(JSON.stringify(info));
             // alert(Titanium.Facebook.loggedIn);
-            Yumit.socialNetworks.facebookDisabled = !Titanium.Facebook.loggedIn;
-            Yumit.socialNetworks.shareOnFacebook = info.share_yums_on_facebook;
-            Yumit.socialNetworks.twitterDisabled = !Titanium.App.Properties.BH.authorized();
-            Yumit.socialNetworks.shareOnTwitter = info.share_yums_on_twitter;
+            Yumit.socialNetworks.facebookDisabled = (info.facebook_enabled) ? !info.facebook_enabled : true;//!Titanium.Facebook.loggedIn;
+            Yumit.socialNetworks.shareOnFacebook = info.share_yums_on_facebook || false;
+            Yumit.socialNetworks.twitterDisabled = (info.twitter_enabled) ? !info.twitter_enabled : true;//!Titanium.App.Properties.BH.authorized();
+            Yumit.socialNetworks.shareOnTwitter = info.share_yums_on_twitter || false;
+            Yumit.socialNetworks.foursquareDisabled = (info.foursquare_enabled) ? !info.foursquare_enabled : true;//!Titanium.App.Properties.Foursquare.authorized();
+            Yumit.socialNetworks.shareOnFoursquare = info.share_yums_on_foursuqare || false;
+            Yumit.socialNetworks.flickrDisabled = (info.flickr_enabled) ? !info.flickr_enabled : true;
+            Yumit.socialNetworks.shareOnFlickr = info.share_yums_on_flickr || false;
         },
         error: function(error) {
             alert('Error occured: ' + error);
@@ -121,36 +125,29 @@ Titanium.App.addEventListener('Yumit:user:fetchInfo', function() {
     });
 });
 
-Titanium.Facebook.appid = "336361767890";
+Titanium.Facebook.appid = Yumit.constants.socialNetworks.facebookAppid;
 Titanium.Facebook.permissions = ['publish_stream', 'read_stream', 'offline_access'];
 
 Ti.App.Properties.searchType = 0;
 
 Ti.App.Properties.BH = new BirdHouse({
-    consumer_key: "U1L5Rwh08FBeFqfyMgPTKA",
-    consumer_secret: "QbWpQAATvDLwABZYjPN0uHcd1LSrWkp4usvBi8xY"
+    consumer_key: Yumit.constants.socialNetworks.twitterConsumerKey,
+    consumer_secret: Yumit.constants.socialNetworks.twitterConsumerSecret
 });
 
-//Ti.App.Properties.Flickr = new FlickrAPI({
-	
-//});
+Ti.include('/yumit/lib/foursquare.js');
+Ti.include('yumit/lib/md5.js');
+Ti.include('/yumit/lib/flickr.js');
+
+Ti.App.Properties.Foursquare = new FoursquareAPI({
+	clientId: Yumit.constants.socialNetworks.foursquareClientId,
+	redirectUri: Yumit.constants.socialNetworks.foursquareRedirectUri
+});
+
+Ti.App.Properties.Flickr = new FlickrAPI(
+	Yumit.constants.socialNetworks.flickrKey,
+	Yumit.constants.socialNetworks.flickrSecret
+);
 
 ////////////////////////////////////////////////////////
 Ti.include('/yumit/view/geolocation.js');
-
-
-//////////////////////////////////// GLOBAL TIMER?
-// var timer = null;
-//
-// timer = setInterval(function() {
-//   Ti.API.info("Global Timer");
-//   Titanium.App.fireEvent('Yumit:ui:showLoading',{title:"Obtaining Geolocation"});
-//   Titanium.App.fireEvent('Yumit:core:getGeolocation');
-//   if (Yumit.current.locationAdded) {
-//     clearInterval(timer);
-//     setTimeout(function(){Titanium.App.fireEvent("Yumit:ui:hideLoading");}, 1000);
-//     Titanium.App.fireEvent('Yumit:places:getPlacesNearby');
-//     Titanium.App.fireEvent('Yumit:yums:getYumsNearby');
-//   };
-// }, 2000);
-//

@@ -16,7 +16,20 @@
     nameHeight: 18,
     metaHeight: 14,
     avatarOffset: 6*2+48, //spacing*2+imgDimensions
-    httpTimeout: 45*1000
+    httpTimeout: 45*1000,
+    
+    socialNetworks: {
+    	facebookAppid: "336361767890",
+    	
+    	twitterConsumerKey: "U1L5Rwh08FBeFqfyMgPTKA",
+    	twitterConsumerSecret: "QbWpQAATvDLwABZYjPN0uHcd1LSrWkp4usvBi8xY",
+    	
+    	foursquareClientId: '0XFPTYM4UT24V1NLVEHXR0PLY2K3AQTPBNLUJUJNU5UNSAEP',
+		foursquareRedirectUri: 'http://yumit.com/account/sharing/foursquare_callback',
+		
+		flickrKey: '17e288e6809cb0ae3a9cadc15959b107',
+		flickrSecret: '670ef27398b3002b'
+    }
   };
 
   Yumit.android = Ti.Platform.name == 'android';

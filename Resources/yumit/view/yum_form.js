@@ -185,12 +185,13 @@
         	        Yumit.socialNetworks.shareOnFacebook = !Yumit.socialNetworks.shareOnFacebook;
         	    }
         	}, data);
- 		}
+ 		};
+ 		
  		var getTwitterImage = function() {
  			return (Yumit.socialNetworks.twitterDisabled) ? 'images/twitter-deactivated-44.png'
  			     : (Yumit.socialNetworks.shareOnTwitter)  ? 'images/twitter-on-44.png'
  			                                              : 'images/twitter-off-44.png';
- 		}
+ 		};
  		var updateTwitterUserInfo = function(data) {
  			Yumit.model.User.update({
  				success: function() {
@@ -201,7 +202,41 @@
  					Yumit.socialNetworks.shareOnTwitter = !Yumit.socialNetworks.shareOnTwitter;
  				}
  			}, data);
- 		}
+ 		};
+ 		
+ 		var getFlickrImage = function() {
+ 			return (Yumit.socialNetworks.flickrDisabled) ? 'images/flickr-deactivated-44x44-off.png'
+ 			     : (Yumit.socialNetworks.shareOnFlickr)  ? 'images/flickr-on-44.png'
+ 			                                             : 'images/flickr-off-44.png';
+ 		};
+ 		var updateFlickrUserInfo = function(data) {
+ 			Yumit.model.User.update({
+ 				success: function() {
+ 					flickrIcon.image = getFlickrImage();
+ 				},
+ 				error: function(error) {
+ 					alert('Updating user information failed ' + error)
+ 					Yumit.socialNetworks.flickrDisabled = !Yumit.socialNetworks.flickrDisabled;
+ 				}
+ 			}, data);
+ 		};
+ 		
+ 		var getFoursquareImage = function() {
+ 			return (Yumit.socialNetworks.foursquareDisabled) ? 'images/foursquare-deactivated-44x44-off.png'
+ 			     : (Yumit.socialNetworks.shareOnFoursquare)  ? 'images/foursquare-on-44.png'
+ 			                                                 : 'images/foursquare-off-44.png';
+ 		};
+ 		var updateFoursquareUserInfo = function(data) {
+ 			Yumit.model.User.update({
+ 				success: function() {
+ 					foursquareIcon.image = getFoursquareImage();
+ 				},
+ 				error: function(error) {
+ 					alert('Updating user information failed ' + error)
+ 					Yumit.socialNetworks.foursquareDisabled = !Yumit.socialNetworks.foursquareDisabled;
+ 				}
+ 			}, data);
+ 		};
         
         var twitterIcon = Ti.UI.createImageView({
             top:245,
@@ -222,14 +257,14 @@
             left:225,
             height:imgDimensions,
             width:imgDimensions,
-            image:'images/foursquare-on-44.png'
+            image: getFoursquareImage()
         }),
-        flickerIcon = Ti.UI.createImageView({
+        flickrIcon = Ti.UI.createImageView({
             top:245,
             left:170,
             height:imgDimensions,
             width:imgDimensions,
-            image:'images/flickr-on-44.png'
+            image:getFlickrImage()
         });
         
  // =============== Facebook section ===============
@@ -259,11 +294,7 @@
         	    Titanium.Facebook.authorize();
         	} else {
         	    Yumit.socialNetworks.shareOnFacebook = !Yumit.socialNetworks.shareOnFacebook;
-        	    updateFacebookUserInfo({
-        	    	user: {
-        	            share_yums_on_facebook: Yumit.socialNetworks.shareOnFacebook
-        	        }
-        	    });
+        	    facebookIcon.image = getFacebookImage();
         	}
         });
 
@@ -289,30 +320,58 @@
                 });
         	} else {
         		Yumit.socialNetworks.shareOnTwitter = !Yumit.socialNetworks.shareOnTwitter;
-                updateTwitterUserInfo({
-                	user: {
-                		share_yums_on_twitter: Yumit.socialNetworks.shareOnTwitter
-                	}
-                });
+        		twitterIcon.image = getTwitterImage();
         	}
         });
 // =============== Foursquare section ================
         
         foursquareIcon.addEventListener('click', function(e){
-        	alert('logout');
-            Titanium.Facebook.logout();
+        	if (Yumit.socialNetworks.foursquareDisabled) {
+        		Titanium.App.Properties.Foursquare.authorize({
+				    callback: function(params) {
+				        if (Titanium.App.Properties.Foursquare.authorized()) {
+	        			    if (params.accessToken) {
+	        				    Yumit.socialNetworks.foursquareDisabled = !Yumit.socialNetworks.foursquareDisabled;
+	        	                updateFoursquareUserInfo({
+	        	                    user: {
+	        	    	                foursquare_token: params.accessToken,
+	        	    		        }
+	        	                });
+	        	            }
+	                    } else {
+	                        alert("Authorization failed");
+	                    }
+				    }
+				});
+        	} else {
+        		Yumit.socialNetworks.shareOnFoursquare = !Yumit.socialNetworks.shareOnFoursquare;
+        		foursquareIcon.image = getFoursquareImage();
+        	}
         });
 
 // =============== Flickr section ====================
 
-		flickerIcon.addEventListener('click', function(e) {
-			Titanium.App.Properties.BH.deauthorize(function(e) {
-			    if (e != false) {
-			    	alert('Deauthorized');
-			    } else {
-			    	alert('Deauthorization failed');
-			    }
-			});
+		flickrIcon.addEventListener('click', function(e) {
+			if (Yumit.socialNetworks.flickrDisabled) {
+            	Ti.App.Properties.Flickr.authorize(function(params) {
+	        	    if (params && params.auth) {
+	        	        //alert(params);
+	        			Yumit.socialNetworks.flickrDisabled = !Yumit.socialNetworks.flickrDisabled;
+	        	        updateFlickrUserInfo({
+	        	            user: {
+	        	    	        flickr_token: params.auth.token,
+	        	    	        flickr_username: params.auth.user.username,
+	        	    	        flickr_nsid: params.auth.user.nsid
+	        	    		}
+	        	        });
+	        		} else {
+	        			alert("Authorization failed");
+	        		}
+        		});
+            } else {
+            	Yumit.socialNetworks.shareOnFlickr = !Yumit.socialNetworks.shareOnFlickr;
+        		flickrIcon.image = getFlickrImage();
+            }
 		});
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -323,7 +382,7 @@
         winview.add(twitterIcon);
         winview.add(facebookIcon);
         winview.add(foursquareIcon);
-        winview.add(flickerIcon);
+        winview.add(flickrIcon);
         
         
 /////////////////////////////////////////////////////////////////////////////BOTON
@@ -422,7 +481,11 @@
             	place_id: _place.id,
                 photo: _photo,
                 text: (description.firstFocus) ? description.value : '',
-                tags: (tags.firstFocus) ? tags.value : ''
+                tags: (tags.firstFocus) ? tags.value : '',
+                share_facebook: (Yumit.socialNetworks.shareOnFacebook) ? '1': '0',
+                share_twitter: (Yumit.socialNetworks.shareOnTwitter) ? '1' : '0',
+                share_flickr: (Yumit.socialNetworks.shareOnFlickr) ? '1' : '0',
+                share_foursquare: (Yumit.socialNetworks.shareOnFoursquare) ? '1' : '0'
             };
             if (_dish.id) {
             	dataToSend.dish_id = _dish.id;

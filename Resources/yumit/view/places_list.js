@@ -71,6 +71,17 @@
       top:35,
       height:45
     });
+    
+    search.addEventListener('return', function(e) {
+      //Titanium.API.info('RETURN');
+      search.blur();
+      makeRequest();
+    });
+
+    search.addEventListener('cancel', function(e) {
+      //Titanium.API.info('CANCEL');
+      search.blur();
+    });
 
     win.add(search);
 
@@ -99,18 +110,6 @@
             }
         });
     };
-
-    search.addEventListener('return', function(e) {
-      //Titanium.API.info('RETURN');
-      search.blur();
-      makeRequest();
-    });
-
-    search.addEventListener('cancel', function(e) {
-      //Titanium.API.info('CANCEL');
-      search.blur();
-    });
-
 
 ////////////////////////////////////////////////////
     function show_list() {

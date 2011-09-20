@@ -6,7 +6,7 @@
             {title:'Flickr', color:Yumit.constants.darkRed},
             {title:'Foursquare', color:Yumit.constants.darkRed}
         ];*/
-       var networks = createNetworksList();
+        var networks = createNetworksList();
         
         var win = new Window({
             id: 'defaultWindow',
@@ -20,52 +20,214 @@
         });
         tableView.setData(networks);
         win.add(tableView);
-        
-        var updateFacebookUserInfo = function(data, row) {
+ 		
+//============================= FACEBOOK SECTION =================================
+ 		var updateFacebookUserInfo = function(data, row) {
  			Yumit.model.User.update({
         	    success: function() {
         	        tableView.setData(createNetworksList());
         	    },
         	    error: function(error) {
         	        alert('Updating user information failed ' + error);
-        	        Yumit.socialNetworks.shareOnFacebook = !Yumit.socialNetworks.shareOnFacebook;
+        	        Yumit.socialNetworks.facebookDisabled = !Yumit.socialNetworks.facebookDisabled;
         	    }
         	}, data);
  		};
- 		
- 		var updateTwitterUserInfo = function(data) {
+        
+        var notified = false;
+        Titanium.Facebook.addEventListener('login', function(e) {
+            if (!notified) {
+        	    notified = true;
+        	    if (e.success) {
+        	    	Yumit.socialNetworks.facebookDisabled = !Yumit.socialNetworks.facebookDisabled;
+        	    	updateFacebookUserInfo({
+        	    		user: {
+	        	    	        fb_offline_key: Titanium.Facebook.accessToken,
+	        	    			fb_uid: e.data.id,
+	        	    			fb_username: e.data.name
+        	    		}
+        	    	});
+        	    } else if (!e.cancelled){
+        	    	alert('FB authorization failed');
+        	    }
+        	}
+        });
+        
+        Titanium.Facebook.addEventListener('logout', function(e) {
+        	if (!notified) {
+        		notified = true;
+        		Yumit.socialNetworks.facebookDisabled = !Yumit.socialNetworks.facebookDisabled;
+        	    updateFacebookUserInfo({
+        	    	user: {
+        	    	    fb_offline_key: '',
+        	    		fb_uid: '',
+        	    		fb_username: ''
+        	    	}
+        	    });
+        		tableView.setData(createNetworksList());
+        	}
+        });
+// ==================== END FACEBOOK SECTION ===========================
+
+// ========================= TWITTER SECTION ===========================
+        var updateTwitterUserInfo = function(data) {
  			Yumit.model.User.update({
  				success: function() {
  					tableView.setData(createNetworksList());
  				},
  				error: function(error) {
  					alert('Updating user information failed ' + error)
- 					Yumit.socialNetworks.shareOnTwitter = !Yumit.socialNetworks.shareOnTwitter;
+ 					Yumit.socialNetworks.twitterDisabled = !Yumit.socialNetworks.twitterDisabled;
  				}
  			}, data);
  		};
  		
- 		var detachService = function(index) {
+ 		var authorizeTwitter = function() {
+ 			Ti.App.Properties.BH.authorize(function(e){                	
+                if (e != false) {
+                    var config = Ti.App.Properties.BH.config();
+                    Yumit.socialNetworks.twitterDisabled = !Yumit.socialNetworks.twitterDisabled;
+        	        updateTwitterUserInfo({
+        	            user: {
+        	    	        twitter_id: config.user_id,
+        	    			twitter_username: config.screen_name,
+        	    			twitter_token: config.access_token,
+        	    			twitter_secret: config.access_token_secret
+        	    		}
+        	        });
+                } else {
+                    alert("Authorization failed");// + e.error);
+                }
+            });
+ 		};
+ 		
+ 		var deauthorizeTwitter = function() {
+ 			Titanium.App.Properties.BH.deauthorize(function(e) {
+			    if (e != false) {
+			        //alert('Deauthorized');
+			    	Yumit.socialNetworks.twitterDisabled = !Yumit.socialNetworks.twitterDisabled;
+			    	updateTwitterUserInfo({
+        	    	    user: {
+        	    	        twitter_id: '',
+        	    			twitter_username: '',
+        	    			twitter_token: '',
+        	    			twitter_secret: ''
+        	    		}
+        	        });
+        		    tableView.setData(createNetworksList());
+			    } else {
+			        alert('Deauthorization failed');
+			    }
+		    });
+ 		};
+// ======================== END TWITTER SECTION ========================
+
+// ======================== FOURSQUARE SECTION =========================
+        var updateFoursquareUserInfo = function(data) {
+ 			Yumit.model.User.update({
+ 				success: function() {
+ 					tableView.setData(createNetworksList());
+ 				},
+ 				error: function(error) {
+ 					alert('Updating user information failed ' + error)
+ 					Yumit.socialNetworks.foursquareDisabled = !Yumit.socialNetworks.foursquareDisabled;
+ 				}
+ 			}, data);
+ 		};
+        
+        var authorizeFoursquare = function() {
+        	Titanium.App.Properties.Foursquare.authorize({
+			    callback: function(params) {
+			        if (Titanium.App.Properties.Foursquare.authorized()) {
+        			    if (params.accessToken) {
+        				    Yumit.socialNetworks.foursquareDisabled = !Yumit.socialNetworks.foursquareDisabled;
+        	                updateFoursquareUserInfo({
+        	                    user: {
+        	    	                foursquare_token: params.accessToken,
+        	    		        }
+        	                });
+        	            }
+                    } else {
+                        alert("Authorization failed");
+                    }
+			    }
+			});
+        }
+        
+        var detachFoursquare = function() {
+        	Yumit.socialNetworks.foursquareDisabled = !Yumit.socialNetworks.foursquareDisabled;
+        	updateFoursquareUserInfo({
+        	    user: {
+        	        foursquare_token: ''
+        	    }
+        	});
+        }
+// ====================== END FOURSQUARE SECTION =======================
+
+// ========================== FLICKR SECTION ===========================
+        var updateFlickrUserInfo = function(data) {
+ 			Yumit.model.User.update({
+ 				success: function() {
+ 					tableView.setData(createNetworksList());
+ 				},
+ 				error: function(error) {
+ 					alert('Updating user information failed ' + error)
+ 					Yumit.socialNetworks.flickrDisabled = !Yumit.socialNetworks.flickrDisabled;
+ 				}
+ 			}, data);
+ 		};
+ 		
+ 		var authorizeFlickr = function() {
+ 			Ti.App.Properties.Flickr.authorize(function(params) {
+        	    if (params && params.auth) {
+        	        //alert(params);
+        			Yumit.socialNetworks.flickrDisabled = !Yumit.socialNetworks.flickrDisabled;
+        	        updateFlickrUserInfo({
+        	            user: {
+        	    	        flickr_token: params.auth.token,
+        	    	        flickr_username: params.auth.user.username,
+        	    	        flickr_nsid: params.auth.user.nsid
+        	    		}
+        	        });
+        		} else {
+        			alert("Authorization failed");
+        		}
+        	});
+ 		}
+
+        var detachFlickr = function() {
+        	Yumit.socialNetworks.flickrDisabled = !Yumit.socialNetworks.flickrDisabled;
+        	updateFlickrUserInfo({
+        	    user: {
+        	        flickr_token: '',
+        	    	flickr_username: '',
+        	    	flickr_nsid: ''
+        	    }
+        	});
+        }
+// ======================== END FLICKR SECTION =========================
+        
+        var detachService = function(index) {
  		    switch (index) {
  		    	case 0:
  		    	    Titanium.Facebook.logout();
  		    	break;
  		    	
  		    	case 1:
- 		    	    Titanium.App.Properties.BH.deauthorize(function(e) {
-			            if (e != false) {
-			    	        alert('Deauthorized');
-			    	        Yumit.socialNetworks.twitterDisabled = !Yumit.socialNetworks.twitterDisabled;
-        		            tableView.setData(createNetworksList());
-			            } else {
-			    	        alert('Deauthorization failed');
-			            }
-			        });
+ 		    	    deauthorizeTwitter();
+			    break;
+			    
+			    case 2:
+			        detachFlickr();
+			    break;
+			    
+			    case 3:
+			        detachFoursquare();
 			    break;
  		    }
  		}
  		
- 		var confirmDialog = function(title, sourceIndex) { 
+ 		var detachDialog = function(title, sourceIndex) { 
  		    return Ti.UI.createOptionDialog({
  			    title: 'Detach your ' + title + ' account?',
  			    options: [
@@ -77,7 +239,13 @@
  		    });
  		};
  		
- 		var confirmationDialogClickHandler = function(e) {
+ 		var showDetachDialog = function(title, sourceIndex) {
+ 			var dialog = detachDialog(title, sourceIndex);
+        	dialog.addEventListener('click', detachDialogClickHandler);
+        	dialog.show();
+ 		}
+ 		
+ 		var detachDialogClickHandler = function(e) {
  			switch(e.index) {
 	            case 0:
 	            	detachService(e.source.sourceIndex);
@@ -88,78 +256,51 @@
 	        };
  		};
         
-        var notified = false;
-        Titanium.Facebook.addEventListener('login', function(e) {
-            if (!notified) {
-        	    notified = true;
-        	    if (e.success) {
-        	    	Yumit.socialNetworks.facebookDisabled = !Yumit.socialNetworks.facebookDisabled;
-        	    	updateFacebookUserInfo({
-        	    		user: {
-        	    	        fb_offline_key: Titanium.Facebook.accessToken,
-        	    			fb_uid: e.data.id,
-        	    			fb_username: e.data.name,
-        	    		    share_yums_on_facebook: Yumit.socialNetworks.shareOnFacebook
-        	    		}
-        	    	});
-        	    } else if (!e.cancelled){
-        	    	alert('FB authorization failed');
-        	    }
-        	}
-        });
-        Titanium.Facebook.addEventListener('logout', function(e) {
-        	if (!notified) {
-        		notified = true;
-        		Yumit.socialNetworks.facebookDisabled = !Yumit.socialNetworks.facebookDisabled;
-        		tableView.setData(createNetworksList());
-        	}
-        });
-        
         tableView.addEventListener('click', function(e) {
         	var index = e.index;
         	var row = e.rowData;
         	
-        	if (index == 0) {
-        		notified = false;
-                if (Yumit.socialNetworks.facebookDisabled) {
-        	        Titanium.Facebook.authorize();
-        	    } else {
-        	    	var detachDialog = confirmDialog("Facebook", index);
-        	    	detachDialog.addEventListener('click', confirmationDialogClickHandler);
-        	    	detachDialog.show();
-        	    }
+        	switch (index) {
+        	    case 0:
+        		    notified = false;
+                    if (Yumit.socialNetworks.facebookDisabled) {
+        	            Titanium.Facebook.authorize();
+        	        } else {
+        	    	    showDetachDialog('Facebook', index);
+        	        }
+        	    break;
+        	
+        	    case 1:
+        		    if (Yumit.socialNetworks.twitterDisabled) {
+        	            authorizeTwitter();
+        	        } else {
+        	    	    showDetachDialog('Twitter', index);
+        	        }
+        	    break;
+        	
+        	    case 2:
+        		    if (Yumit.socialNetworks.flickrDisabled) {
+        			    authorizeFlickr();
+        		    } else {
+        			    showDetachDialog('Flickr', index);
+        		    }
+        		break;
+        		
+        		case 3:
+        		    if (Yumit.socialNetworks.foursquareDisabled) {
+        			    authorizeFoursquare();
+        		    } else {
+        			    showDetachDialog('Foursquare', index);
+        		    }
+        		break;
         	}
         	
-        	if (index == 1) {
-        		if (Yumit.socialNetworks.twitterDisabled) {
-        	        Ti.App.Properties.BH.authorize(function(e){                	
-                	    if (e != false) {
-                		    var config = Ti.App.Properties.BH.config();
-                		    Yumit.socialNetworks.twitterDisabled = !Yumit.socialNetworks.twitterDisabled;
-        	    		    updateTwitterUserInfo({
-        	    			    user: {
-        	    			        twitter_id: config.user_id,
-        	    			        twitter_username: config.screen_name,
-        	    			        twitter_token: config.access_token,
-        	    			        twitter_secret: config.access_token_secret,
-        	    			        share_yums_on_twitter: Yumit.socialNetworks.shareOnTwitter
-        	    		        }
-        	    		    });
-                	    } else {
-                		    alert("Authorization failed");// + e.error);
-                	    }
-                    });
-        	    } else {
-			        var detachDialog = confirmDialog("Twitter", index);
-        	    	detachDialog.addEventListener('click', confirmationDialogClickHandler);
-        	    	detachDialog.show();
-        	    }
-        	}
         });
         
         return win;
     };
     
+// ======================= CREATING LIST SECTION =========================== 
     function createNetworkView(args) {
     	var row = Titanium.UI.createTableViewRow({
     		height: 45
@@ -189,8 +330,7 @@
     		width: 240,
     		height: 'auto',
     		text: args.title
-    	})
-    	//container.add(indicator);
+    	});
     	container.add(title);
     	container.add(indicator);
     	row.add(container);
@@ -212,12 +352,22 @@
         var twitterRow = createNetworkView({
         	title: 'Twitter',
         	selectedImage: selectImage(Yumit.socialNetworks.twitterDisabled)
-        })
+        });
+        var flickrRow = createNetworkView({
+        	title: 'Flickr',
+        	selectedImage: selectImage(Yumit.socialNetworks.flickrDisabled)
+        });
+        var foursquareRow = createNetworkView({
+        	title: 'Foursquare',
+        	selectedImage: selectImage(Yumit.socialNetworks.foursquareDisabled)
+        });
         
         networksList.push(facebookRow);
         networksList.push(twitterRow);
+        networksList.push(flickrRow);
+        networksList.push(foursquareRow);
         
         return networksList;
     };
-    
+// =================================================================
 })();
