@@ -382,7 +382,7 @@
     	/* ============== EVENT LISTENER ============== */
     	
     	var fillUserInfo = function(userInfo) {
-    		alert(JSON.stringify(userInfo));
+    		//alert(JSON.stringify(userInfo));
     		//avatarImage.image = 
     	}	    	
     	
