@@ -22,7 +22,13 @@
       var section = e.section;
 
       if (index == 0) {
-        alert("Edit your profile");
+      	Titanium.App.fireEvent("Yumit:ui:showLoading",{title:"Connecting"});
+    	//Titanium.App.fireEvent('Yumit:profile:fetchInfo');
+    	//setTimeout(function() {
+      	  var win = Yumit.ui.profile();
+      	  Titanium.App.fireEvent('Yumit:profile:fetchInfo');
+          tabGroup.activeTab.open(win, {animated:true});
+        //}, 500);
       };
 
       if (index == 1) {

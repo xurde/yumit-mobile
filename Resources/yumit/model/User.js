@@ -96,6 +96,7 @@
     },
     
     fetchInfo: function(_args) {
+    	Ti.API.info('fetchInfo User');
     	var xhr = Titanium.Network.createHTTPClient({
       	    timeout: Yumit.constants.httpTimeout
         });
@@ -116,8 +117,10 @@
             }
             var jsonReply = JSON.parse(this.responseText);
             if (this.responseText.length > 0 && jsonReply.success === "false" ) {
+            	if (_args.onfinish) _args.onfinish();
                 _args.error(jsonReply.error);
             } else {
+            	if (_args.onfinish) _args.onfinish();
                 _args.success(jsonReply.user);
             }
         };
