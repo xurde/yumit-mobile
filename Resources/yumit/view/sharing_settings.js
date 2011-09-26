@@ -29,7 +29,7 @@
         	    },
         	    error: function(error) {
         	        alert('Updating user information failed ' + error);
-        	        Yumit.socialNetworks.facebookDisabled = !Yumit.socialNetworks.facebookDisabled;
+        	        //Yumit.socialNetworks.facebookDisabled = !Yumit.socialNetworks.facebookDisabled;
         	    }
         	}, data);
  		};
@@ -39,14 +39,16 @@
             if (!notified) {
         	    notified = true;
         	    if (e.success) {
-        	    	Yumit.socialNetworks.facebookDisabled = !Yumit.socialNetworks.facebookDisabled;
+								//alert('FB authorization WIN! -> ' + Titanium.Facebook.accessToken);
         	    	updateFacebookUserInfo({
         	    		user: {
-	        	    	        fb_offline_key: Titanium.Facebook.accessToken,
-	        	    			fb_uid: e.data.id,
-	        	    			fb_username: e.data.name
+	        	    	    facebook_access_token: Titanium.Facebook.accessToken,
+	        	    			facebook_uid: e.data.id,
+	        	    			facebook_username: e.data.name,
+											share_yums_on_facebook: Yumit.socialNetworks.shareOnFacebook
         	    		}
         	    	});
+								Yumit.socialNetworks.facebookDisabled = false;
         	    } else if (!e.cancelled){
         	    	alert('FB authorization failed');
         	    }
@@ -63,6 +65,7 @@
         	    		fb_username: ''
         	    	}
         	    });
+						Yumit.socialNetworks.facebookDisabled = true;
         		tableView.setData(createNetworksList());
         	}
         });
@@ -94,6 +97,7 @@
         	    			twitter_secret: config.access_token_secret
         	    		}
         	        });
+									Yumit.socialNetworks.twitterDisabled = false;
                 } else {
                     alert("Authorization failed");// + e.error);
                 }
@@ -113,6 +117,7 @@
         	    		}
         	    });
         		tableView.setData(createNetworksList());
+						Yumit.socialNetworks.twitterDisabled = true;
 			    } else {
 			        alert('Deauthorization failed');
 			    }
@@ -128,7 +133,7 @@
  				},
  				error: function(error) {
  					alert('Updating user information failed ' + error)
- 					Yumit.socialNetworks.foursquareDisabled = !Yumit.socialNetworks.foursquareDisabled;
+ 					//Yumit.socialNetworks.foursquareDisabled = !Yumit.socialNetworks.foursquareDisabled;
  				}
  			}, data);
  		};
@@ -138,12 +143,12 @@
 			    callback: function(params) {
 			        if (Titanium.App.Properties.Foursquare.authorized()) {
         			    if (params.accessToken) {
-        				    Yumit.socialNetworks.foursquareDisabled = !Yumit.socialNetworks.foursquareDisabled;
         	                updateFoursquareUserInfo({
         	                    user: {
         	    	                foursquare_token: params.accessToken,
         	    		        }
         	                });
+											Yumit.socialNetworks.foursquareDisabled = false;
         	            }
                     } else {
                         alert("Authorization failed");
@@ -153,12 +158,12 @@
         }
         
         var detachFoursquare = function() {
-        	Yumit.socialNetworks.foursquareDisabled = !Yumit.socialNetworks.foursquareDisabled;
         	updateFoursquareUserInfo({
         	    user: {
         	        foursquare_token: ''
         	    }
         	});
+				Yumit.socialNetworks.foursquareDisabled = true;
         }
 // ====================== END FOURSQUARE SECTION =======================
 
@@ -178,11 +183,11 @@
  		var authorizeFlickr = function() {
  			Ti.App.Properties.Flickr.authorize(function(params) {
         	    if (params && params.auth) {
-        	        //alert(params);
-        			Yumit.socialNetworks.flickrDisabled = !Yumit.socialNetworks.flickrDisabled;
+        	       alert(params);
+        			Yumit.socialNetworks.flickrDisabled = false;
         	        updateFlickrUserInfo({
         	            user: {
-        	    	        flickr_token: params.auth.token,
+        	    	        flickr_token: params.auth.token['_content'],
         	    	        flickr_username: params.auth.user.username,
         	    	        flickr_nsid: params.auth.user.nsid
         	    		}
@@ -194,15 +199,16 @@
  		}
 
         var detachFlickr = function() {
-        	Yumit.socialNetworks.flickrDisabled = !Yumit.socialNetworks.flickrDisabled;
         	updateFlickrUserInfo({
         	    user: {
-        	        flickr_token: '',
+        	      flickr_token: '',
         	    	flickr_username: '',
         	    	flickr_nsid: ''
         	    }
         	});
+				Yumit.socialNetworks.flickrDisabled = true;
         }
+
 // ======================== END FLICKR SECTION =========================
         
         var detachService = function(index) {
