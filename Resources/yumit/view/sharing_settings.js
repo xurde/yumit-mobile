@@ -56,10 +56,9 @@
         Titanium.Facebook.addEventListener('logout', function(e) {
         	if (!notified) {
         		notified = true;
-        		Yumit.socialNetworks.facebookDisabled = !Yumit.socialNetworks.facebookDisabled;
         	    updateFacebookUserInfo({
         	    	user: {
-        	    	    fb_offline_key: '',
+        	    	  fb_offline_key: '',
         	    		fb_uid: '',
         	    		fb_username: ''
         	    	}
@@ -86,7 +85,7 @@
  			Ti.App.Properties.BH.authorize(function(e){                	
                 if (e != false) {
                     var config = Ti.App.Properties.BH.config();
-                    Yumit.socialNetworks.twitterDisabled = !Yumit.socialNetworks.twitterDisabled;
+                  
         	        updateTwitterUserInfo({
         	            user: {
         	    	        twitter_id: config.user_id,
@@ -105,16 +104,15 @@
  			Titanium.App.Properties.BH.deauthorize(function(e) {
 			    if (e != false) {
 			        //alert('Deauthorized');
-			    	Yumit.socialNetworks.twitterDisabled = !Yumit.socialNetworks.twitterDisabled;
 			    	updateTwitterUserInfo({
         	    	    user: {
         	    	        twitter_id: '',
-        	    			twitter_username: '',
-        	    			twitter_token: '',
-        	    			twitter_secret: ''
+        	    					twitter_username: '',
+        	    					twitter_token: '',
+        	    					twitter_secret: ''
         	    		}
-        	        });
-        		    tableView.setData(createNetworksList());
+        	    });
+        		tableView.setData(createNetworksList());
 			    } else {
 			        alert('Deauthorization failed');
 			    }

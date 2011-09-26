@@ -34,7 +34,7 @@ function FlickrAPI(key, shared_secret){
 			});
 			var toolbar = Ti.UI.createToolbar({top:0});
 			var toolbarLabel = Ti.UI.createLabel({
-				text:'Login with Flickr',
+				text:'Flickr Connect',
 				font:{fontSize:16,fontWeight:'bold'},
 				color:'#FFF',
 				textAlign:'center'
@@ -43,7 +43,7 @@ function FlickrAPI(key, shared_secret){
 				systemButton:Titanium.UI.iPhone.SystemButton.FLEXIBLE_SPACE
 			});
 			var btnClose = Titanium.UI.createButton({
-				title:'Cancel',
+				title:'Close',
 				style:Titanium.UI.iPhone.SystemButtonStyle.BORDERED
 			});
 			toolbar.items = [flexSpace,flexSpace,toolbarLabel,flexSpace,btnClose];

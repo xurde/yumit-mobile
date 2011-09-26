@@ -25,10 +25,10 @@
     	twitterConsumerSecret: "QbWpQAATvDLwABZYjPN0uHcd1LSrWkp4usvBi8xY",
     	
     	foursquareClientId: '0XFPTYM4UT24V1NLVEHXR0PLY2K3AQTPBNLUJUJNU5UNSAEP',
-		foursquareRedirectUri: 'http://yumit.com/account/sharing/foursquare_callback',
+			foursquareRedirectUri: 'http://yumit.com/account/sharing/foursquare_callback',
 		
-		flickrKey: '17e288e6809cb0ae3a9cadc15959b107',
-		flickrSecret: '670ef27398b3002b'
+			flickrKey: '17e288e6809cb0ae3a9cadc15959b107',
+			flickrSecret: '670ef27398b3002b'
     }
   };
 

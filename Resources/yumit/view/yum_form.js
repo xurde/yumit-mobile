@@ -2,7 +2,7 @@
     Yumit.ui.yum_form = function(_closeCallBack, _place, _dish, _photo){
         var win = new Window({
             id: 'defaultWindow',
-            title:'Post a Yum'
+            title:'Post Yum'
         });
 
         var scrollView = Ti.UI.createScrollView({
@@ -278,10 +278,10 @@
         	    		Yumit.socialNetworks.facebookDisabled = !Yumit.socialNetworks.facebookDisabled;
         	    		updateFacebookUserInfo({
         	    			user: {
-        	    			    fb_offline_key: Titanium.Facebook.accessToken,
-        	    			    fb_uid: e.data.id,
-        	    			    fb_username: e.data.name,
-        	    		        share_yums_on_facebook: Yumit.socialNetworks.shareOnFacebook
+        	    			    facebook_access_token: Titanium.Facebook.accessToken,
+        	    			    facebook_uid: e.data.id,
+        	    			    facebook_username: e.data.name,
+        	    		      share_yums_on_facebook: Yumit.socialNetworks.shareOnFacebook
         	    		    }
         	    		});
         	    	} else if (!e.cancelled){
