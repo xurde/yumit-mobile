@@ -27,6 +27,49 @@
     	    layout: 'vertical'
     	});
     	
+    	scrollView.addEventListener('singletap', function(e) {
+    		genderPickerView.animate(slideOut);
+    		birthdatePickerView.animate(slideOut);
+    	});
+    	
+    	var genderPickerView = Titanium.UI.createView({height:248,bottom:-248});
+    	var birthdatePickerView = Titanium.UI.createView({height:248,bottom:-248});
+    	var countryPickerView = Titanium.UI.createView({height:248,bottom:-248});
+    	var slideIn = Titanium.UI.createAnimation({bottom:-33});
+        var slideOut = Titanium.UI.createAnimation({bottom:-251});
+        
+        var genderPicker = Yumit.ui.genderPicker();
+        genderPickerView.add(genderPicker);
+        genderPicker.addEventListener('change', function(e) {
+        	genderButton.title = e.row.title;//genderPicker.getSelectedRow(0).title;
+        	genderButton.custom_item = e.row.custom_item;
+        	//alert(JSON.stringify(genderPicker.data[0]));
+        });
+        var birthdatePicker = Yumit.ui.birthdatePicker();
+        birthdatePickerView.add(birthdatePicker);
+        //birthdatePickerView.add(Ti.UI.createLabel({text: 'lalala'}));
+        birthdatePicker.addEventListener('change', function(e) {
+            //alert(e.value);
+            var pickedDate = e.value;
+            birthdateButton.title = pickedDate.getFullYear() + '-' + (parseInt(pickedDate.getMonth()) + 1) + '-' + pickedDate.getDate();
+        });
+        /*var picker = Titanium.UI.createPicker({top:0});
+        picker.selectionIndicator=true;
+        var pickerValues = [
+	        Titanium.UI.createPickerRow({title:'John'}),
+	        Titanium.UI.createPickerRow({title:'Alex'}),
+	        Titanium.UI.createPickerRow({title:'Marie'}),
+	        Titanium.UI.createPickerRow({title:'Eva'}),
+	        Titanium.UI.createPickerRow({title:'James'})
+        ];
+        picker.add(pickerValues);
+        
+        genderPickerView.add(picker);
+        picker.addEventListener('change', function(e) {
+        	//alert('change');
+        	genderButton.title = picker.getSelectedRow(0).title;
+        });*/
+    	
     	var avatarContainer = Titanium.UI.createView({
     		top: 0,
     		width: 'auto',
@@ -177,8 +220,9 @@
     	});
     	
     	genderButton.addEventListener('click', function() {
-    		win = Yumit.ui.genderPicker('F');
-            win.open({modal:true});
+    		//win = Yumit.ui.genderPicker('F');
+            //win.open({modal:true});
+            genderPickerView.animate(slideIn);
     	});
     	
     	var birthdateContainer = Titanium.UI.createView({
@@ -218,8 +262,9 @@
     	});
     	
     	birthdateButton.addEventListener('click', function() {
-    		win = Yumit.ui.birthdatePicker();
-            win.open({modal:true});
+    		//win = Yumit.ui.birthdatePicker();
+            //win.open({modal:true});
+            birthdatePickerView.animate(slideIn);
     	});
     	
     	var countryContainer = Titanium.UI.createView({
@@ -378,13 +423,53 @@
         
         scrollView.add(profileWindowContainer);
         profileWindow.add(scrollView);
+        profileWindow.add(genderPickerView);
+        profileWindow.add(birthdatePickerView);
     	
     	/* ============== EVENT LISTENER ============== */
     	
     	var fillUserInfo = function(userInfo) {
-    		//alert(JSON.stringify(userInfo));
+    		alert(JSON.stringify(userInfo));
+    		emailTextField.value = userInfo.email;
+    		fullnameTextField.value = userInfo.name;
+    		setGender(userInfo.gender);
+    		setBirthdate(userInfo.birthdate);
     		//avatarImage.image = 
-    	}	    	
+    	};
+    	
+    	var setGender = function(key) {
+    		for (var i = 0, n = genderPicker.data.length; i < n; i++) {
+    		    if (genderPicker.data[i].custom_item == key) {
+    		    	genderPicker.setSelectedRow(0, i, true);
+        		}
+    		}
+    	};
+    	
+    	var setBirthdate = function(date) {
+    	    var dateValue = date.split('T')[0];
+    	    var dateArray = dateValue.split('-');
+    	    var year = parseInt(dateArray[0]);
+    	    var month = parseInt(dateArray[1]);
+    	    var day = parseInt(dateArray[2]);
+    	    var value = new Date();
+    	    value.setFullYear(year);
+    	    value.setMonth(month - 1);
+    	    value.setDate(day);
+    	    birthdatePicker.value = value;
+    	    birthdateButton.title = year + '-' + month + '-' + day;
+    	};
+    	
+    	/*var getGender = function(key) {
+    		return (key === 'M') ? 'Male' 
+    		     : (key === 'F') ? 'Female'
+    		     : 'Not Saying';
+    	};
+    	
+    	var getGenderKey = function(gender) {
+    		return (gender === 'Male')   ? 'M'
+    		     : (gender === 'Female') ? 'F'
+    		     : '';
+    	};*/
     	
     	Titanium.App.addEventListener('Yumit:profile:fetchInfo', function() {
     		Ti.API.info('Yumit:profile:fetchInfo handling');

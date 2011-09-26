@@ -20,7 +20,7 @@ function BirdHouse(params) {
 		// user config
 		oauth_consumer_key: "",
 		consumer_secret: "",
-		show_login_toolbar: false,
+		show_login_toolbar: true,
 		// system config
 		oauth_version: "1.0",
 		oauth_token: "",
@@ -300,6 +300,49 @@ function BirdHouse(params) {
 		var url = 'https://api.twitter.com/oauth/access_token';
 
 		api(url,'POST','oauth_token='+cfg.request_token+'&oauth_verifier='+cfg.request_verifier,function(resp){
+			if (resp!=false) {
+				var responseParams = OAuth.getParameterMap(resp);
+				cfg.access_token = responseParams['oauth_token'];
+				cfg.access_token_secret = responseParams['oauth_token_secret'];
+				//cfg.token = responseParams['access']
+				cfg.user_id = responseParams['user_id'];
+				cfg.screen_name = responseParams['screen_name'];
+				accessor.tokenSecret = cfg.access_token_secret;
+
+				Ti.API.debug("fn-get_access_token: response was "+resp);
+
+				save_access_token();
+
+				authorized = load_access_token();
+
+				Ti.API.debug("fn-get_access_token: the user is authorized is "+authorized);
+
+				Ti.API.info('Authorization is complete. The callback fn is: '+JSON.stringify(callback));
+
+				// execute the callback function
+				if(typeof(callback)=='function'){
+					Ti.API.debug("fn-get_access_token: we are calling a callback function");
+					callback(true);
+				}
+			} else {
+				Ti.API.info("Failed to get access token.");
+				// execute the callback function
+				if(typeof(callback)=='function'){
+					Ti.API.debug("fn-get_access_token: we are calling a callback function");
+					callback(false);
+				}
+			}
+		},false,true,false);
+	}
+	
+	function get_access_token_xauth(username, password, callback) {
+		var url = 'https://api.twitter.com/oauth/access_token';
+        var params = 'oauth_token=' + cfg.request_token
+                   + '&oauth_verifier=' + cfg.request_verifier
+                   + '&x_auth_mode=' + 'client_auth'
+                   + '&x_auth_password=' + password
+                   + '&x_auth_username=' + username 
+		api(url,'POST',params,function(resp){
 			if (resp!=false) {
 				var responseParams = OAuth.getParameterMap(resp);
 				cfg.access_token = responseParams['oauth_token'];
@@ -1170,6 +1213,16 @@ Ti.API.info('shortlink '+shorturl);
 
 		return authorized;
 	}
+	
+	function authorizeWithXAuth(username, password, callback) {
+	    if (!authorized) {
+	    	get_access_token_xauth(username, password, callback);
+	    } else {
+	    	if (typeof(callback)=='function') {
+	    		callback(authorized);
+	    	}
+	    }
+	}
 
 	// --------------------------------------------------------
 	// deauthorize
@@ -1218,6 +1271,7 @@ Ti.API.info('shortlink '+shorturl);
 	// ===================== PUBLIC ===========================
 	// --------------------------------------------------------
 	this.authorize = authorize;
+	this.authorizeWithXAuth = authorizeWithXAuth;
 	this.deauthorize = deauthorize;
 	this.api = api;
 	this.get_tweets = get_tweets;

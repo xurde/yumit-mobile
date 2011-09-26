@@ -1,11 +1,5 @@
 (function() {
     Yumit.sharing_settings = function() {
-        /*var networks = [
-            {title:'Facebook', color:Yumit.constants.darkRed},
-            {title:'Twitter', color:Yumit.constants.darkRed},
-            {title:'Flickr', color:Yumit.constants.darkRed},
-            {title:'Foursquare', color:Yumit.constants.darkRed}
-        ];*/
         var networks = createNetworksList();
         
         var win = new Window({
@@ -29,7 +23,7 @@
         	    },
         	    error: function(error) {
         	        alert('Updating user information failed ' + error);
-        	        //Yumit.socialNetworks.facebookDisabled = !Yumit.socialNetworks.facebookDisabled;
+        	        Yumit.socialNetworks.facebookDisabled = !Yumit.socialNetworks.facebookDisabled;
         	    }
         	}, data);
  		};
@@ -39,16 +33,15 @@
             if (!notified) {
         	    notified = true;
         	    if (e.success) {
-								//alert('FB authorization WIN! -> ' + Titanium.Facebook.accessToken);
+                    Yumit.socialNetworks.facebookDisabled = false;
         	    	updateFacebookUserInfo({
         	    		user: {
 	        	    	    facebook_access_token: Titanium.Facebook.accessToken,
-	        	    			facebook_uid: e.data.id,
-	        	    			facebook_username: e.data.name,
-											share_yums_on_facebook: Yumit.socialNetworks.shareOnFacebook
+	        	    	    facebook_uid: e.data.id,
+	                        facebook_username: e.data.name,
+                            share_yums_on_facebook: Yumit.socialNetworks.shareOnFacebook
         	    		}
         	    	});
-								Yumit.socialNetworks.facebookDisabled = false;
         	    } else if (!e.cancelled){
         	    	alert('FB authorization failed');
         	    }
@@ -58,6 +51,7 @@
         Titanium.Facebook.addEventListener('logout', function(e) {
         	if (!notified) {
         		notified = true;
+        		Yumit.socialNetworks.facebookDisabled = true;
         	    updateFacebookUserInfo({
         	    	user: {
         	    	  fb_offline_key: '',
@@ -65,7 +59,6 @@
         	    		fb_username: ''
         	    	}
         	    });
-						Yumit.socialNetworks.facebookDisabled = true;
         		tableView.setData(createNetworksList());
         	}
         });
@@ -85,10 +78,12 @@
  		};
  		
  		var authorizeTwitter = function() {
- 			Ti.App.Properties.BH.authorize(function(e){                	
-                if (e != false) {
+ 			var twitterAuthWindow = Yumit.ui.twitterAuthentication();
+ 			tabGroup.activeTab.open(twitterAuthWindow);
+ 			Ti.App.addEventListener('Yumit:authorizeTwitter', function(e) {           	
+                if (e.result != false) {
                     var config = Ti.App.Properties.BH.config();
-                  
+                    Yumit.socialNetworks.twitterDisabled = false;
         	        updateTwitterUserInfo({
         	            user: {
         	    	        twitter_id: config.user_id,
@@ -97,7 +92,6 @@
         	    			twitter_secret: config.access_token_secret
         	    		}
         	        });
-									Yumit.socialNetworks.twitterDisabled = false;
                 } else {
                     alert("Authorization failed");// + e.error);
                 }
@@ -107,7 +101,7 @@
  		var deauthorizeTwitter = function() {
  			Titanium.App.Properties.BH.deauthorize(function(e) {
 			    if (e != false) {
-			        //alert('Deauthorized');
+			        Yumit.socialNetworks.twitterDisabled = true;
 			    	updateTwitterUserInfo({
         	    	    user: {
         	    	        twitter_id: '',
@@ -117,7 +111,6 @@
         	    		}
         	    });
         		tableView.setData(createNetworksList());
-						Yumit.socialNetworks.twitterDisabled = true;
 			    } else {
 			        alert('Deauthorization failed');
 			    }
@@ -133,7 +126,7 @@
  				},
  				error: function(error) {
  					alert('Updating user information failed ' + error)
- 					//Yumit.socialNetworks.foursquareDisabled = !Yumit.socialNetworks.foursquareDisabled;
+ 					Yumit.socialNetworks.foursquareDisabled = !Yumit.socialNetworks.foursquareDisabled;
  				}
  			}, data);
  		};
@@ -143,12 +136,12 @@
 			    callback: function(params) {
 			        if (Titanium.App.Properties.Foursquare.authorized()) {
         			    if (params.accessToken) {
+        			    	Yumit.socialNetworks.foursquareDisabled = false;
         	                updateFoursquareUserInfo({
         	                    user: {
         	    	                foursquare_token: params.accessToken,
         	    		        }
         	                });
-											Yumit.socialNetworks.foursquareDisabled = false;
         	            }
                     } else {
                         alert("Authorization failed");
@@ -158,12 +151,12 @@
         }
         
         var detachFoursquare = function() {
+        	Yumit.socialNetworks.foursquareDisabled = true;
         	updateFoursquareUserInfo({
         	    user: {
         	        foursquare_token: ''
         	    }
         	});
-				Yumit.socialNetworks.foursquareDisabled = true;
         }
 // ====================== END FOURSQUARE SECTION =======================
 
@@ -199,6 +192,7 @@
  		}
 
         var detachFlickr = function() {
+        	Yumit.socialNetworks.flickrDisabled = true;
         	updateFlickrUserInfo({
         	    user: {
         	      flickr_token: '',
@@ -206,7 +200,6 @@
         	    	flickr_nsid: ''
         	    }
         	});
-				Yumit.socialNetworks.flickrDisabled = true;
         }
 
 // ======================== END FLICKR SECTION =========================
