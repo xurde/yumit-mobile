@@ -3,7 +3,8 @@
     Yumit.ui.twitterAuthentication = function() {
         var window = new Window({
             id: 'defaultWindow',
-            title: 'Twitter connect'
+            title: 'Twitter connect',
+            backButtonTitle: 'Back'
         });
         
         var tableRows = [

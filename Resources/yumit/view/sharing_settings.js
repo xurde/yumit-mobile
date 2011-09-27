@@ -54,9 +54,9 @@
         		Yumit.socialNetworks.facebookDisabled = true;
         	    updateFacebookUserInfo({
         	    	user: {
-        	    	  fb_offline_key: '',
-        	    		fb_uid: '',
-        	    		fb_username: ''
+        	    	    facebook_access_token: '',
+        	    		facebook_uid: '',
+        	    		facebook_username: ''
         	    	}
         	    });
         		tableView.setData(createNetworksList());
