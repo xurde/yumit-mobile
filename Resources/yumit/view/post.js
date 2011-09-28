@@ -12,7 +12,7 @@
 			    Yumit.ui.lastActiveTab.open(nextWin, {
 				    animated : true
 			    });
-		    })
+		    });
 	    };
 
 	    var leftNavButton = Titanium.UI.createButton({

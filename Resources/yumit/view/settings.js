@@ -49,24 +49,25 @@
       
     });
 
-	var backButton = Titanium.UI.createButton({
+	/*var backButton = Titanium.UI.createButton({
       title: 'Back',
       style: Titanium.UI.iPhone.SystemButtonStyle.PLAIN
-    });
+    });*/
     
     // add table view to the window
     var settings_window = new Window({
       id: 'defaultWindow',
       title: 'Settings',
       backgroundColor:'#FFF',
-      tabBarHidden: true
+      tabBarHidden: true,
+      backButtonTitle: 'Back'
     });
     settings_window.add(tableview);
-    settings_window.leftNavButton = backButton;
+    //settings_window.leftNavButton = backButton;
     
-    backButton.addEventListener('click', function(){
+    /*backButton.addEventListener('click', function(){
       settings_window.close();
-    });
+    });*/
 
     return settings_window;
   };

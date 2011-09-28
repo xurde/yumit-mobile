@@ -21,7 +21,7 @@
         maxDate.setDate(31);
 
         var picker = Ti.UI.createPicker({
-    	    top: 0,//20,
+    	    top: 0,
             height: 'auto',
             type:Ti.UI.PICKER_TYPE_DATE,
 	        minDate:minDate,

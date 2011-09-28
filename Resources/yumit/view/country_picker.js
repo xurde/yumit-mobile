@@ -11,7 +11,7 @@
         });
 
         var picker = Ti.UI.createPicker({
-    	    top: 20,
+    	    top: 0,
             height: 'auto'
         });
         var data = [];
@@ -290,6 +290,7 @@
 
         picker.selectionIndicator = true;
         picker.add(data);
+        picker.data = data;
             
         var doneButton = new Button({
         	id: 'defaultYumitButton',
@@ -316,6 +317,6 @@
         container.add(picker);
         container.add(doneButton);
         winWithPicker.add(container);
-        return winWithPicker;
+        return picker;
     }
 })();
