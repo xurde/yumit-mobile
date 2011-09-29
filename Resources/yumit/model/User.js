@@ -92,6 +92,7 @@
         xhr.open('POST', Yumit.api_path+'/api/v0/user/update.json');
         xhr.setRequestHeader('token', token);
         xhr.setRequestHeader('Content-Type', 'application/json');
+        //xhr.setRequestHeader('Content-Type','multipart/form-data');
         xhr.send(JSON.stringify(_data));
     },
     
@@ -130,6 +131,41 @@
         xhr.open('GET', Yumit.api_path+'/api/v0/user/fetch.json');
         xhr.setRequestHeader('token', token);
         xhr.send();
+    },
+    
+    updateAvatar: function(_args, _avatar) {
+        Ti.API.info('updateAvatar User');
+        var xhr = Titanium.Network.createHTTPClient({
+      	    timeout: Yumit.constants.httpTimeout
+        });
+        xhr.onerror = function(e) {
+            Titanium.UI.createAlertDialog({
+                title:'Error...',
+                message: 'We had a problem communicating with yumit.com'
+            }).show();
+        };
+        
+        xhr.onload = function() {
+        	alert(this.responseText);
+        	if(this.responseText.match(/(html|xmlns)/)){
+                Yumit.ui.alert('Yumit Error', 'Error while parsing response from Server');
+                Ti.API.error('Yumit Error: '+this.responseText);
+                return;
+            }
+            var jsonReply = JSON.parse(this.responseText);
+            if (this.responseText.length > 0 && jsonReply.success === "false" ) {
+                _args.error(jsonReply.error);
+            } else {
+                _args.success();
+            }
+        };
+        
+        var token = Titanium.App.Properties.getString('token');
+        Ti.API.info("posting url : "+ Yumit.api_path+'/api/v0/user/update_avatar.json');
+        xhr.open('POST', Yumit.api_path+'/api/v0/user/update_avatar.json');
+        xhr.setRequestHeader('token', token);
+        xhr.setRequestHeader('Content-Type','multipart/form-data');
+        xhr.send({avatar: _avatar});
     }
 
   };

@@ -20,7 +20,7 @@
         changeAvatarWindow.add(avatarTable);
         
         var fillUserInfo = function(userInfo) {
-    		avatarSelector.avatarImage.image = userInfo.avatar || '/images/user-avatar-thumb.png';
+    		avatarSelector.avatarImage.image = userInfo.avatar || '/images/user-avatar-big.png';
     	};
         
         Titanium.App.addEventListener('Yumit:avatar:fetchInfo', function() {
@@ -73,11 +73,11 @@
                 image: 'images/user-avatar-thumb.png'
             });
             avatarImage.addEventListener('click', function() {
-        	    alert('Click on image');
-                 /*Yumit.ui.selectPhoto(Yumit.ui.lastActiveTab, function(photo) {
-			        
-		        });*/
-            });
+        	    Yumit.ui.selectPhoto(Yumit.ui.lastActiveTab, function(photo) {
+				    avatarImage.image = photo;
+				    avatarRow.photo = photo;
+			    });
+		    });
             avatarRow.avatarImage = avatarImage;
             avatarContainer.add(avatarImage);
             avatarContainer.add(avatarLabel);
@@ -99,25 +99,12 @@
             });
             
             saveButton.addEventListener('click', function() {
-            	alert('click');
-                /*Yumit.model.User.update({
-        	        success: function() {
-        	        	
-        	        },
-        	        error: function(error) {
-        	            alert('Updating user information failed ' + error);
-        	        }
-        	    }, {
-        	    	user: {
-        	    	    email: profileMainTable.rows[0].emailTextField.value,
-    		            name: profileMainTable.rows[1].fullnameTextField.value,
-    		            gender: profileMainTable.rows[2].genderViewLabel.custom_item,
-    		            birthdate: profileMainTable.rows[3].birthdateViewLabel.text,
-    		            country: profileMainTable.rows[4].countryViewLabel.custom_item,
-    		            city: profileMainTable.rows[5].cityTextField.value,
-    		            website: profileMainTable.rows[6].websiteUrlTextField.value
-    		        }
-        	    });*/
+            	if (avatarSelector.photo) {
+            	    Yumit.model.User.updateAvatar({
+            	    	success: function() {alert('Success')},
+            	    	error: function() {alert('Error')}
+            	    }, avatarSelector.photo);
+            	}
             });
             
             footerContainer.add(saveButton);
