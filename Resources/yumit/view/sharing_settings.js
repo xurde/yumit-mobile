@@ -176,7 +176,7 @@
  		var authorizeFlickr = function() {
  			Ti.App.Properties.Flickr.authorize(function(params) {
         	    if (params && params.auth) {
-        	       alert(params);
+        	       //alert(params);
         			Yumit.socialNetworks.flickrDisabled = false;
         	        updateFlickrUserInfo({
         	            user: {

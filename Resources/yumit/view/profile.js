@@ -88,7 +88,7 @@
     	    top: 0,
             data: profileMainTableRows,
         	style: Titanium.UI.iPhone.TableViewStyle.GROUPED,
-        	headerView: avatarSelector,
+        	//headerView: avatarSelector,
         	footerView: footer
     	});
     	profileMainTable.addEventListener('click', function(e) {});
@@ -267,7 +267,8 @@
     		    font: {
     			    fontWeight: 'bold',
     			    fontSize: 16
-       		    }
+       		    },
+       		    color:Yumit.constants.darkRed
             });
             var emailTextField = Titanium.UI.createTextField({
                 width: 180,
@@ -283,7 +284,7 @@
                 emailRow.email = e.value;
             });
             emailTextField.addEventListener('return', function(e) {
-                profileMainTable.rows[1].fireEvent('focus');
+                //profileMainTable.rows[1].fireEvent('focus');
             });
             
             emailRowContainer.add(emailLabel);
@@ -316,7 +317,8 @@
     		    font: {
     			    fontWeight: 'bold',
     			    fontSize: 16
-       		    }
+       		    },
+       		    color:Yumit.constants.darkRed
             });
             var fullnameTextField = Titanium.UI.createTextField({
                 width: 180,
@@ -332,7 +334,7 @@
                 fullnameRow.fullName = e.value;
             });
             fullnameTextField.addEventListener('return', function(e) {
-                profileMainTable.rows[5].fireEvent('focus');
+                //profileMainTable.rows[5].fireEvent('focus');
             });
             
             fullnameRowContainer.add(fullnameLabel);
@@ -363,7 +365,8 @@
     		    font: {
     			    fontWeight: 'bold',
     			    fontSize: 16
-       		    }
+       		    },
+       		    color:Yumit.constants.darkRed
             });
     	
     	    var genderView = Ti.UI.createLabel({
@@ -424,7 +427,8 @@
     		    font: {
     			    fontWeight: 'bold',
     			    fontSize: 16
-       		    }
+       		    },
+       		    color:Yumit.constants.darkRed
             });
             
             var birthdateView = Ti.UI.createLabel({//Titanium.UI.createButton({
@@ -485,7 +489,8 @@
     		    font: {
     			    fontWeight: 'bold',
     			    fontSize: 16
-       		    }
+       		    },
+       		    color:Yumit.constants.darkRed
             });
             
             var countryView = Ti.UI.createLabel({
@@ -547,7 +552,8 @@
     		    font: {
     			    fontWeight: 'bold',
     			    fontSize: 16
-       		    }
+       		    },
+       		    color:Yumit.constants.darkRed
             });
     	
             var cityTextField = Titanium.UI.createTextField({
@@ -564,7 +570,7 @@
                 cityRow.city = e.value;
             });
             cityTextField.addEventListener('return', function(e) {
-            	profileMainTable.rows[6].fireEvent('focus');
+            	//profileMainTable.rows[6].fireEvent('focus');
             });
             
             cityContainer.add(cityLabel);
@@ -597,7 +603,8 @@
     		    font: {
     			    fontWeight: 'bold',
     			    fontSize: 16
-       		    }
+       		    },
+       		    color:Yumit.constants.darkRed
             });
     	
             var websiteUrlTextField = Titanium.UI.createTextField({
@@ -614,7 +621,7 @@
                 websiteUrlRow.websiteUrl = e.value;
             });
             websiteUrlTextField.addEventListener('return', function(e) {
-            	websiteUrlTextField.blur();
+            	//websiteUrlTextField.blur();
             });
             
             websiteUrlContainer.add(websiteUrlLabel);

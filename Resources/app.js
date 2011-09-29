@@ -26,6 +26,7 @@ Ti.include(
   '/yumit/view/birthdate_picker.js',
   '/yumit/view/country_picker.js',
   '/yumit/view/profile.js',
+  '/yumit/view/change_avatar.js',
   '/yumit/view/twitter_authenticate.js',
   '/yumit/view/sharing_settings.js',
   '/yumit/view/settings.js',

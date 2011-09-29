@@ -3,6 +3,7 @@
 
     var data = [
       {title:'Edit profile', hasChild:true, color:Yumit.constants.darkRed},
+      {title:'Edit avatar', hasChild:true, color:Yumit.constants.darkRed},
       {title:'Edit sharing settings', hasChild:true, color:Yumit.constants.darkRed},
       {title:'Logout', color:Yumit.constants.darkRed}//,
       //{title:'Close', color:Yumit.constants.darkRed}
@@ -29,19 +30,27 @@
       	  Titanium.App.fireEvent('Yumit:profile:fetchInfo');
           tabGroup.activeTab.open(win, {animated:true});
         //}, 500);
-      };
-
+      }
+      
       if (index == 1) {
-        var win = Yumit.sharing_settings();//Yumit.ui.webview();
-        tabGroup.activeTab.open(win,{animated:true});
-      };
+      	Titanium.App.fireEvent("Yumit:ui:showLoading",{title:"Connecting"});
+          //alert('Change avatar');
+          var win = Yumit.ui.changeAvatar();
+      	  Titanium.App.fireEvent('Yumit:avatar:fetchInfo');
+          tabGroup.activeTab.open(win, {animated:true});
+      }
 
       if (index == 2) {
+        var win = Yumit.sharing_settings();//Yumit.ui.webview();
+        tabGroup.activeTab.open(win,{animated:true});
+      }
+
+      if (index == 3) {
         Titanium.App.Properties.removeProperty("token");
         var login_window = Yumit.ui.login();
         login_window.open();
         settings_window.close({opacity:0, duration:500});
-      };
+      }
      
       // if (index == 3) {
       	// settings_window.close();
@@ -72,7 +81,7 @@
     return settings_window;
   };
 
-  Yumit.ui.webview = function(){
+  /*Yumit.ui.webview = function(){
     var win = new Window({
       id: 'defaultWindow',
       title:'Sharing',
@@ -102,5 +111,5 @@
     win.add(webview);
 
     return win;
-  };
+  };*/
 })();
