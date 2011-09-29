@@ -100,9 +100,14 @@
             
             saveButton.addEventListener('click', function() {
             	if (avatarSelector.photo) {
+            		Titanium.App.fireEvent("Yumit:ui:showLoading",{title:"Uploading..."});
             	    Yumit.model.User.updateAvatar({
-            	    	success: function() {alert('Success')},
-            	    	error: function() {alert('Error')}
+            	    	success: function() {
+            	    		Titanium.App.fireEvent("Yumit:ui:hideLoading");
+            	    	}, error: function() {
+            	    		alert('Error occured during uploading');
+            	    		Titanium.App.fireEvent("Yumit:ui:hideLoading");
+            	    	}
             	    }, avatarSelector.photo);
             	}
             });

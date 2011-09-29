@@ -146,7 +146,7 @@
         };
         
         xhr.onload = function() {
-        	alert(this.responseText);
+        	//alert(this.responseText);
         	if(this.responseText.match(/(html|xmlns)/)){
                 Yumit.ui.alert('Yumit Error', 'Error while parsing response from Server');
                 Ti.API.error('Yumit Error: '+this.responseText);
