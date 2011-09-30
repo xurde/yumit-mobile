@@ -3,18 +3,9 @@
 		var win = new Window({
 			id: 'defaultWindow',
 			title: 'Select a Place',
-      		tabBarHidden: true
+      		tabBarHidden: true,
+      		backButtonTitle: 'Back'
 		});
-		
-		var backButton = Titanium.UI.createButton({
-            title: 'Back',
-            style: Titanium.UI.iPhone.SystemButtonStyle.PLAIN
-        });
-        win.leftNavButton = backButton;
-		
-		backButton.addEventListener('click', function(){
-            win.close();
-        });
         
 		var search = Titanium.UI.createSearchBar({
 		    barColor: Yumit.constants.darkRed,

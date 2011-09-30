@@ -178,11 +178,12 @@
  		var updateFacebookUserInfo = function(data) {
  			Yumit.model.User.update({
         	    success: function() {
+        	    	Yumit.socialNetworks.facebookDisabled = false;
+        	        Yumit.socialNetworks.shareOnFacebook = true;
         	        facebookIcon.image = getFacebookImage();
         	    },
         	    error: function(error) {
         	        alert('Updating user information failed ' + error);
-        	        Yumit.socialNetworks.shareOnFacebook = !Yumit.socialNetworks.shareOnFacebook;
         	    }
         	}, data);
  		};
@@ -195,11 +196,12 @@
  		var updateTwitterUserInfo = function(data) {
  			Yumit.model.User.update({
  				success: function() {
+ 					Yumit.socialNetworks.twitterDisabled = false;
+                    Yumit.socialNetworks.shareOnTwitter = true;
  					twitterIcon.image = getTwitterImage();
  				},
  				error: function(error) {
  					alert('Updating user information failed ' + error)
- 					Yumit.socialNetworks.shareOnTwitter = !Yumit.socialNetworks.shareOnTwitter;
  				}
  			}, data);
  		};
@@ -212,6 +214,8 @@
  		var updateFlickrUserInfo = function(data) {
  			Yumit.model.User.update({
  				success: function() {
+ 					Yumit.socialNetworks.flickrDisabled = false;
+ 					Yumit.socialNetworks.shareOnFlickr = true;
  					flickrIcon.image = getFlickrImage();
  				},
  				error: function(error) {
@@ -229,11 +233,12 @@
  		var updateFoursquareUserInfo = function(data) {
  			Yumit.model.User.update({
  				success: function() {
+ 					Yumit.socialNetworks.foursquareDisabled = false;
+	                Yumit.socialNetworks.shareOnFoursquare = true;
  					foursquareIcon.image = getFoursquareImage();
  				},
  				error: function(error) {
  					alert('Updating user information failed ' + error)
- 					Yumit.socialNetworks.foursquareDisabled = !Yumit.socialNetworks.foursquareDisabled;
  				}
  			}, data);
  		};
@@ -271,17 +276,16 @@
         facebookIcon.addEventListener('click',function(e) {
         	var notified = false;
         	Titanium.Facebook.addEventListener('login', function(e) {
-        		alert('login');
+        		//alert('login');
         	    if (!notified) {
         	    	notified = true;
         	    	if (e.success) {
-        	    		Yumit.socialNetworks.facebookDisabled = !Yumit.socialNetworks.facebookDisabled;
         	    		updateFacebookUserInfo({
         	    			user: {
         	    			    facebook_access_token: Titanium.Facebook.accessToken,
         	    			    facebook_uid: e.data.id,
         	    			    facebook_username: e.data.name,
-        	    		      share_yums_on_facebook: Yumit.socialNetworks.shareOnFacebook
+        	    		       //share_yums_on_facebook: Yumit.socialNetworks.shareOnFacebook
         	    		    }
         	    		});
         	    	} else if (!e.cancelled){
@@ -301,7 +305,7 @@
 // =============== Twitter section ================
         twitterIcon.addEventListener('click',function(e) {
         	if (Yumit.socialNetworks.twitterDisabled) {
-        	    Ti.App.Properties.BH.authorize(function(e){                	
+        	    /*Ti.App.Properties.BH.authorize(function(e){                	
                 	if (e != false) {
                 		var config = Ti.App.Properties.BH.config();
                 		Yumit.socialNetworks.twitterDisabled = !Yumit.socialNetworks.twitterDisabled;
@@ -317,6 +321,24 @@
                 	} else {
                 		alert("Authorization failed");// + e.error);
                 	}   
+                });*/
+                var twitterAuthWindow = Yumit.ui.twitterAuthentication();
+ 			    tabGroup.activeTab.open(twitterAuthWindow);
+ 			    Ti.App.addEventListener('Yumit:authorizeTwitter', function(e) {           	
+                    if (e.result != false) {
+                        var config = Ti.App.Properties.BH.config();                        
+        	            updateTwitterUserInfo({
+        	                user: {
+        	    	            twitter_id: config.user_id,
+        	    			    twitter_username: config.screen_name,
+        	    			    twitter_token: config.access_token,
+        	    			    twitter_secret: config.access_token_secret,
+        	    			    //share_yums_on_twitter: Yumit.socialNetworks.shareOnTwitter
+        	    		    }
+        	            });
+                    } else {
+                        alert("Authorization failed");// + e.error);
+                    }
                 });
         	} else {
         		Yumit.socialNetworks.shareOnTwitter = !Yumit.socialNetworks.shareOnTwitter;
@@ -331,10 +353,9 @@
 				    callback: function(params) {
 				        if (Titanium.App.Properties.Foursquare.authorized()) {
 	        			    if (params.accessToken) {
-	        				    Yumit.socialNetworks.foursquareDisabled = !Yumit.socialNetworks.foursquareDisabled;
 	        	                updateFoursquareUserInfo({
 	        	                    user: {
-	        	    	                foursquare_token: params.accessToken,
+	        	    	                foursquare_token: params.accessToken
 	        	    		        }
 	        	                });
 	        	            }
@@ -355,8 +376,6 @@
 			if (Yumit.socialNetworks.flickrDisabled) {
             	Ti.App.Properties.Flickr.authorize(function(params) {
 	        	    if (params && params.auth) {
-	        	        //alert(params);
-	        			Yumit.socialNetworks.flickrDisabled = !Yumit.socialNetworks.flickrDisabled;
 	        	        updateFlickrUserInfo({
 	        	            user: {
 	        	    	        flickr_token: params.auth.token,

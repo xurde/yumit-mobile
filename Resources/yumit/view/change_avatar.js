@@ -100,13 +100,19 @@
             
             saveButton.addEventListener('click', function() {
             	if (avatarSelector.photo) {
+            		saveButton.enabled = false;
             		Titanium.App.fireEvent("Yumit:ui:showLoading",{title:"Uploading..."});
+            		saveButtonPressed = true;
             	    Yumit.model.User.updateAvatar({
             	    	success: function() {
-            	    		Titanium.App.fireEvent("Yumit:ui:hideLoading");
+            	    		//Titanium.App.fireEvent("Yumit:ui:hideLoading");
             	    	}, error: function() {
             	    		alert('Error occured during uploading');
+            	    		//Titanium.App.fireEvent("Yumit:ui:hideLoading");
+            	    	}, onfinish: function() {
             	    		Titanium.App.fireEvent("Yumit:ui:hideLoading");
+            	    		saveButton.enabled = true;
+            	    		avatarSelector.photo = null;
             	    	}
             	    }, avatarSelector.photo);
             	}

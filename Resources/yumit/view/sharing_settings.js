@@ -19,6 +19,7 @@
  		var updateFacebookUserInfo = function(data, row) {
  			Yumit.model.User.update({
         	    success: function() {
+        	    	Yumit.socialNetworks.shareOnFacebook = true;
         	        tableView.setData(createNetworksList());
         	    },
         	    error: function(error) {
@@ -68,11 +69,11 @@
         var updateTwitterUserInfo = function(data) {
  			Yumit.model.User.update({
  				success: function() {
+ 					Yumit.socialNetworks.shareOnTwitter = true;
  					tableView.setData(createNetworksList());
  				},
  				error: function(error) {
  					alert('Updating user information failed ' + error)
- 					Yumit.socialNetworks.twitterDisabled = !Yumit.socialNetworks.twitterDisabled;
  				}
  			}, data);
  		};
@@ -122,6 +123,7 @@
         var updateFoursquareUserInfo = function(data) {
  			Yumit.model.User.update({
  				success: function() {
+ 					Yumit.socialNetworks.shareOnFoursquare = true;
  					tableView.setData(createNetworksList());
  				},
  				error: function(error) {
@@ -164,6 +166,7 @@
         var updateFlickrUserInfo = function(data) {
  			Yumit.model.User.update({
  				success: function() {
+ 					Yumit.socialNetworks.shareOnFlickr = true;
  					tableView.setData(createNetworksList());
  				},
  				error: function(error) {

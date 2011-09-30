@@ -70,6 +70,7 @@
                 title:'Error...',
                 message: 'We had a problem communicating with yumit.com'
             }).show();
+            if (_args.onfinish) _args.onfinish();
         };
         
         xhr.onload = function() {
@@ -85,6 +86,7 @@
             } else {
                 _args.success();
             }
+            if (_args.onfinish) _args.onfinish();
         };
         
         var token = Titanium.App.Properties.getString('token');
@@ -143,6 +145,7 @@
                 title:'Error...',
                 message: 'We had a problem communicating with yumit.com'
             }).show();
+            if (_args.onfinish) _args.onfinish();
         };
         
         xhr.onload = function() {
@@ -158,6 +161,7 @@
             } else {
                 _args.success();
             }
+            if (_args.onfinish) _args.onfinish();
         };
         
         var token = Titanium.App.Properties.getString('token');

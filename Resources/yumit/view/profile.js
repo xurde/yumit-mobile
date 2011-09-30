@@ -220,12 +220,17 @@
             });
             
             saveButton.addEventListener('click', function() {
+            	saveButton.enabled = false;
+                Titanium.App.fireEvent("Yumit:ui:showLoading",{title:"Uploading..."});
                 Yumit.model.User.update({
         	        success: function() {
-        	        	
         	        },
         	        error: function(error) {
         	            alert('Updating user information failed ' + error);
+        	        },
+        	        onfinish: function() {
+        	            Titanium.App.fireEvent("Yumit:ui:hideLoading");
+            	    	saveButton.enabled = true;
         	        }
         	    }, {
         	    	user: {
