@@ -294,7 +294,7 @@
         	    }
         	});
         	
-        	if (Yumit.socialNetworks.facebookDisabled) {
+        	if (Yumit.socialNetworks.facebookDisabled && !Titanium.Facebook.loggedIn) {
         	    Titanium.Facebook.authorize();
         	} else {
         	    Yumit.socialNetworks.shareOnFacebook = !Yumit.socialNetworks.shareOnFacebook;
@@ -304,24 +304,7 @@
 
 // =============== Twitter section ================
         twitterIcon.addEventListener('click',function(e) {
-        	if (Yumit.socialNetworks.twitterDisabled) {
-        	    /*Ti.App.Properties.BH.authorize(function(e){                	
-                	if (e != false) {
-                		var config = Ti.App.Properties.BH.config();
-                		Yumit.socialNetworks.twitterDisabled = !Yumit.socialNetworks.twitterDisabled;
-        	    		updateTwitterUserInfo({
-        	    			user: {
-        	    			    twitter_id: config.user_id,
-        	    			    twitter_username: config.screen_name,
-        	    			    twitter_token: config.access_token,
-        	    			    twitter_secret: config.access_token_secret,
-        	    			    share_yums_on_twitter: Yumit.socialNetworks.shareOnTwitter
-        	    		    }
-        	    		});
-                	} else {
-                		alert("Authorization failed");// + e.error);
-                	}   
-                });*/
+        	if (Yumit.socialNetworks.twitterDisabled && !Titanium.App.Properties.BH.authorized()) {
                 var twitterAuthWindow = Yumit.ui.twitterAuthentication();
  			    tabGroup.activeTab.open(twitterAuthWindow);
  			    Ti.App.addEventListener('Yumit:authorizeTwitter', function(e) {           	

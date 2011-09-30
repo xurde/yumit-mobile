@@ -263,7 +263,8 @@
         	switch (index) {
         	    case 0:
         		    notified = false;
-                    if (Yumit.socialNetworks.facebookDisabled) {
+                    if (Yumit.socialNetworks.facebookDisabled
+                    	&& !Titanium.Facebook.loggedIn) {
         	            Titanium.Facebook.authorize();
         	        } else {
         	    	    showDetachDialog('Facebook', index);
@@ -271,7 +272,8 @@
         	    break;
         	
         	    case 1:
-        		    if (Yumit.socialNetworks.twitterDisabled) {
+        		    if (Yumit.socialNetworks.twitterDisabled
+        		    	&& !Ti.App.Properties.BH.authorized()) {
         	            authorizeTwitter();
         	        } else {
         	    	    showDetachDialog('Twitter', index);
