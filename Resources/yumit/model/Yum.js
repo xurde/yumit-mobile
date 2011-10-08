@@ -161,7 +161,7 @@
 
       var description = new Label({
         id:'labelNormal',
-        top:370,
+        top:375,
         left:spacing,
         text: _yum.text || ""
       });
@@ -170,8 +170,8 @@
 //////////////////////////////////////// TAGS HACK
       var daview = Ti.UI.createView({
           backgroundColor:"#FFFFFF",
-          top:405,
-          height:40,
+          top:410,
+          height:30,
           width:320,
           layout:'horizontal'
       });
