@@ -36,6 +36,7 @@
         
         var placeName = new Label({
             id: 'labelBold',
+						color: Yumit.constants.darkRed,
             height: 'auto',
             width: 'auto',
             text:_place.name,
@@ -43,7 +44,7 @@
         });
         
         var dishName = new Label({
-        	id: 'labelBold',
+        		id: 'labelBold',
             height:'auto',
             width: 'auto',
             text:_dish.name,
@@ -59,6 +60,10 @@
         };
         
         var cropImage = function(photo) {
+				var imageAsTaken = Ti.UI.createImageView({
+				    image: photo
+				});
+				photo = imageAsTaken.toImage();
 	    	var baseSize = (horizontal(photo) ? photo.height : photo.width);
 	    	var difference = Math.abs(photo.height - photo.width);
 	    	var xOffset = 0;
@@ -438,8 +443,8 @@
                 ind.hide();
                 yumit.enabled = true;
                 Titanium.UI.createAlertDialog({
-                    title:'Well, this is awkward...',
-                    message: 'We had a problem posting your image - please try again'
+                    title:'Yum upload aborted',
+                    message: 'Your connection is being too slow. Please check your Internet status.'
                 }).show();
             };
 
@@ -449,8 +454,8 @@
                 var jsonReply = JSON.parse(this.responseText);
                 if (this.responseText.length > 0 && jsonReply.success === "false" ) {
                     Titanium.UI.createAlertDialog({
-                        title:'Well, this is awkward...',
-                        message: 'Yumit Error: ' + jsonReply.error
+                        title:'There was a problem uploading Yum...',
+                        message: 'Error: ' + jsonReply.error
                     }).show();
                 }
                 else {
@@ -473,6 +478,46 @@
                 ind.value = e.progress;
             };
 
+						//Scale image size
+						var actInd = Titanium.UI.createActivityIndicator({
+						    height:50,
+						    width:10
+								//style: 'DARK'
+						});
+						actInd.show();
+						
+						Ti.API.info("Image before: " + _photo.height + " x " + _photo.width);
+						// Scale to max 670x670
+						var ratio;
+						var imageView = Titanium.UI.createImageView();
+						
+						if ((_photo.width <= Yumit.constants.maxWidth) && (_photo.height <= Yumit.constants.maxHeight)){
+							imageView.height = _photo.height;
+							imageView.width = _photo.width;
+						}else{
+							if (_photo.width > Yumit.constants.maxWidth){
+								ratio = Yumit.constants.maxWidth/_photo.width;
+								_photo.width = Yumit.constants.maxWidth;
+								imageView.width = Yumit.constants.maxWidth;
+								imageView.height = Math.floor(_photo.height * ratio);
+								_photo.height = Math.floor(_photo.height * ratio);
+							};
+							if (_photo.height > Yumit.constants.maxHeight){
+								ratio = Yumit.constants.maxHeight/_photo.height;
+								_photo.height = Yumit.constants.maxHeight;
+								imageView.height = Yumit.constants.maxHeight;
+								imageView.width = Math.floor(_photo.width * ratio);
+								_photo.width = Math.floor(_photo.width * ratio);
+							};
+						};
+						imageView.image = _photo;
+						avatar = cropImage(imageView.image);
+						
+						Ti.API.info("Image scaled to: " + imageView.height + " x " + imageView.width);
+						
+						actInd.hide();
+
+						//Build and send HTTP POST request
             var authorization = Titanium.App.Properties.getString("token");
 
             xhr.open('POST',Yumit.api_path+'/api/v0/yums.json');
@@ -480,8 +525,9 @@
             xhr.setRequestHeader('Content-Type','multipart/form-data');
             
             var dataToSend = {
-            	place_id: _place.id,
-                photo: _photo,
+								client: Ti.Platform.osname,
+            		place_id: _place.id,
+                photo: imageView.toImage(),
                 text: (description.firstFocus) ? description.value : '',
                 tags: (tags.firstFocus) ? tags.value : '',
                 share_facebook: (Yumit.socialNetworks.shareOnFacebook) ? '1': '0',
