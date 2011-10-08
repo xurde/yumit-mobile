@@ -15,6 +15,10 @@
     });
     
     win.addEventListener('open', function(){
+		//by xurde
+			search.background = Yumit.constants.white;
+			search.barColor = 	Yumit.constants.darkRed;
+			
     	if (Yumit.global.placesNearbyLoaded) {
     		return;
     	};
@@ -65,7 +69,8 @@
     win.add(tabView);
 
     var search = Titanium.UI.createSearchBar({
-      barColor:Yumit.constants.darkRed,
+      barColor:'#FFFFF', //Yumit.constants.darkRed
+			backgroundColor:'#FFFFFF',
       showCancel:true,
       hintText:'search for places',
       top:35,

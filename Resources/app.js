@@ -126,7 +126,7 @@ Titanium.App.addEventListener('Yumit:user:fetchInfo', function() {
             Yumit.socialNetworks.shareOnFlickr = info.share_yums_on_flickr || false;
         },
         error: function(error) {
-            alert('Error occured: ' + error);
+            alert('Authentication Error: Your token has expired');
         }
     });
 });

@@ -156,7 +156,7 @@
     	        },
     	        
     	        error: function(error) {
-    	        	alert('Error occured: ' + error);
+    	        	alert('Error occurred: ' + error);
     	        },
     	        
     	        onfinish: function() {

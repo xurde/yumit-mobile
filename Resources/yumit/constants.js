@@ -3,6 +3,7 @@
     textColor:'#000000',
     grayTextColor:'#888888',
     headerColor:'#FFFFFF',
+		white:'#FFFFFF',
     darkRed:'#940000',
     lightBlue:'#006cb1',
     darkBlue:'#93caed',
@@ -16,7 +17,11 @@
     nameHeight: 18,
     metaHeight: 14,
     avatarOffset: 6*2+48, //spacing*2+imgDimensions
-    httpTimeout: 45*1000,
+    httpTimeout: 80*1000,
+
+		//Image resize
+		maxWidth: 670,
+		maxHeight: 670,
     
     socialNetworks: {
     	facebookAppid: "336361767890",
@@ -27,15 +32,17 @@
     	foursquareClientId: '0XFPTYM4UT24V1NLVEHXR0PLY2K3AQTPBNLUJUJNU5UNSAEP',
 			foursquareRedirectUri: 'http://yumit.com/account/sharing/foursquare_callback',
 		
-			flickrKey: '17e288e6809cb0ae3a9cadc15959b107',
-			flickrSecret: '670ef27398b3002b'
+			flickrKey: '8eb3d583d5dbbd3955fc6105cb0eaf0d',
+			flickrSecret: '657a0352aaea86e2'
     }
   };
-
+	
+	Yumit.client = Ti.Platform.osname
+	
   Yumit.android = Ti.Platform.name == 'android';
   //Yumit.api_path = "http://10.211.55.2:3000"
-  Yumit.api_path = "http://new.yumit.com"
 	//Yumit.api_path = "http://localhost:3000"
+  Yumit.api_path = "http://yumit.com"
   //
   // returns true if iphone/ipad and version is 3.2+
   //

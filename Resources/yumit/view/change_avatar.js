@@ -32,7 +32,7 @@
     	        },
     	        
     	        error: function(error) {
-    	        	alert('Error occured: ' + error);
+    	        	alert('Error occurred: ' + error);
     	        },
     	        
     	        onfinish: function() {
@@ -107,7 +107,7 @@
             	    	success: function() {
             	    		//Titanium.App.fireEvent("Yumit:ui:hideLoading");
             	    	}, error: function() {
-            	    		alert('Error occured during uploading');
+            	    		alert('Error occurred during uploading');
             	    		//Titanium.App.fireEvent("Yumit:ui:hideLoading");
             	    	}, onfinish: function() {
             	    		Titanium.App.fireEvent("Yumit:ui:hideLoading");
