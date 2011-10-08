@@ -9,9 +9,9 @@
 
 
 // A good bit of this code was derived from the Three20 project
-// and was customized to work inside yumit20
+// and was customized to work inside Yumit
 //
-// All modifications by yumit20 are licensed under 
+// All modifications by Yumit are licensed under 
 // the Apache License, Version 2.0
 //
 //

@@ -206,13 +206,13 @@
         NSLog(@"[WARN] Invalid mode for audio recorder... setting to default.");
         newMode = kAudioSessionCategory_RecordAudio;
     }
-	NSLog(@"[WARN] 'yumit20.Media.AudioRecorder.audioSessionMode' is deprecated; use 'yumit20.Media.audioSessionMode'");
+	NSLog(@"[WARN] 'Yumit.Media.AudioRecorder.audioSessionMode' is deprecated; use 'Yumit.Media.audioSessionMode'");
 	[[TiMediaAudioSession sharedSession] setSessionMode:newMode];
 }
 
 -(NSNumber*)audioSessionMode
 {
-	NSLog(@"[WARN] 'yumit20.Media.AudioRecorder.audioSessionMode' is deprecated; use 'yumit20.Media.audioSessionMode'");	
+	NSLog(@"[WARN] 'Yumit.Media.AudioRecorder.audioSessionMode' is deprecated; use 'Yumit.Media.audioSessionMode'");	
     return [NSNumber numberWithUnsignedInt:[[TiMediaAudioSession sharedSession] sessionMode]];
 }
 

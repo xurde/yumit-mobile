@@ -342,13 +342,13 @@
         NSLog(@"[WARN] Invalid mode for audio player... setting to default.");
         newMode = kAudioSessionCategory_SoloAmbientSound;
     }
-	NSLog(@"[WARN] 'yumit20.Media.Sound.audioSessionMode' is deprecated; use 'yumit20.Media.audioSessionMode'");
+	NSLog(@"[WARN] 'Yumit.Media.Sound.audioSessionMode' is deprecated; use 'Yumit.Media.audioSessionMode'");
 	[[TiMediaAudioSession sharedSession] setSessionMode:newMode];
 }
 
 -(NSNumber*)audioSessionMode
 {
-	NSLog(@"[WARN] 'yumit20.Media.Sound.audioSessionMode' is deprecated; use 'yumit20.Media.audioSessionMode'");
+	NSLog(@"[WARN] 'Yumit.Media.Sound.audioSessionMode' is deprecated; use 'Yumit.Media.audioSessionMode'");
     return [NSNumber numberWithUnsignedInteger:[[TiMediaAudioSession sharedSession] sessionMode]];
 }
 

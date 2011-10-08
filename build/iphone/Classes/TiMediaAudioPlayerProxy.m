@@ -74,6 +74,7 @@
 		}
 		player = [[AudioStreamer alloc] initWithURL:url];
 		[player setDelegate:self];
+        [player setBufferSize:bufferSize];
 		
 		if (progress)
 		{
@@ -167,6 +168,19 @@ PLAYER_PROP_DOUBLE(bitRate,bitRate);
 PLAYER_PROP_DOUBLE(progress,progress);
 PLAYER_PROP_DOUBLE(state,state);
 
+-(void)setBufferSize:(NSNumber*)bufferSize_
+{
+    bufferSize = [bufferSize_ unsignedIntegerValue];
+    if (player != nil) {
+        [player setBufferSize:bufferSize];
+    }
+}
+
+-(NSNumber*)bufferSize
+{
+    return [NSNumber numberWithUnsignedInteger:((bufferSize) ? bufferSize : kAQDefaultBufSize)];
+}
+
 -(void)setUrl:(id)args
 {
 	if (![NSThread isMainThread]) {
@@ -253,13 +267,13 @@ MAKE_SYSTEM_PROP(STATE_PAUSED,AS_PAUSED);
         NSLog(@"[WARN] Invalid mode for audio player... setting to default.");
         newMode = kAudioSessionCategory_SoloAmbientSound;
     }
-	NSLog(@"[WARN] 'yumit20.Media.AudioPlayer.audioSessionMode' is deprecated; use 'yumit20.Media.audioSessionMode'");
+	NSLog(@"[WARN] 'Yumit.Media.AudioPlayer.audioSessionMode' is deprecated; use 'Yumit.Media.audioSessionMode'");
 	[[TiMediaAudioSession sharedSession] setSessionMode:newMode];
 }
 
 -(NSNumber*)audioSessionMode
 {
-	NSLog(@"[WARN] 'yumit20.Media.AudioPlayer.audioSessionMode' is deprecated; use 'yumit20.Media.audioSessionMode'");	
+	NSLog(@"[WARN] 'Yumit.Media.AudioPlayer.audioSessionMode' is deprecated; use 'Yumit.Media.audioSessionMode'");	
     return [NSNumber numberWithUnsignedInteger:[[TiMediaAudioSession sharedSession] sessionMode]];
 }
 

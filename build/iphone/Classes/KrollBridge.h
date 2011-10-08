@@ -16,7 +16,7 @@
 #import "KrollObject.h"
 #import "TiModule.h"
 
-@interface yumit20Object : KrollObject {
+@interface YumitObject : KrollObject {
 @private
 	NSMutableDictionary *modules;
 	TiHost *host;
@@ -37,7 +37,7 @@
 	KrollContext *context;
 	NSDictionary *preload;
 	NSMutableDictionary *modules;
-	yumit20Object *_yumit20;
+	YumitObject *_yumit;
 	BOOL shutdown;
     BOOL evaluationError;
 	NSMutableArray *proxies;

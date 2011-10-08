@@ -52,23 +52,17 @@ extern "C" {
 	#define KMETHOD_DEBUG MEMORY_DEBUG
 #endif
 
-// in simulator we redefine to format for yumit20 Developer console
+// in simulator we redefine to format for Yumit Developer console
 
 
 #define TI_INLINE static __inline__
 
+// We need to overload NSLog as a macro so that we capture system messages as well. 
+// It has to be a wrapper because the debugger itself uses TiBase's NSLog, and can't
+// spoof TiApp without symbol conflicts and other issues
+    
 #define NSLog(...) {\
-const char *__s = [[NSString stringWithFormat:__VA_ARGS__] UTF8String];\
-if (__s[0]=='[')\
-{\
-fprintf(stderr,"%s\n", __s);\
-fflush(stderr);\
-}\
-else\
-{\
-fprintf(stderr,"[DEBUG] %s\n", __s);\
-fflush(stderr);\
-}\
+TiLogMessage(__VA_ARGS__);\
 }
 
 // create a mutable array that doesn't retain internal references to objects
@@ -78,7 +72,8 @@ NSMutableArray* TiCreateNonRetainingArray();
 NSMutableDictionary* TiCreateNonRetainingDictionary();
 
 CGPoint midpointBetweenPoints(CGPoint a, CGPoint b);
-
+void TiLogMessage(NSString* str, ...);
+    
 #define degreesToRadians(x) (M_PI * x / 180.0)
 #define radiansToDegrees(x) (x * (180.0 / M_PI))
 
@@ -291,7 +286,7 @@ if ((__x<__minX) || (__x>__maxX)) \
 #define DEFINE_EXCEPTIONS \
 - (void) throwException:(NSString *) reason subreason:(NSString*)subreason location:(NSString *)location\
 {\
-	NSString * exceptionName = [@"org.yumit20." stringByAppendingString:NSStringFromClass([self class])];\
+	NSString * exceptionName = [@"org.yumit." stringByAppendingString:NSStringFromClass([self class])];\
 	NSString * message = [NSString stringWithFormat:@"%@. %@ %@",reason,(subreason!=nil?subreason:@""),(location!=nil?location:@"")];\
 	NSLog(@"[ERROR] %@",message);\
 	if ([NSThread isMainThread]==NO) {\
@@ -301,7 +296,7 @@ if ((__x<__minX) || (__x>__maxX)) \
 \
 + (void) throwException:(NSString *) reason subreason:(NSString*)subreason location:(NSString *)location\
 {\
-	NSString * exceptionName = @"org.yumit20";\
+	NSString * exceptionName = @"org.yumit";\
 	NSString * message = [NSString stringWithFormat:@"%@. %@ %@",reason,(subreason!=nil?subreason:@""),(location!=nil?location:@"")];\
 	NSLog(@"[ERROR] %@",message);\
 	if ([NSThread isMainThread]==NO) {\
@@ -375,28 +370,28 @@ return map;\
 
  //MUST BE NEGATIVE, as it inhabits the same space as UIBarButtonSystemItem
 enum {
-	UIyumit20NativeItemNone = -1, 
-	UIyumit20NativeItemSpinner = -2,
-	UIyumit20NativeItemProgressBar = -3,
+	UIYumitNativeItemNone = -1, 
+	UIYumitNativeItemSpinner = -2,
+	UIYumitNativeItemProgressBar = -3,
 	
-	UIyumit20NativeItemSlider = -4,
-	UIyumit20NativeItemSwitch = -5,
-	UIyumit20NativeItemMultiButton = -6,
-	UIyumit20NativeItemSegmented = -7,
+	UIYumitNativeItemSlider = -4,
+	UIYumitNativeItemSwitch = -5,
+	UIYumitNativeItemMultiButton = -6,
+	UIYumitNativeItemSegmented = -7,
 	
-	UIyumit20NativeItemTextView = -8,
-	UIyumit20NativeItemTextField = -9,
-	UIyumit20NativeItemSearchBar = -10,
+	UIYumitNativeItemTextView = -8,
+	UIYumitNativeItemTextField = -9,
+	UIYumitNativeItemSearchBar = -10,
 	
-	UIyumit20NativeItemPicker = -11,
-	UIyumit20NativeItemDatePicker = -12,
+	UIYumitNativeItemPicker = -11,
+	UIYumitNativeItemDatePicker = -12,
 	
-	UIyumit20NativeItemInfoLight = -13,
-	UIyumit20NativeItemInfoDark = -14,
+	UIYumitNativeItemInfoLight = -13,
+	UIYumitNativeItemInfoDark = -14,
 	
-	UIyumit20NativeItemDisclosure = -15,
+	UIYumitNativeItemDisclosure = -15,
 	
-	UIyumit20NativeItemContactAdd = -16
+	UIYumitNativeItemContactAdd = -16
 };
 
 

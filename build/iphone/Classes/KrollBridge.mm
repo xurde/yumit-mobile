@@ -21,7 +21,7 @@
 
 extern BOOL const TI_APPLICATION_ANALYTICS;
 
-@implementation yumit20Object
+@implementation YumitObject
 
 -(NSDictionary*)modules
 {
@@ -280,7 +280,7 @@ CFMutableSetRef	krollBridgeRegistry = nil;
 	[self removeProxies];
 	RELEASE_TO_NIL(preload);
 	RELEASE_TO_NIL(context);
-	RELEASE_TO_NIL(_yumit20);
+	RELEASE_TO_NIL(_yumit);
 	RELEASE_TO_NIL(modules);
 	RELEASE_TO_NIL(proxyLock);
 	OSSpinLockLock(&krollBridgeRegistryLock);
@@ -473,7 +473,7 @@ CFMutableSetRef	krollBridgeRegistry = nil;
 
 -(void)injectPatches
 {
-	// called to inject any yumit20 patches in JS before a context is loaded... nice for 
+	// called to inject any Yumit patches in JS before a context is loaded... nice for 
 	// setting up backwards compat type APIs
 	
 	NSMutableString *js = [[NSMutableString alloc] init];
@@ -510,7 +510,7 @@ CFMutableSetRef	krollBridgeRegistry = nil;
 -(void)gc
 {
 	[context gc];
-	[_yumit20 gc];
+	[_yumit gc];
 }
 
 #pragma mark Delegate
@@ -522,15 +522,15 @@ CFMutableSetRef	krollBridgeRegistry = nil;
 
 -(void)didStartNewContext:(KrollContext*)kroll
 {
-	// create yumit20 global object
+	// create Yumit global object
 	NSString *basePath = (url==nil) ? [TiHost resourcePath] : [[[url path] stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"."];
-	_yumit20 = [[yumit20Object alloc] initWithContext:kroll host:host context:self baseURL:[NSURL fileURLWithPath:basePath]];
+	_yumit = [[YumitObject alloc] initWithContext:kroll host:host context:self baseURL:[NSURL fileURLWithPath:basePath]];
 	
 	TiContextRef jsContext = [kroll context];
-	TiValueRef tiRef = [KrollObject toValue:kroll value:_yumit20];
+	TiValueRef tiRef = [KrollObject toValue:kroll value:_yumit];
 	
-	NSString *_yumit20NS = [NSString stringWithFormat:@"T%sanium","it"];
-	TiStringRef prop = TiStringCreateWithCFString((CFStringRef) _yumit20NS);
+	NSString *_yumitNS = [NSString stringWithFormat:@"T%sanium","it"];
+	TiStringRef prop = TiStringCreateWithCFString((CFStringRef) _yumitNS);
 	TiStringRef prop2 = TiStringCreateWithCFString((CFStringRef) [NSString stringWithFormat:@"%si","T"]);
 	TiObjectRef globalRef = TiContextGetGlobalObject(jsContext);
 	TiObjectSetProperty(jsContext, globalRef, prop, tiRef, NULL, NULL);
@@ -543,7 +543,7 @@ CFMutableSetRef	krollBridgeRegistry = nil;
 	{
 		for (NSString *name in preload)
 		{
-			KrollObject *ti = (KrollObject*)[_yumit20 valueForKey:name];
+			KrollObject *ti = (KrollObject*)[_yumit valueForKey:name];
 			NSDictionary *values = [preload valueForKey:name];
 			for (id key in values)
 			{
@@ -579,7 +579,7 @@ CFMutableSetRef	krollBridgeRegistry = nil;
 		NSNotification *notification = [NSNotification notificationWithName:kTiContextShutdownNotification object:self];
 		[[NSNotificationCenter defaultCenter] postNotification:notification];
 	}
-	[_yumit20 gc];
+	[_yumit gc];
 	
 	if (shutdownCondition)
 	{
@@ -594,7 +594,7 @@ CFMutableSetRef	krollBridgeRegistry = nil;
 {
 	[self performSelectorOnMainThread:@selector(unregisterForMemoryWarning) withObject:nil waitUntilDone:NO];
 	[self removeProxies];
-	RELEASE_TO_NIL(_yumit20);
+	RELEASE_TO_NIL(_yumit);
 	RELEASE_TO_NIL(context);
 	RELEASE_TO_NIL(preload);
 	RELEASE_TO_NIL(modules);
@@ -799,7 +799,7 @@ CFMutableSetRef	krollBridgeRegistry = nil;
 		return module;
 	}
 	
-	@throw [NSException exceptionWithName:@"org.yumit20.kroll" reason:[NSString stringWithFormat:@"Couldn't find module: %@",path] userInfo:nil];
+	@throw [NSException exceptionWithName:@"org.yumit.kroll" reason:[NSString stringWithFormat:@"Couldn't find module: %@",path] userInfo:nil];
 }
 
 + (int)countOfKrollBridgesUsingProxy:(id)proxy

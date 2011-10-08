@@ -12,7 +12,7 @@
 
 @protocol TiKeyboardFocusableView
 
-#pragma mark Public yumit20 APIs.
+#pragma mark Public Yumit APIs.
 - (void)focus:(id)args;
 - (void)blur:(id)args;
 
@@ -218,6 +218,7 @@ enum
 
 #pragma mark Layout commands that need refactoring out
 
+-(void)determineSandboxBounds;
 -(void)layoutChildren:(BOOL)optimize;
 -(void)layoutChildrenIfNeeded;
 -(void)layoutChild:(TiViewProxy*)child optimize:(BOOL)optimize;
