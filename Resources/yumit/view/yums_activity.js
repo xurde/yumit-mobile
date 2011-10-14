@@ -103,10 +103,12 @@
 
             Titanium.App.addEventListener('Yumit:yums:getYumsFriends', function() {
                 Ti.API.info("get yums nearby triggered!");
-                Yumit.model.Yum.getYumsFriends({
-                    success: refresh_yums,
-			        onfinish: function(){ Titanium.App.fireEvent("Yumit:ui:hideLoading"); }
-                });
+                setTimeout(function() {
+                	Yumit.model.Yum.getYumsFriends({
+                    	success: refresh_yums,
+			        	onfinish: function(){ Titanium.App.fireEvent("Yumit:ui:hideLoading"); }
+                	});
+                }, 1000);
             });
             
             return tableView;
@@ -174,6 +176,11 @@
             tabView.children[0].fireEvent('click');
             appFilmStrip.children[0].children[0].children[0].setData([]);
             appFilmStrip.children[1].children[0].children[0].setData([]);
+        });
+        
+        Ti.App.addEventListener('Yumit:redrawTableView', function(e) {
+        	tabView.hide();
+        	tabView.show();
         });
 
         var appFilmStrip = Yumit.ui.createFilmStripView({	

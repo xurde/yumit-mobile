@@ -463,6 +463,7 @@
                     setTimeout(function(){
                     	tabGroup.setActiveTab({indexOrObject: 0});
                     	Titanium.App.fireEvent('Yumit:login');
+                    	Titanium.App.fireEvent('Yumit:redrawTableView');
                         Titanium.App.fireEvent('Yumit:yums:getYumsFriends');
                     	_closeCallBack();
                         win.close({opacity:0,duration:500});
