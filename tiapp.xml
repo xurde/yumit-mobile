@@ -7,7 +7,7 @@
 <url>http://sixclicks.net</url>
 <description>Yumit is a social network for foodie lovers</description>
 <copyright>2011 by SixClicks</copyright>
-<icon>yumit-icon.png</icon>
+<icon>default_app_logo.png</icon>
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>false</prerendered-icon>
     <statusbar-style>default</statusbar-style>

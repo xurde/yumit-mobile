@@ -460,11 +460,18 @@
                 }
                 else {
                     uploadLabel.visible = true;
+										uploadLabel.text = 'Processing photo...';
+		                ind.value = 100;
+										Titanium.UI.createAlertDialog({
+													                        title:'Success!',
+													                        message: 'Yum has been posted',
+													                    }).show();
+
                     setTimeout(function(){
                     	tabGroup.setActiveTab({indexOrObject: 0});
                     	Titanium.App.fireEvent('Yumit:login');
-                    	Titanium.App.fireEvent('Yumit:redrawTableView');
-                        Titanium.App.fireEvent('Yumit:yums:getYumsFriends');
+											Titanium.App.fireEvent('Yumit:redrawTableView');
+                      Titanium.App.fireEvent('Yumit:yums:getYumsFriends');
                     	_closeCallBack();
                         win.close({opacity:0,duration:500});
                     }, 500);

@@ -4,7 +4,7 @@
     var data = [
       {title:'Edit profile', hasChild:true, color:Yumit.constants.darkRed},
       {title:'Edit avatar', hasChild:true, color:Yumit.constants.darkRed},
-      {title:'Edit sharing settings', hasChild:true, color:Yumit.constants.darkRed},
+      {title:'Sharing settings', hasChild:true, color:Yumit.constants.darkRed},
       {title:'Logout', color:Yumit.constants.darkRed}//,
       //{title:'Close', color:Yumit.constants.darkRed}
     ];
@@ -69,7 +69,7 @@
       title: 'Settings',
       backgroundColor:'#FFF',
       tabBarHidden: true,
-      backButtonTitle: 'Back'
+      backButtonTitle: 'Close'
     });
     settings_window.add(tableview);
     //settings_window.leftNavButton = backButton;
